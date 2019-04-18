@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "webextension-toolbox": "latest"
+  },
+  "dependencies": {
+    "echarts": "^4.2.1"
   }
 }
