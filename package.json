@@ -4,9 +4,15 @@
   "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   "scripts": {
     "dev": "webextension-toolbox dev",
-    "build": "webextension-toolbox build"
+    "build": "webextension-toolbox build",
+    "test": "jest",
+    "jest-coverage": "jest --coverage"
+  },
+  "jest": {
+    "verbose": true
   },
   "devDependencies": {
+    "jest": "^24.7.1",
     "webextension-toolbox": "latest"
   },
   "dependencies": {
