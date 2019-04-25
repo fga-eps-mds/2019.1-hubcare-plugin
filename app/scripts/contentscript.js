@@ -2,6 +2,7 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
+import badge.js
 
 const http = new XMLHttpRequest()
 const url = 'https://reqres.in/api/user?page=2'
@@ -24,7 +25,7 @@ var repoContent = document.getElementsByClassName("repository-content")
 
 node.innerHTML = graph()
 content[0].insertBefore(node, repoContent[0])
-var myChart = echarts.init(document.getElementById('my-graph'))
+var myChart = echarts.init(document.getElementById('my-badge'))
 var option = {
     xAxis: {
         type: 'category',
