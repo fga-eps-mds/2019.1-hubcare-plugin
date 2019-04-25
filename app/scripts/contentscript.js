@@ -2,7 +2,7 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
-import badge.js
+import badge from 'project-badge/dist/badge.js';
 
 const http = new XMLHttpRequest()
 const url = 'https://reqres.in/api/user?page=2'
@@ -13,7 +13,7 @@ console.log('my windowurl = ' + windowurl)
 window.addEventListener("load", function load(event){
     http.open('GET',url)
     http.send()
-}) 
+})
 
 http.onloadend = ((e) => {
     console.log('My response = ' + http.responseText)
@@ -25,7 +25,7 @@ var repoContent = document.getElementsByClassName("repository-content")
 
 node.innerHTML = graph()
 content[0].insertBefore(node, repoContent[0])
-var myChart = echarts.init(document.getElementById('my-badge'))
+var myChart = echarts.init(document.getElementById('my-graph'))
 var option = {
     xAxis: {
         type: 'category',
@@ -39,6 +39,13 @@ var option = {
         type: 'line'
     }]
 }
+
+var myBadge = new badge.Boolean({
+    text: 'cookies',
+    status: true,
+    statusText: 'baked !'
+  });
+
 myChart.setOption(option)
 
-
+var my_badge = document.getElementById('my-graph').appendChild(myBadge.asDOMNode())
