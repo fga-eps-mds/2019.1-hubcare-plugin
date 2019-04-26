@@ -1,0 +1,16 @@
+image: node:carbon-alpine
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+   - npm install
+   - npm test
+   - ./node_modules/.bin/codecov codecov --token="$CODECOV_TOKEN"
+
