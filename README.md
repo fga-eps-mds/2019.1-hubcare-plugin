@@ -8,17 +8,15 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/fga-eps-mds/2019.1-hubcare-plugin.svg)](http://isitmaintained.com/project/fga-eps-mds/2019.1-hubcare-plugin "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/fga-eps-mds/2019.1-hubcare-plugin.svg)](http://isitmaintained.com/project/fga-eps-mds/2019.1-hubcare-plugin "Percentage of issues still open")
 
-The Hubcare is an open-source project to manage if a repository is good or not to a newcomer, either a passing visitor, someone who looks for contributions or someone who just is interested in the software. If you are interested in the documentation, just go to [Hubcare Docs](https://cjjcastro.gitlab.io/2019-1-hubcare-docs)
+The Hubcare is an open-source project to manage if a repository is good or not to a newcomer, either a passing visitor, someone who looks for contributions or someone who just is interested in the software. If you are interested in the documentation, just go to [Hubcare Docs](https://fga-eps-mds.github.io/2019.1-hubcare-docs/)
 
 This repository is the Hubcare's browser extension.
 
 ## Getting started
 
-Before anything, you need to install [docker]() and [docker-compose](). After installing those, you'll be able to start contributing to this project.
+Before anything, you need to install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/). After installing those, you'll be able to start contributing to this project.
 
-### Commands
-
-#### Run aplication
+### Run application
 
 This command run a development chrome extension.
 
@@ -26,7 +24,7 @@ This command run a development chrome extension.
 docker-compose up
 ```
 
-#### Execute others commands 
+### Execute others commands 
 
 If you want to execute commands inside your docker container, use:
 
@@ -64,7 +62,7 @@ npm run build edge
 ### Tests
 
 ```bash
-    npm test
+npm test
 ```
 
 ### Environment
