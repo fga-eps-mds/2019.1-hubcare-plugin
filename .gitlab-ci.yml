@@ -6,7 +6,13 @@ cache:
 
 stages:
   - test
+  - release
+  # - publish
 
+# Stage I
+# Testing Phase:
+# This is where the main code is tested.
+# Other options like code coverage, etc are also written in this phase
 test:
   stage: test
   script:
@@ -14,3 +20,35 @@ test:
    - npm test
    - ./node_modules/.bin/codecov codecov --token="$CODECOV_TOKEN"
 
+# Stage II
+# Release Phase
+# In this phase, we package our code using docker
+.release:
+  stage: release
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    # Build our image using docker
+    - docker build . -t registry.gitlab.com/cjjcastro/2019-1-hubcare-plugin:$DOCKERTAG
+
+    # Configure container registry to push using docker
+    - docker login -u "$DOCKERLOGIN" -p "$DOCKERPASSWORD" registry.gitlab.com
+
+    # Push the image using docker
+    - docker push registry.gitlab.com/cjjcastro/2019-1-hubcare-plugin:$DOCKERTAG
+
+    # The tag, only master indicates that whenever code is pushed to master branch,
+    # only then run the pipeline
+
+release_production:
+  extends: .release
+  environment: production
+  only:
+    - master
+
+release_development:
+  extends: .release
+  environment: development
+  only: 
+    - devel

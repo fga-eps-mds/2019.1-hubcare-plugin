@@ -12,29 +12,67 @@ The Hubcare is an open-source project to manage if a repository is good or not t
 
 This repository is the Hubcare's browser extension.
 
+## Getting started
 
-## Install
+Before anything, you need to install [docker]() and [docker-compose](). After installing those, you'll be able to start contributing to this project.
 
-	$ npm install
+### Commands
 
-## Development
+#### Run aplication
 
-    npm run dev chrome
-    npm run dev firefox
-    npm run dev opera
-    npm run dev edge
+This command run a development chrome extension.
 
-## Build
+```bash
+docker-compose up
+```
 
-    npm run build chrome
-    npm run build firefox
-    npm run build opera
-    npm run build edge
+#### Execute others commands 
 
-## Environment
+If you want to execute commands inside your docker container, use:
+
+```bash
+docker-compose exec hubcareplugin <command>
+```
+example:
+```bash
+docker compose exec hubcareplugin npm install
+```
+
+## Node commads
+### Install
+
+```bash
+npm install
+```
+### Development
+
+```bash
+npm run dev chrome
+npm run dev firefox
+npm run dev opera
+npm run dev edge
+```
+### Build
+
+```bash
+npm run build chrome
+npm run build firefox
+npm run build opera
+npm run build edge
+```
+
+### Tests
+
+```bash
+    npm test
+```
+
+### Environment
 
 The build tool also defines a variable named `process.env.NODE_ENV` in your scripts. 
 
-## Docs
 
-* [webextension-toolbox](https://github.com/HaNdTriX/webextension-toolbox)
+## Other repos that are part of this project
+
+* [Docs](https://github.com/fga-eps-mds/2019.1-hubcare-docs/)
+* [Backend](https://github.com/fga-eps-mds/2019.1-hubcare-api/)
