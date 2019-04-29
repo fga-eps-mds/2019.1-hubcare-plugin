@@ -48,16 +48,16 @@ http.onloadend = ((e) => {
     //     progress: 100-data.total
     // });
     // var my_badge = document.getElementById('my-badge').appendChild(myBadge.asDOMNode())
-    createBadge("primeira", 50)
-    createBadge("segunda", 75)
+    createBadge("primeira", 50, 'my-badge')
+    createBadge("segunda", 75, 'my-badge2')
 })
 
-function createBadge (text, progress){
+function createBadge (text, progress, id){
     var myBadge = new badge.Progress({
         text: text,
         progress: progress
     });
-    document.getElementById('my-badge').appendChild(myBadge.asDOMNode())
+    document.getElementById(id).appendChild(myBadge.asDOMNode())
 }
 
 // myChart.setOption(option)
