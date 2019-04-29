@@ -3,7 +3,7 @@ browser.runtime.onInstalled.addListener((details) => {
 })
 
 browser.browserAction.setBadgeText({
-  text: `'Allo`
+  // text: `'Allo`
 })
 
 console.log(`'Allo 'Allo! Event Page for Browser Action`)

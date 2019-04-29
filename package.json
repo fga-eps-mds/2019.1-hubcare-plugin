@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "webextension-toolbox dev",
     "build": "webextension-toolbox build",
-    "test": "jest",
+    "test": "jest --config jestconfig.json",
     "jest-coverage": "jest --coverage"
   },
   "jest": {
     "verbose": true
   },
   "devDependencies": {
+    "codecov": "^3.3.0",
     "jest": "^24.7.1",
     "webextension-toolbox": "latest"
   },

@@ -1,0 +1,14 @@
+{
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "verbose": true,
+    "collectCoverageFrom": [
+        "**/*.{js,jsx}",
+        "!**/node_modules/**",
+        "!**/vendor/**",
+        "!**/dist/**",
+        "!**/coverage/**"
+    ]
+  }
