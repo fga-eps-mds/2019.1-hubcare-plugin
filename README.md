@@ -21,54 +21,59 @@ Before anything, you need to install [docker](https://docs.docker.com/install/) 
 
 This command run a development chrome extension.
 
-```bash
-docker-compose up
+```shell
+$ docker-compose build
+$ docker-compose up
 ```
 
 ### Execute others commands 
 
 If you want to execute commands inside your docker container, use:
 
-```bash
-docker-compose exec hubcareplugin <command>
+```shell
+$ docker-compose exec hubcareplugin <command>
 ```
 example:
-```bash
-docker compose exec hubcareplugin npm install
+```shell
+$ docker compose exec hubcareplugin npm install
 ```
 
 ## Node commads
 ### Install
 
-```bash
-npm install
+```shell
+$ npm install
 ```
 ### Development
 
-```bash
-npm run dev chrome
-npm run dev firefox
-npm run dev opera
-npm run dev edge
+```shell
+$ npm run dev chrome
+$ npm run dev firefox
+$ npm run dev opera
+$ npm run dev edge
 ```
 ### Build
 
-```bash
-npm run build chrome
-npm run build firefox
-npm run build opera
-npm run build edge
+```shell
+$ npm run build chrome
+$ npm run build firefox
+$ npm run build opera
+$ npm run build edge
 ```
 
 ### Tests
 
-```bash
-npm test
+```shell
+$ npm test
 ```
 
 ### Environment
 
-The build tool also defines a variable named `process.env.NODE_ENV` in your scripts. 
+The build tool also defines a variable named `process.env.NODE_ENV` in your scripts.
+
+## Contributing
+
+Please make sure to read the [Contribution Guide](./.github/CONTRIBUTING.md) before making a pull request. After you've read, don't forget to take an issue!
 
 
 ## Other repos that are part of this project
