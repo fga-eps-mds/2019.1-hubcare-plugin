@@ -7,10 +7,8 @@ import badge from 'project-badge/dist/badge.js';
 
 const http = new XMLHttpRequest()
 const windowurl = window.location.pathname
-// const url = 'https://hubcare-api.herokuapp.com/support_question/fga-eps-mds/2019.1-hubcare-api/'
-const url = 'https://hubcare-api.herokuapp.com/support_question' + windowurl + '/' 
+const url = 'https://hubcare-api.herokuapp.com/hubcare_indicators' + windowurl + '/' 
 console.log("url = " + url)
-
 console.log('my windowurl = ' + windowurl)
 
 var node = document.createElement('div')
@@ -43,12 +41,10 @@ window.addEventListener("load", function load(event){
 http.onloadend = ((e) => {
     var response = http.responseText
     console.log('My response = ' + response)
-    var data = JSON.parse(response)
-    var support_metric = data.support_metric * 100
-    console.log("data = " + support_metric)
-    createBadge("Support", support_metric, 'my-badge')
-    createBadge("segunda", 75, 'my-badge2')
-    createBadge("terceira", 75, 'my-badge3')
+    var data = JSON.parse(response)[0]
+    createBadge("Active", data.active_indicator, 'my-badge')
+    createBadge("Support", data.support_indicator, 'my-badge2')
+    createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 })
 
 function createBadge (text, progress, id){
