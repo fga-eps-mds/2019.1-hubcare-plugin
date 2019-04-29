@@ -1,5 +1,6 @@
 # hubcare
 
+[![build status](https://gitlab.com/cjjcastro/2019-1-hubcare-plugin/badges/master/pipeline.svg)](https://gitlab.com/cjjcastro/2019-1-hubcare-plugin/pipelines)
 [![codecov](https://codecov.io/gh/fga-eps-mds/2019.1-hubcare-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/fga-eps-mds/2019.1-hubcare-plugin)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f4a2a07020f27cc7d324/maintainability)](https://codeclimate.com/github/fga-eps-mds/2019.1-hubcare-plugin/maintainability)
 [![dependencies Status](https://david-dm.org/fga-eps-mds/2019.1-hubcare-plugin/status.svg)](https://david-dm.org/fga-eps-mds/2019.1-hubcare-plugin)
