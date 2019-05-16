@@ -11,8 +11,6 @@ body {
 }
 
 .box {
-    /* background-color: #4965d9;
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.5); */
     float: left;
     width: 150px; 
     height: 180px;
