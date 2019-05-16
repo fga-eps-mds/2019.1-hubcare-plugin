@@ -7,7 +7,8 @@ import badge from 'project-badge/dist/badge.js';
 
 const http = new XMLHttpRequest()
 const windowurl = window.location.pathname
-const url = 'https://hubcare-api.herokuapp.com/hubcare_indicators' + windowurl + '/' 
+// const url = 'https://hubcare-api.herokuapp.com/hubcare_indicators' + windowurl + '/' 
+const url = 'https://hubcare.ml/hubcare_indicators' + windowurl + '/' 
 console.log("url = " + url)
 console.log('my windowurl = ' + windowurl)
 
