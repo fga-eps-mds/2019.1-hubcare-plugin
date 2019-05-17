@@ -4,8 +4,7 @@ import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
 import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
-import login from './loding.js';
-
+import loading from './loading.js';
 
 const http = new XMLHttpRequest()
 const windowurl = window.location.pathname
@@ -18,14 +17,16 @@ var node = document.createElement('div')
 var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
 var repoContent = document.getElementsByClassName("repository-content")
 
-var myloding = document.getElementById('my-loding')
 
 node.innerHTML = badges()
-myprogress.innerHTML = <img src = "images/loding.gif"></img>
-
+myprogress.innerHTML = loading()
 // node.innerHTML = graph()
 content[0].insertBefore(node, repoContent[0])
 content[0].insertBefore(myprogress, repoContent[0])
+var target = document.getElementById('loading');
+//var spinner = new Spinner(opts).spin(target);
+//target.appendChild(spinner.el);
+
 // var myChart = echarts.init(document.getElementById('my-graph'))
 // var option = {
 //     xAxis: {
@@ -53,7 +54,6 @@ http.onloadend = ((e) => {
     createBadge("Active", data.active_indicator, 'my-badge')
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
-    document.getElementById('my-loding').appendChild(myBadge.asDOMNode())
 })
 
 function createBadge (text, progress, id){
