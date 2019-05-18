@@ -13,9 +13,9 @@ const url = 'https://hubcare.ml/hubcare_indicators' + windowurl + '/'
 console.log("url = " + url)
 console.log('my windowurl = ' + windowurl)
 
-
-//This var create a div
+//This var create a span
 var hubcareButton = document.createElement('span')
+//This var create a div
 var myprogress = document.createElement('div')
 var node = document.createElement('div')
 var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
@@ -32,8 +32,8 @@ myprogress.innerHTML = loading()
 // node.innerHTML = graph()
 content[0].insertBefore(node, repoContent[0])
 content[0].insertBefore(myprogress, repoContent[0])
-//reponav[0].insertBefore(hubcareButton, repoProjects[0])
-content[0].insertBefore(hubcareButton, repoContent[0])
+reponav[0].appendChild(hubcareButton)
+//content[0].insertBefore(hubcareButton, repoContent[0])
 
 // var myChart = echarts.init(document.getElementById('my-graph'))
 // var option = {

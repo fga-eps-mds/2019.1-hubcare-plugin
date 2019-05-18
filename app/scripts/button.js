@@ -8,5 +8,5 @@ export default () => [
     'padding: 7px 15px 8px; ',
     'white-space: nowrap; ',
     'id="button"><img src = "app/images/icon-16.png"></img> ',
-    '<a>"HubCare"</a></div>',
+    '<a>HubCare</a></div>',
 ].join('');
