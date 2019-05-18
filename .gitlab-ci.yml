@@ -7,7 +7,7 @@ cache:
 stages:
   - test
   - release
-  # - publish
+  - publish
 
 # Stage I
 # Testing Phase:
@@ -52,3 +52,14 @@ release_development:
   environment: development
   only: 
     - devel
+
+# Stage III
+# Publish Phase
+# In this phase, we publishing the plugin in chrome extension
+publish:
+  stage: publish
+  before_script:
+    - npm install
+  script:
+    - npm run build chrome
+    - npm run publish
