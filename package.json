@@ -21,6 +21,7 @@
     "badges": "^1.3.0",
     "echarts": "^4.2.1",
     "project-badge": "^0.2.0",
-    "project-package": "0.0.1"
+    "project-package": "0.0.1",
+    "spin.js": "^4.0.0"
   }
 }
