@@ -65,3 +65,5 @@ publish:
     - npm run build chrome
     - "./node_modules/.bin/webstore upload --source packages/hubcare.v0.0.1.chrome.zip --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
     - "./node_modules/.bin/webstore publish --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
+  only:
+    - master
