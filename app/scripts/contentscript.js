@@ -14,14 +14,14 @@ console.log("url = " + url)
 console.log('my windowurl = ' + windowurl)
 
 //This var create a span
-var hubcareButton = document.createElement('span')
+var hubcareButton = document.createElement('div')
 //This var create a div
 var myprogress = document.createElement('div')
 var node = document.createElement('div')
-var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-var repoContent = document.getElementsByClassName("repository-content")
-var reponav = document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
-var repoProjects = document.getElementsByClassName('js-selected-navigation-item reponav-item')
+var content = saveClass("new-discussion-timeline experiment-repo-nav")
+var repoContent = saveClass("repository-content")
+var reponav =saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
+var repoProjects = saveClass('js-selected-navigation-item reponav-item')
 
 
 
@@ -66,6 +66,7 @@ http.onloadend = ((e) => {
     createBadge("Active", data.active_indicator, 'my-badge')
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+    reponav[0].appendChild(hubcareButton)
 })
 
 function createBadge (text, progress, id){
@@ -76,6 +77,11 @@ function createBadge (text, progress, id){
     document.getElementById(id).appendChild(myBadge.asDOMNode())
 }
 
+function saveClass(name_class){
+    var element = document.getElementsByClassName(name_class)
+
+    return element
+}
 // myChart.setOption(option)
 
 // var my_badge = document.getElementById('my-graph').appendChild(myBadge.asDOMNode())
