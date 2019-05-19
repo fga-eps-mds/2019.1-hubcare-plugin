@@ -63,5 +63,5 @@ publish:
     - apk add curl
   script:
     - npm run build chrome
-    - "curl -H 'Authorization: Bearer $TOKEN_CHROME_STORE' -H 'x-goog-api-version: 2' -X PUT -T packages/hubcare.*.chrome.zip -v https://www.googleapis.com/upload/chromewebstore/v1.1/items/$APP_ID"
-    - "curl -H 'Authorization: Bearer $TOKEN_CHROME_STORE' -H 'x-goog-api-version: 2' -H 'Content-Length: 0' -X POST -v https://www.googleapis.com/chromewebstore/v1.1/items/$APP_ID/publish"
+    - "./node_modules/.bin/webstore upload --source packages/hubcare.v0.0.1.chrome.zip --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
+    - "./node_modules/.bin/webstore publish --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
