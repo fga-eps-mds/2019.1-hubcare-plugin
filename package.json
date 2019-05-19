@@ -24,6 +24,7 @@
     "echarts": "^4.2.1",
     "project-badge": "^0.2.0",
     "project-package": "0.0.1",
-    "zip-folder": "^1.0.0"
+    "zip-folder": "^1.0.0",
+    "spin.js": "^4.0.0"
   }
 }
