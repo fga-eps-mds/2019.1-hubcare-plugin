@@ -82,13 +82,17 @@ docker-compose up
 
 This should be enough to turn the service on ( ͡° ͜ʖ ͡°).
 
-Then, open Google Chrome on [chrome://extensions/](chrome://extensions/), activate `Developer mode` on top right corner.
+Now, exists a `dist/chrome` directory with all things Chrome needs to execute the Add-on.
+
+> Obs: port 35729 must be free to connect to Chrome
+
+Then, open Google Chrome on [chrome://extensions/](chrome://extensions/), activate `Developer mode` on top right corner. Some new options will appear, click on `Load unpacked` e open the generated `2019.1-hubcare-plugin/dist/chrome` directory.
 
 ![Developer Mode](docs/images/chromeext.png)
 
 You now shoud see hubcare extension, just activate it.
 
-Just go to some GitHub repo to see it working. I recommend [this one](https://github.com/fga-eps-mds/2019.1-hubcare-api), you can even give it a star! :wink:
+Just go to some GitHub repo to see it working. I recommend [this one](https://github.com/fga-eps-mds/2019.1-hubcare-api), you can even give it a star! :star: :wink:
 
 ##### Execute others commands 
 
@@ -110,12 +114,16 @@ $ npm install
 
 Although this software only focuses the support on Google Chrome, it is possible to try it on other browsers. **We can't ensure your PC will not explode with the foward steps, good luck!**
 
+This runs the Add-on on dev mode:
+
 ```shell
 $ npm run dev chrome
 $ npm run dev firefox
 $ npm run dev opera
 $ npm run dev edge
 ```
+
+This generate a package to be published:
 
 ```shell
 $ npm run build chrome
@@ -128,7 +136,7 @@ To run the tests:
 
 ```shell
 $ npm test
-```
+``` 
 
 ### Environment
 
