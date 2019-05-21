@@ -4,21 +4,37 @@ import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
 import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
+import button from './button.js';
+import loading from './loading.js';
 
 const http = new XMLHttpRequest()
 const windowurl = window.location.pathname
-// const url = 'https://hubcare-api.herokuapp.com/hubcare_indicators' + windowurl + '/' 
 const url = 'https://hubcare.ml/hubcare_indicators' + windowurl + '/' 
 console.log("url = " + url)
 console.log('my windowurl = ' + windowurl)
 
+//This var create a span
+var hubcareButton = document.createElement('div')
+//This var create a div
+var myprogress = document.createElement('div')
 var node = document.createElement('div')
-var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-var repoContent = document.getElementsByClassName("repository-content")
+var content = saveClass("new-discussion-timeline experiment-repo-nav")
+var repoContent = saveClass("repository-content")
+var reponav =saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
+var repoProjects = saveClass('js-selected-navigation-item reponav-item')
+
+
 
 node.innerHTML = badges()
+hubcareButton.innerHTML = button()
+//Adding the loading div inside the created div is being added
+myprogress.innerHTML = loading()
 // node.innerHTML = graph()
 content[0].insertBefore(node, repoContent[0])
+content[0].insertBefore(myprogress, repoContent[0])
+reponav[0].appendChild(hubcareButton)
+//content[0].insertBefore(hubcareButton, repoContent[0])
+
 // var myChart = echarts.init(document.getElementById('my-graph'))
 // var option = {
 //     xAxis: {
@@ -43,9 +59,14 @@ http.onloadend = ((e) => {
     var response = http.responseText
     console.log('My response = ' + response)
     var data = JSON.parse(response)[0]
+    //This variable takes the object's ID with the div loading
+    var loading_child = document.getElementById('loading');
+    //Removes the loading object after loading badges
+    loading_child.parentNode.removeChild(loading_child);
     createBadge("Active", data.active_indicator, 'my-badge')
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+    reponav[0].appendChild(hubcareButton)
 })
 
 function createBadge (text, progress, id){
@@ -56,6 +77,11 @@ function createBadge (text, progress, id){
     document.getElementById(id).appendChild(myBadge.asDOMNode())
 }
 
+function saveClass(name_class){
+    var element = document.getElementsByClassName(name_class)
+
+    return element
+}
 // myChart.setOption(option)
 
 // var my_badge = document.getElementById('my-graph').appendChild(myBadge.asDOMNode())

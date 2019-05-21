@@ -6,12 +6,14 @@
     "dev": "webextension-toolbox dev",
     "build": "webextension-toolbox build",
     "test": "jest --config jestconfig.json",
-    "jest-coverage": "jest --coverage"
+    "jest-coverage": "jest --coverage",
+    "publish": "CLIENT_ID=${CLIENT_ID} CLIENT_SECRET=${CLIENT_SECRET} EXTENSION_ID=${EXTENSION_ID} REFRESH_TOKEN=${REFRESH_TOKEN} node ./deploy.js"
   },
   "jest": {
     "verbose": true
   },
   "devDependencies": {
+    "chrome-webstore-upload-cli": "^1.2.0",
     "codecov": "^3.3.0",
     "jest": "^24.7.1",
     "webextension-toolbox": "latest"
@@ -21,6 +23,8 @@
     "badges": "^1.3.0",
     "echarts": "^4.2.1",
     "project-badge": "^0.2.0",
-    "project-package": "0.0.1"
+    "project-package": "0.0.1",
+    "zip-folder": "^1.0.0",
+    "spin.js": "^4.0.0"
   }
 }
