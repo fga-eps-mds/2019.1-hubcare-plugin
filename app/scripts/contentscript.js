@@ -7,7 +7,6 @@ import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
 
-const http = new XMLHttpRequest()
 const repoName = window.location.pathname
 
 //This var create a span
@@ -19,8 +18,6 @@ var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
 var reponav = saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
 var repoProjects = saveClass('js-selected-navigation-item reponav-item')
-
-
 
 node.innerHTML = badges()
 hubcareButton.innerHTML = button()
@@ -39,27 +36,6 @@ reponav[0].appendChild(hubcareButton)
 const getApiUrl = (repoName) =>
     `https://hubcare.ml/hubcare_indicators${repoName}/`;
 
-console.log("url = " + getApiUrl(repoName))
-
-window.addEventListener("load", function load(event){
-    http.open('GET', getApiUrl(repoName))
-    http.send()
-})
-
-http.onloadend = ((e) => {
-    var response = http.responseText
-    console.log('My response = ' + response)
-    var data = JSON.parse(response)[0]
-    //This variable takes the object's ID with the div loading
-    var loading_child = document.getElementById('loading');
-    //Removes the loading object after loading badges
-    loading_child.parentNode.removeChild(loading_child);
-    createBadge("Active", data.active_indicator, 'my-badge')
-    createBadge("Support", data.support_indicator, 'my-badge2')
-    createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
-    reponav[0].appendChild(hubcareButton)
-})
-
 function createBadge(text, progress, id){
     var myBadge = new badge.Progress({
         text: text,
@@ -70,7 +46,6 @@ function createBadge(text, progress, id){
 
 function saveClass(name_class){
     var element = document.getElementsByClassName(name_class)
-
     return element
 }
 
@@ -80,8 +55,8 @@ function cleanPageContent(){
 }
 
 function createCommitChart(){
-    var content = saveClass("new-discussion-timeline experiment-repo-nav")
-    var repoContent = saveClass("repository-content")
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     node.innerHTML = graph()
     content[0].insertBefore(node, repoContent[0])
@@ -101,3 +76,35 @@ function createCommitChart(){
     }
     myChart.setOption(option)
 }
+
+/**
+ * Remove activity indicator element
+ */
+const stopActivityIndicator = () => {
+    let loading_child = document.getElementById('loading');
+    loading_child.parentNode.removeChild(loading_child);
+}
+
+/**
+ * Create badges in initial Github page
+ * @param {json} data
+ */
+const insertBadges = (data) => {
+    stopActivityIndicator()
+    createBadge("Active", data.active_indicator, 'my-badge')
+    createBadge("Support", data.support_indicator, 'my-badge2')
+    createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+}
+
+/**
+ * Request metrics and indicators to hubcare api
+ */
+const requestMetrics = () => {
+    const url = getApiUrl(repoName)
+    return fetch(url)
+        .then(response => response.json())
+        .then(obj => insertBadges(obj[0]))
+        .catch(error=>console.error(error))
+}
+
+console.log(requestMetrics())
