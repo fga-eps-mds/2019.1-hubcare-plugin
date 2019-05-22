@@ -8,10 +8,7 @@ import button from './button.js';
 import loading from './loading.js';
 
 const http = new XMLHttpRequest()
-const windowurl = window.location.pathname
-const url = 'https://hubcare.ml/hubcare_indicators' + windowurl + '/' 
-console.log("url = " + url)
-console.log('my windowurl = ' + windowurl)
+const repoName = window.location.pathname
 
 //This var create a span
 var hubcareButton = document.createElement('div')
@@ -35,9 +32,17 @@ content[0].insertBefore(myprogress, repoContent[0])
 reponav[0].appendChild(hubcareButton)
 //content[0].insertBefore(hubcareButton, repoContent[0])
 
+/**
+ * Return url to hubcare api
+ * @param {string} repoName 
+ */
+const getApiUrl = (repoName) =>
+    `https://hubcare.ml/hubcare_indicators${repoName}/`;
+
+console.log("url = " + getApiUrl(repoName))
 
 window.addEventListener("load", function load(event){
-    http.open('GET',url)
+    http.open('GET', getApiUrl(repoName))
     http.send()
 })
 
@@ -53,7 +58,6 @@ http.onloadend = ((e) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
     reponav[0].appendChild(hubcareButton)
-    cleanPageContent()
 })
 
 function createBadge(text, progress, id){
