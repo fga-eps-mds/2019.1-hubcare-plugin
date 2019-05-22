@@ -20,14 +20,9 @@ var myprogress = document.createElement('div')
 var node = document.createElement('div')
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-var reponav =saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
+var reponav = saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
 var repoProjects = saveClass('js-selected-navigation-item reponav-item')
 
-var description_element = document.getElementsByClassName('js-repo-pjax-container')
-var element_child = document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')
-description_element[0].parentNode.removeChild(description_element[0])
-console.log(element_child)
-console.log(description_element)
 
 
 node.innerHTML = badges()
@@ -40,20 +35,6 @@ content[0].insertBefore(myprogress, repoContent[0])
 reponav[0].appendChild(hubcareButton)
 //content[0].insertBefore(hubcareButton, repoContent[0])
 
-// var myChart = echarts.init(document.getElementById('my-graph'))
-// var option = {
-//     xAxis: {
-//         type: 'category',
-//         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-//     },
-//     yAxis: {
-//         type: 'value'
-//     },
-//     series: [{
-//         data: [820, 932, 901, 934, 1290, 1330, 1320],
-//         type: 'line'
-//     }]
-// }
 
 window.addEventListener("load", function load(event){
     http.open('GET',url)
@@ -74,7 +55,7 @@ http.onloadend = ((e) => {
     reponav[0].appendChild(hubcareButton)
 })
 
-function createBadge (text, progress, id){
+function createBadge(text, progress, id){
     var myBadge = new badge.Progress({
         text: text,
         progress: progress
@@ -87,6 +68,31 @@ function saveClass(name_class){
 
     return element
 }
-// myChart.setOption(option)
 
-// var my_badge = document.getElementById('my-graph').appendChild(myBadge.asDOMNode())
+function cleanPageContent(){
+    var element = document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')
+    element[0].parentNode.removeChild(element[0])
+}
+
+function createCommitChart(){
+    var content = saveClass("new-discussion-timeline experiment-repo-nav")
+    var repoContent = saveClass("repository-content")
+    var node = document.createElement('div')
+    node.innerHTML = graph()
+    content[0].insertBefore(node, repoContent[0])
+    var myChart = echarts.init(document.getElementById('my-graph'))
+    var option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            type: 'line'
+        }]
+    }
+    myChart.setOption(option)
+}
