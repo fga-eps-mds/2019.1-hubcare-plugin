@@ -23,6 +23,11 @@ var repoContent = saveClass("repository-content")
 var reponav =saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
 var repoProjects = saveClass('js-selected-navigation-item reponav-item')
 
+var description_element = document.getElementsByClassName('js-repo-pjax-container')
+var element_child = document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')
+description_element[0].parentNode.removeChild(description_element[0])
+console.log(element_child)
+console.log(description_element)
 
 
 node.innerHTML = badges()
