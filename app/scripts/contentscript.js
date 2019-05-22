@@ -53,6 +53,7 @@ http.onloadend = ((e) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
     reponav[0].appendChild(hubcareButton)
+    cleanPageContent()
 })
 
 function createBadge(text, progress, id){
@@ -70,7 +71,7 @@ function saveClass(name_class){
 }
 
 function cleanPageContent(){
-    var element = document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')
+    var element = document.getElementsByClassName('repository-content ')
     element[0].parentNode.removeChild(element[0])
 }
 
