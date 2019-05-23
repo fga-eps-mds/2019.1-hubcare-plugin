@@ -9,25 +9,8 @@ import loading from './loading.js';
 
 const repoName = window.location.pathname
 
-//This var create a span
-var hubcareButton = document.createElement('div')
-//This var create a div
-var myprogress = document.createElement('div')
-var node = document.createElement('div')
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-var reponav = saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
-var repoProjects = saveClass('js-selected-navigation-item reponav-item')
-
-node.innerHTML = badges()
-hubcareButton.innerHTML = button()
-//Adding the loading div inside the created div is being added
-myprogress.innerHTML = loading()
-// node.innerHTML = graph()
-content[0].insertBefore(node, repoContent[0])
-content[0].insertBefore(myprogress, repoContent[0])
-reponav[0].appendChild(hubcareButton)
-//content[0].insertBefore(hubcareButton, repoContent[0])
 
 /**
  * Return url to hubcare api
@@ -86,14 +69,38 @@ const stopActivityIndicator = () => {
 }
 
 /**
+ * Create activity indicator element.
+ * Adding the loading div inside the
+ * created div is being added
+ */
+const insertActivityIndicator = () => {
+    let myprogress = document.createElement('div')
+    myprogress.innerHTML = loading()
+    content[0].insertBefore(myprogress, repoContent[0])
+}
+
+/**
  * Create badges in initial Github page
  * @param {json} data
  */
 const insertBadges = (data) => {
     stopActivityIndicator()
+    const node = document.createElement('div')
+    node.innerHTML = badges()
+    content[0].insertBefore(node, repoContent[0])
     createBadge("Active", data.active_indicator, 'my-badge')
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+}
+
+/**
+ * Create hubcare button in repository nav
+ */
+const insertButton = () => {
+    let hubcareButton = document.createElement('div')
+    hubcareButton.innerHTML = button()
+    document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax container')[0]
+        .appendChild(hubcareButton)
 }
 
 /**
@@ -107,4 +114,16 @@ const requestMetrics = () => {
         .catch(error=>console.error(error))
 }
 
-console.log(requestMetrics())
+/**
+ * Init all plugin elements
+ */
+const init = () => {
+    if(window.location.hash ==  '#hubcare'){
+        cleanPageContent()
+    }
+    insertActivityIndicator()
+    insertButton()
+    requestMetrics()
+}
+
+init()
