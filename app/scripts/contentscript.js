@@ -127,3 +127,9 @@ const init = () => {
 }
 
 init()
+
+var hubbutton = document.getElementById('hubcare-button');
+hubbutton.addEventListener("click", function() {
+    console.log('test');
+    cleanPageContent()
+}, false);
