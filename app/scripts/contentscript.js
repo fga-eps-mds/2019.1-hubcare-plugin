@@ -12,6 +12,7 @@ const repoName = window.location.pathname
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
 let metrics = []
+badge.config({'font': '13px apple'})
 
 /**
  * Return url to hubcare api
