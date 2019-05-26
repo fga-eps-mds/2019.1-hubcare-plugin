@@ -12,6 +12,7 @@ const repoName = window.location.pathname
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
+let metrics = []
 
 /**
  * Return url to hubcare api
@@ -48,13 +49,13 @@ function createCommitChart(){
     var option = {
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7','Week 8','Week 9','Week 10']
         },
         yAxis: {
             type: 'value'
         },
         series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            data: [23, 32, 12, 15, 8, 45, 30, 28, 9, 35],
             type: 'line'
         }]
     }
@@ -130,6 +131,10 @@ const init = () => {
     }, false);
 }
 
+const hubcarePage = () => {
+    cleanPageContent()
+    createCommitChart()
+}
 init()
 
 $(document).on('pjax:complete', () => {
