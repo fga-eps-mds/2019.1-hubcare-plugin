@@ -1,3 +1,4 @@
+import * as $ from 'jquery';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
@@ -125,6 +126,9 @@ const init = () => {
     insertActivityIndicator()
     insertButton()
     requestMetrics()
+    document.getElementById('hubcare-button').addEventListener("click", function() {
+        cleanPageContent()
+    }, false);
 }
 
 const hubcarePage = () => {
@@ -133,7 +137,6 @@ const hubcarePage = () => {
 }
 init()
 
-var hubbutton = document.getElementById('hubcare-button');
-hubbutton.addEventListener("click", function() {
-    hubcarePage()   
-}, false);
+$(document).on('pjax:complete', () => {
+    init()
+});
