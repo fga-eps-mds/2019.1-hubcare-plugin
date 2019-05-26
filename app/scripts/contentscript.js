@@ -23,6 +23,20 @@ var repoContent = saveClass("repository-content")
 var reponav =saveClass('reponav js-repo-nav js-sidenav-container-pjax container zh-attached')
 var repoProjects = saveClass('js-selected-navigation-item reponav-item')
 
+// var testando = require('./popup.js');
+// console.log(testando);
+
+// var msg = require('./popup.js');
+// testando = msg.default;
+// testando == true ? console.log('Checked 3') : console.log('Not checked 3');
+
+console.log('test 1');
+chrome.storage.sync.get(['key'], function(result) {
+    console.log('Value currently is ' + result.key);
+    //alert('alert that I've passed here);
+    message('Settings retrieved', result);
+});
+console.log('test 2');
 
 
 node.innerHTML = badges()
@@ -68,6 +82,7 @@ http.onloadend = ((e) => {
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
     reponav[0].appendChild(hubcareButton)
 })
+
 
 function createBadge (text, progress, id){
     var myBadge = new badge.Progress({
