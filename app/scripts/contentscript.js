@@ -121,13 +121,13 @@ const requestMetrics = () => {
  */
 const init = () => {
     if(window.location.hash ==  '#hubcare'){
-        cleanPageContent()
+        hubcarePage()
     }
     insertActivityIndicator()
     insertButton()
     requestMetrics()
     document.getElementById('hubcare-button').addEventListener("click", function() {
-        cleanPageContent()
+        hubcarePage()
     }, false);
 }
 

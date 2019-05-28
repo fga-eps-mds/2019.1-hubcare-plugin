@@ -6,7 +6,7 @@ export default () => [
     'float: left; ',
     'padding: 7px 15px 8px; ',
     'white-space: nowrap; >',
-    '<a id="hubcare-button" style=" ',
+    '<a id="hubcare-button" href="#hubcare" style=" ',
     'border: 1px solid transparent; ',
     'border-radius: 3px 3px 0 0; ',
     'border-top: 3px solid transparent; ',
