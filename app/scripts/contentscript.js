@@ -48,10 +48,7 @@ function createCommitChart(){
     var myChart = echarts.init(document.getElementById('my-graph'))
     var option = {
         tooltip: {
-            trigger: 'none',
-            axisPointer: {
-                type: 'cross'
-            }
+            trigger: 'axis',
         },
         xAxis: {
             type: 'category',
