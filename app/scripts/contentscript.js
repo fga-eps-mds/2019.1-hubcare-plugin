@@ -47,6 +47,12 @@ function createCommitChart(){
     content[0].insertBefore(node, repoContent[0])
     var myChart = echarts.init(document.getElementById('my-graph'))
     var option = {
+        tooltip: {
+            trigger: 'none',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
         xAxis: {
             type: 'category',
             data: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7','Week 8','Week 9','Week 10']
@@ -57,6 +63,7 @@ function createCommitChart(){
         series: [{
             data: [23, 32, 12, 15, 8, 45, 30, 28, 9, 35],
             type: 'line'
+            
         }]
     }
     myChart.setOption(option)
@@ -127,7 +134,7 @@ const init = () => {
     insertButton()
     requestMetrics()
     document.getElementById('hubcare-button').addEventListener("click", function() {
-        cleanPageContent()
+        hubcarePage()
     }, false);
 }
 
