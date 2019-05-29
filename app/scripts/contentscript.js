@@ -120,9 +120,13 @@ const requestMetrics = () => {
         .catch(error=>console.error(error))
 }
 
+/**
+ * Stylize the HubCare button by clicking it leaving the same GitHub pattern
+ */
 const buttonOnClick = () => {
     $("#hubcare-button").on("click", function() {
         $(this).css("background", "#FFFF");
+        $(this).css("color", "#000000");
         $(this).css("border-left", "1px solid #e1e4e8");
         $(this).css("border-right", "1px solid #e1e4e8");
         $(this).css("border-top", "3px solid #4965d9");
@@ -130,6 +134,9 @@ const buttonOnClick = () => {
     })
 }
 
+/**
+ * Removes the button that is selected along with the HubCare button
+ */
 const removeSelected = () =>{
     let a = document.getElementsByClassName("js-selected-navigation-item selected")[0]
     a.classList.remove("selected")
