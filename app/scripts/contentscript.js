@@ -116,6 +116,16 @@ const requestMetrics = () => {
         .catch(error=>console.error(error))
 }
 
+const buttonOnClick = () => {
+    $("#hubcare-button").on("click", function() {
+        $(this).css("background", "#FFFF");
+        $(this).css("border-left", "1px solid #e1e4e8");
+        $(this).css("border-right", "1px solid #e1e4e8");
+        $(this).css("border-top", "3px solid #4965d9");
+    }) 
+    //document.getElementById("hubcare-button").style.border = "1px solid blue";
+}
+
 /**
  * Init all plugin elements
  */
@@ -126,6 +136,8 @@ const init = () => {
     insertActivityIndicator()
     insertButton()
     requestMetrics()
+    buttonOnClick()
+    
     document.getElementById('hubcare-button').addEventListener("click", function() {
         hubcarePage()
     }, false);
