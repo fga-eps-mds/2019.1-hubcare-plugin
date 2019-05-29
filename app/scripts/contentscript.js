@@ -122,8 +122,13 @@ const buttonOnClick = () => {
         $(this).css("border-left", "1px solid #e1e4e8");
         $(this).css("border-right", "1px solid #e1e4e8");
         $(this).css("border-top", "3px solid #4965d9");
-    }) 
-    //document.getElementById("hubcare-button").style.border = "1px solid blue";
+        removeSelected();
+    })
+}
+
+const removeSelected = () =>{
+    let a = document.getElementsByClassName("js-selected-navigation-item selected")[0]
+    a.classList.remove("selected")
 }
 
 /**
@@ -137,6 +142,7 @@ const init = () => {
     insertButton()
     requestMetrics()
     buttonOnClick()
+
     
     document.getElementById('hubcare-button').addEventListener("click", function() {
         hubcarePage()
