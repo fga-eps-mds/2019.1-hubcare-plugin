@@ -70,6 +70,6 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
-    "<all_urls>"
+    "https://hubcare.ml/*"
   ]
 }
