@@ -70,6 +70,7 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
-    "https://hubcare.ml/*"
+    "https://hubcare.ml/*",
+    "storage"
   ]
 }

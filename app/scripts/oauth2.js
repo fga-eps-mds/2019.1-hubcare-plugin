@@ -4,7 +4,11 @@ const client_secret = ''
 const getLoginUrl = (code) =>
     `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${code}`;
 
-const saveAcessToken = (token) => {}
+const saveAcessToken = (token) => {
+    chrome.storage.sync.set({'oauth2_token': token.access_token}, function() {
+        console.log('Token saved');
+    });
+}
 
 const getAcessToken = (code) => {
     fetch(getLoginUrl(code), {
@@ -15,7 +19,7 @@ const getAcessToken = (code) => {
         },
     })
         .then(response => response.json())
-        .then(obj => console.log(obj))
+        .then(obj => saveAcessToken(obj))
         .catch(error=>console.error(error))
     }
 
