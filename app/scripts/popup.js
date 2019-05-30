@@ -34,12 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
           // do this
           console.log('Checked 1');
           value = true;
-          chrome.storage.sync.set({key: value}, function(){
+          chrome.storage.sync.set({"key":"value"}) 
+          //function(){
               //console.log('value is set to ' + value);
               //alert('checked 3')
-          });
+          //});
           console.log('Checked 2');
-        } else {
+      } else {
           // do that
           console.log('Not checked 1');
           value = false;
@@ -48,6 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
             //alert('Not checked 3')
         });
           console.log('Not checked 2');
-      }
+        }
     });
   });

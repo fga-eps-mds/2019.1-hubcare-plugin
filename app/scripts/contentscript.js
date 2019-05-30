@@ -30,13 +30,12 @@ var repoProjects = saveClass('js-selected-navigation-item reponav-item')
 // testando = msg.default;
 // testando == true ? console.log('Checked 3') : console.log('Not checked 3');
 
-console.log('test 1');
-chrome.storage.sync.get(['key'], function(result) {
-    console.log('Value currently is ' + result.key);
+
+chrome.storage.sync.get("key", function(res) {
+    console.log('Value currently is ' + res.key);
     //alert('alert that I've passed here);
-    message('Settings retrieved', result);
+    //message('Settings retrieved', result);
 });
-console.log('test 2');
 
 
 node.innerHTML = badges()
