@@ -13,23 +13,13 @@ const repoName = window.location.pathname
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
 let metrics = []
-
-// var testando = require('./popup.js');
-// console.log(testando);
-
-// var msg = require('./popup.js');
-// testando = msg.default;
-// testando == true ? console.log('Checked 3') : console.log('Not checked 3');
-
 var chaves = ""
+
 chrome.storage.sync.get("key", function(res) {
     console.log('Value currently is ' + res.key);
     chaves = res.key
     $("#chaves").val(chaves);
-    //alert('alert that I've passed here);
-    //message('Settings retrieved', result);
 });
-console.log(chaves)
 
 /**
  * Return url to hubcare api
