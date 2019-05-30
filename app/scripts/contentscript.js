@@ -125,13 +125,21 @@ const requestMetrics = () => {
  */
 const buttonOnClick = () => {
     $("#hubcare-button").on("click", function() {
-        $(this).css("background", "#FFFF");
+        $(this).css("background", "#ffff");
         $(this).css("color", "#000000");
         $(this).css("border-left", "1px solid #e1e4e8");
         $(this).css("border-right", "1px solid #e1e4e8");
         $(this).css("border-top", "3px solid #4965d9");
+        styleIcon();
         removeSelected();
     })
+}
+
+/**
+ * Add Style to Hub Care Button Icon When Selected
+ */
+const styleIcon = () => {
+    document.getElementById("path-icon").setAttribute("fill", "#000000")
 }
 
 /**

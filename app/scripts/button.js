@@ -21,6 +21,6 @@ export default () => [
     'white-space: nowrap; >',
     '<a id="hubcare-button" href="#hubcare" ',
     '> <svg width="14" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" id="logo">',
-    '<path fill-rule="evenodd" clip-rule="evenodd" d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM4.064 11.392H0.832L9.536 2.688V7.04001L5.63201 10.944H9.536V7.04001L13.888 2.68801V11.392H5.184L5.18401 11.392H4.064Z" fill="#B6B8BB"/>',
+    '<path id="path-icon" fill-rule="evenodd" clip-rule="evenodd" d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM4.064 11.392H0.832L9.536 2.688V7.04001L5.63201 10.944H9.536V7.04001L13.888 2.68801V11.392H5.184L5.18401 11.392H4.064Z" fill="#B6B8BB"/>',
     '</svg>HubCare</a></div>',
 ].join('');
