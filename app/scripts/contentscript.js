@@ -21,12 +21,15 @@ let metrics = []
 // testando = msg.default;
 // testando == true ? console.log('Checked 3') : console.log('Not checked 3');
 
-
+var chaves = ""
 chrome.storage.sync.get("key", function(res) {
     console.log('Value currently is ' + res.key);
+    chaves = res.key
+    $("#chaves").val(chaves);
     //alert('alert that I've passed here);
     //message('Settings retrieved', result);
 });
+console.log(chaves)
 
 /**
  * Return url to hubcare api
@@ -138,15 +141,19 @@ const requestMetrics = () => {
  * Init all plugin elements
  */
 const init = () => {
-    if(window.location.hash ==  '#hubcare'){
-        cleanPageContent()
+    console.log('oooooooooooooooooirrr ==' + chaves)
+    if(chaves=="abrir"){
+        if(window.location.hash ==  '#hubcare'){
+            cleanPageContent()
+        }
+        insertActivityIndicator()
+        insertButton()
+        requestMetrics()
+        document.getElementById('hubcare-button').addEventListener("click", function() {
+            hubcarePage()
+        }, false);
+
     }
-    insertActivityIndicator()
-    insertButton()
-    requestMetrics()
-    document.getElementById('hubcare-button').addEventListener("click", function() {
-        hubcarePage()
-    }, false);
 }
 
 const hubcarePage = () => {
