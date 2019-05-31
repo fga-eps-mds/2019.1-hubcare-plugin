@@ -12,7 +12,14 @@ const repoName = window.location.pathname
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-let metrics = []
+var popup_key = ""
+
+chrome.storage.sync.get("active", function(res) {
+    popup_key = res.active
+    if(popup_key != false){
+        init()
+    }
+});
 
 /**
  * Return url to hubcare api
@@ -154,26 +161,28 @@ const removeSelected = () =>{
  * Init all plugin elements
  */
 const init = () => {
-    if(window.location.hash ==  '#hubcare'){
-        hubcarePage()
-    }
-    insertActivityIndicator()
-    insertButton()
-    requestMetrics()
-    buttonOnClick()
+    if(popup_key != false){
+        if(window.location.hash ==  '#hubcare'){
+            hubcarePage()
+        }
+        insertActivityIndicator()
+        insertButton()
+        requestMetrics()
+        buttonOnClick()
 
-    
-    document.getElementById('hubcare-button').addEventListener("click", function() {
-        hubcarePage()
-    }, false);
+        document.getElementById('hubcare-button').addEventListener("click", function() {
+            hubcarePage()
+        }, false);
+    }
 }
 
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
 }
-init()
+
+//init()
 
 $(document).on('pjax:complete', () => {
     init()
-});
+})
