@@ -128,20 +128,51 @@ const requestMetrics = () => {
 }
 
 /**
+ * Stylize the HubCare button by clicking it leaving the same GitHub pattern
+ */
+const buttonOnClick = () => {
+    $("#hubcare-button").on("click", function() {
+        $(this).css("background", "#ffff");
+        $(this).css("color", "#000000");
+        $(this).css("border-left", "1px solid #e1e4e8");
+        $(this).css("border-right", "1px solid #e1e4e8");
+        $(this).css("border-top", "3px solid #4965d9");
+        styleIcon();
+        removeSelected();
+    })
+}
+
+/**
+ * Add Style to Hub Care Button Icon When Selected
+ */
+const styleIcon = () => {
+    document.getElementById("path-icon").setAttribute("fill", "#000000")
+}
+
+/**
+ * Removes the button that is selected along with the HubCare button
+ */
+const removeSelected = () =>{
+    let a = document.getElementsByClassName("js-selected-navigation-item selected")[0]
+    a.classList.remove("selected")
+}
+
+/**
  * Init all plugin elements
  */
 const init = () => {
     if(popup_key != false){
         if(window.location.hash ==  '#hubcare'){
-            cleanPageContent()
+            hubcarePage()
         }
         insertActivityIndicator()
         insertButton()
         requestMetrics()
+        buttonOnClick()
+
         document.getElementById('hubcare-button').addEventListener("click", function() {
             hubcarePage()
         }, false);
-
     }
 }
 
