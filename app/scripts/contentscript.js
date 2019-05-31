@@ -12,7 +12,14 @@ const repoName = window.location.pathname
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-let metrics = []
+var popup_key = ""
+
+chrome.storage.sync.get("active", function(res) {
+    popup_key = res.active
+    if(popup_key != false){
+        init()
+    }
+});
 
 /**
  * Return url to hubcare api
@@ -47,6 +54,9 @@ function createCommitChart(){
     content[0].insertBefore(node, repoContent[0])
     var myChart = echarts.init(document.getElementById('my-graph'))
     var option = {
+        tooltip: {
+            trigger: 'axis',
+        },
         xAxis: {
             type: 'category',
             data: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7','Week 8','Week 9','Week 10']
@@ -57,6 +67,7 @@ function createCommitChart(){
         series: [{
             data: [23, 32, 12, 15, 8, 45, 30, 28, 9, 35],
             type: 'line'
+            
         }]
     }
     myChart.setOption(option)
@@ -117,26 +128,61 @@ const requestMetrics = () => {
 }
 
 /**
+ * Stylize the HubCare button by clicking it leaving the same GitHub pattern
+ */
+const buttonOnClick = () => {
+    $("#hubcare-button").on("click", function() {
+        $(this).css("background", "#ffff");
+        $(this).css("color", "#000000");
+        $(this).css("border-left", "1px solid #e1e4e8");
+        $(this).css("border-right", "1px solid #e1e4e8");
+        $(this).css("border-top", "3px solid #4965d9");
+        styleIcon();
+        removeSelected();
+    })
+}
+
+/**
+ * Add Style to Hub Care Button Icon When Selected
+ */
+const styleIcon = () => {
+    document.getElementById("path-icon").setAttribute("fill", "#000000")
+}
+
+/**
+ * Removes the button that is selected along with the HubCare button
+ */
+const removeSelected = () =>{
+    let a = document.getElementsByClassName("js-selected-navigation-item selected")[0]
+    a.classList.remove("selected")
+}
+
+/**
  * Init all plugin elements
  */
 const init = () => {
-    if(window.location.hash ==  '#hubcare'){
-        cleanPageContent()
+    if(popup_key != false){
+        if(window.location.hash ==  '#hubcare'){
+            hubcarePage()
+        }
+        insertActivityIndicator()
+        insertButton()
+        requestMetrics()
+        buttonOnClick()
+
+        document.getElementById('hubcare-button').addEventListener("click", function() {
+            hubcarePage()
+        }, false);
     }
-    insertActivityIndicator()
-    insertButton()
-    requestMetrics()
-    document.getElementById('hubcare-button').addEventListener("click", function() {
-        cleanPageContent()
-    }, false);
 }
 
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
 }
-init()
+
+//init()
 
 $(document).on('pjax:complete', () => {
     init()
-});
+})

@@ -67,6 +67,7 @@
     "notifications",
     "privacy",
     "proxy",
+    "storage",
     "tabs",
     "webRequest",
     "webRequestBlocking",
