@@ -12,6 +12,9 @@ const repoName = window.location.pathname
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
+var active_var = null
+var support_var = null
+var welcoming_var = null
 var popup_key = ""
 
 chrome.storage.sync.get("active", function(res) {
@@ -97,6 +100,13 @@ const insertActivityIndicator = () => {
  * @param {json} data
  */
 const insertBadges = (data) => {
+    console.log(data)
+    active_var = data.active_indicator
+    support_var = data.support_indicator
+    welcoming_var = data.welcoming_indicator
+    console.log(active_var)
+    console.log(support_var)
+    console.log(welcoming_var)
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
