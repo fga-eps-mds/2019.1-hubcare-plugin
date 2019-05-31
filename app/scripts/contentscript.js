@@ -12,13 +12,15 @@ const repoName = window.location.pathname
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-let metrics = []
-var chaves = ""
+var popup_key = ""
 
-chrome.storage.sync.get("key", function(res) {
-    console.log('Value currently is ' + res.key);
-    chaves = res.key
-    $("#chaves").val(chaves);
+chrome.storage.sync.get("active", function(res) {
+    console.log('Value currently is ' + res.active);
+    popup_key = res.active
+    //$("#popup_key").val(popup_key);
+    if(popup_key==true){
+        init()
+    }
 });
 
 /**
@@ -131,8 +133,8 @@ const requestMetrics = () => {
  * Init all plugin elements
  */
 const init = () => {
-    console.log('oooooooooooooooooirrr ==' + chaves)
-    if(chaves=="abrir"){
+    console.log(popup_key)
+    if(popup_key==true){
         if(window.location.hash ==  '#hubcare'){
             cleanPageContent()
         }

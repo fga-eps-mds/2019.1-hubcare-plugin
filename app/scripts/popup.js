@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
   checkbox.addEventListener('change', function () {
     if (checkbox.checked) {
       value = true;
-      chrome.storage.sync.set({"key":"abrir"})
+      chrome.storage.sync.set({"active":true})
     } 
     else {
       value = false;
-      chrome.storage.sync.set({"key":"fechar"}) 
+      chrome.storage.sync.set({"active":false}) 
     }
   });
 });
