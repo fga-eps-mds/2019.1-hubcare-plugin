@@ -15,10 +15,8 @@ var repoContent = saveClass("repository-content")
 var popup_key = ""
 
 chrome.storage.sync.get("active", function(res) {
-    console.log('Value currently is ' + res.active);
     popup_key = res.active
-    //$("#popup_key").val(popup_key);
-    if(popup_key==true){
+    if(popup_key != false){
         init()
     }
 });
@@ -133,8 +131,7 @@ const requestMetrics = () => {
  * Init all plugin elements
  */
 const init = () => {
-    console.log(popup_key)
-    if(popup_key==true){
+    if(popup_key != false){
         if(window.location.hash ==  '#hubcare'){
             cleanPageContent()
         }

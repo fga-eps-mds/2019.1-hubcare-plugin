@@ -10,6 +10,15 @@ import loading from './loading.js';
 
 var value = true;
 
+chrome.storage.sync.get("active", function(res) {
+  if(res.active == false){
+    document.getElementById('click-this').checked = res.active
+  }
+  else{
+    document.getElementById('click-this').checked = true
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function () {
   var checkbox = document.querySelector('input[type="checkbox"]');
   checkbox.addEventListener('change', function () {
