@@ -3,6 +3,38 @@ body {
     color: #ffffff;
 }
 
+button {
+    background-color: #00f2c3;
+    background-image: linear-gradient(to bottom left,#00f2c3,#0098f0,#00f2c3);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    background-color: #00f2c3;
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+
+    border-width: 2px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 1px;
+    border-radius: .4285rem;
+
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    padding: 11px 40px;
+    font-size: .875rem;
+    line-height: 1.35em;
+
+    font-family: Poppins,sans-serif;
+
+    cursor:pointer;
+}
+
 #top {
     height: auto;
     width: 580px;
