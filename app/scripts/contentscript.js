@@ -8,7 +8,8 @@ import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
 
-const repoName = window.location.pathname
+const repoName = window.location.pathname;
+let accessToken = null;
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
@@ -22,7 +23,7 @@ var popup_key = ""
 chrome.storage.sync.get("active", function(res) {
     popup_key = res.active
     if(popup_key != false){
-        init()
+        getAcessToken()
     }
 });
 
@@ -166,10 +167,23 @@ const removeSelected = () =>{
 }
 
 /**
+ * Get access token to chrome storage and save in local variable
+ */
+const getAcessToken = () => {
+    chrome.storage.sync.get('oauth2_token', function(res) {
+        console.log('Settings retrieved', res.oauth2_token);
+        if (res.oauth2_token != undefined){
+            accessToken = res.oauth2_token;
+            init();
+        }
+    });
+}
+
+/**
  * Init all plugin elements
  */
 const init = () => {
-    if(popup_key != false){
+    if(popup_key != false && accessToken != null){
         if(window.location.hash ==  '#hubcare'){
             hubcarePage()
         }
@@ -187,7 +201,7 @@ const init = () => {
  * Init all plugin elements, but with no request
  */
 const init_with_no_request = () => {
-    if(popup_key != false){
+    if(popup_key != false && accessToken != null){
         if(window.location.hash ==  '#hubcare'){
             hubcarePage()
         }
@@ -206,8 +220,6 @@ const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
 }
-
-//init()
 
 $(document).on('pjax:complete', () => {
     if(metrics[0].active_indicator == null){
