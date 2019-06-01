@@ -1,36 +1,39 @@
-import echarts from 'echarts/lib/echarts';
-import 'echarts/lib/chart/line';
-import 'echarts/lib/component/tooltip';
-import graph from './graphs.js';
-import badges from './badges.js';
-import badge from 'project-badge/dist/badge.js';
-import button from './button.js';
-import loading from './loading.js';
+import constants from './constants'
 
-const client_id = ''
-const url = `https://github.com/login/oauth/authorize?response_type=code&client_id=${client_id}&scope=repo`;
+const url = `https://github.com/login/oauth/authorize?response_type=code&client_id=${constants.CLIENT_ID}&scope=repo`;
 
 document.getElementById('login').addEventListener("click", function() {
     chrome.tabs.create({url: url});
 }, false);
+
+document.getElementById('logout').addEventListener('click', function() {
+  chrome.storage.sync.set({'oauth2_token': null}, function() {
+    console.log('Token removed');
+  });
+  window.close();
+});
 
  // Read it using the storage API
  chrome.storage.sync.get('oauth2_token', function(res) {
     console.log('Settings retrieved', res.oauth2_token);
     if (res.oauth2_token != undefined){
         let loginButton = document.getElementById('login');
-        // loginButton.parentNode.removeChild(loginButton)
+        loginButton.parentNode.removeChild(loginButton);
+    }
+    else {
+      let logoutButton = document.getElementById('logout');
+      logoutButton.parentNode.removeChild(logoutButton);
+      let toggleButton = document.getElementById('toggle-button');
+      toggleButton.parentNode.removeChild(toggleButton);
     }
 });
 
-var value = true;
-
 chrome.storage.sync.get("active", function(res) {
   if(res.active == false){
-    document.getElementById('click-this').checked = res.active
+    document.getElementById('click-this').checked = res.active;
   }
-  else{
-    document.getElementById('click-this').checked = true
+  else {
+    document.getElementById('click-this').checked = true;
   }
 });
 
@@ -38,12 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var checkbox = document.querySelector('input[type="checkbox"]');
   checkbox.addEventListener('change', function () {
     if (checkbox.checked) {
-      value = true;
-      chrome.storage.sync.set({"active":true})
+      chrome.storage.sync.set({"active":true});
     } 
     else {
-      value = false;
-      chrome.storage.sync.set({"active":false}) 
+      chrome.storage.sync.set({"active":false}) ;
     }
   });
 });
