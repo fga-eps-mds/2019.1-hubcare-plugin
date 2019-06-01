@@ -3,7 +3,7 @@ body {
     color: #ffffff;
 }
 
-button {
+#login {
     background-color: #00f2c3;
     background-image: linear-gradient(to bottom left,#00f2c3,#0098f0,#00f2c3);
     background-size: 210% 210%;
@@ -134,4 +134,36 @@ input:checked + .slider:before {
   
 .slider.round:before {
     border-radius: 50%;
+}
+
+#logout {
+    float: right;
+    border-radius: 50%;
+
+    background-color: #00f2c3;
+    background-image: linear-gradient(to bottom left,#00f2c3,#0098f0,#00f2c3);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    background-color: #00f2c3;
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+
+    border-width: 2px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 1px;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    padding: 18px 14px;
+    font-size: .875rem;
+    line-height: 1.35em;
+
+    font-family: Poppins,sans-serif;
+
+    cursor:pointer;
 }
