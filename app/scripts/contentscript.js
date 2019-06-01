@@ -12,6 +12,11 @@ const repoName = window.location.pathname
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
+var metrics = [{
+    active_indicator: null,
+    welcoming_indicator: null,
+    support_indicator: null
+}]
 var popup_key = ""
 
 chrome.storage.sync.get("active", function(res) {
@@ -97,6 +102,9 @@ const insertActivityIndicator = () => {
  * @param {json} data
  */
 const insertBadges = (data) => {
+    metrics[0].active_indicator = data.active_indicator
+    metrics[0].support_indicator = data.support_indicator
+    metrics[0].welcoming_indicator = data.welcoming_indicator
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
@@ -169,6 +177,24 @@ const init = () => {
         insertButton()
         requestMetrics()
         buttonOnClick()
+        document.getElementById('hubcare-button').addEventListener("click", function() {
+            hubcarePage()
+        }, false);
+    }
+}
+
+/**
+ * Init all plugin elements, but with no request
+ */
+const init_with_no_request = () => {
+    if(popup_key != false){
+        if(window.location.hash ==  '#hubcare'){
+            hubcarePage()
+        }
+        insertActivityIndicator()
+        insertButton()
+        insertBadges(metrics[0])
+        buttonOnClick()
 
         document.getElementById('hubcare-button').addEventListener("click", function() {
             hubcarePage()
@@ -184,5 +210,10 @@ const hubcarePage = () => {
 //init()
 
 $(document).on('pjax:complete', () => {
-    init()
+    if(metrics[0].active_indicator == null){
+        init()
+    }
+    else {
+        init_with_no_request()
+    }
 })
