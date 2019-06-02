@@ -29,6 +29,8 @@
   },
   "minimum_chrome_version": "10.0",
   "devtools_page": "pages/devtools.html",
+  "chrome_url_overrides": {
+  },
   "omnibox": {
     "keyword": "hubcare"
   },
