@@ -46,7 +46,8 @@
         "styles/contentscript.css"
       ],
       "js": [
-        "scripts/contentscript.js"
+        "scripts/contentscript.js",
+        "scripts/oauth2.js"
       ],
       "run_at": "document_end",
       "all_frames": false
@@ -69,6 +70,7 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
-    "https://hubcare.ml/*"
+    "https://hubcare.ml/*",
+    "storage"
   ]
 }
