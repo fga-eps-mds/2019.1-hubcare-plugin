@@ -16,7 +16,11 @@ var repoContent = saveClass("repository-content")
 var metrics = [{
     active_indicator: null,
     welcoming_indicator: null,
-    support_indicator: null
+    support_indicator: null,
+    commit_graph: {
+        x_axis: null,
+        y_axis: null
+    }
 }]
 var popup_key = ""
 
@@ -65,13 +69,13 @@ function createCommitChart(){
         },
         xAxis: {
             type: 'category',
-            data: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7','Week 8','Week 9','Week 10']
+            data: metrics[0].commit_graph.x_axis
         },
         yAxis: {
             type: 'value'
         },
         series: [{
-            data: [23, 32, 12, 15, 8, 45, 30, 28, 9, 35],
+            data: metrics[0].commit_graph.y_axis,
             type: 'line'
             
         }]
@@ -106,6 +110,9 @@ const insertBadges = (data) => {
     metrics[0].active_indicator = data.active_indicator
     metrics[0].support_indicator = data.support_indicator
     metrics[0].welcoming_indicator = data.welcoming_indicator
+    metrics[0].commit_graph.x_axis = data.commit_graph.x_axis
+    metrics[0].commit_graph.y_axis = data.commit_graph.y_axis
+    
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
