@@ -2,7 +2,7 @@
   "name": "__MSG_appName__",
   "short_name": "__MSG_appShortName__",
   "description": "__MSG_appDescription__",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "manifest_version": 2,
   "default_locale": "en",
   "icons": {
@@ -30,7 +30,6 @@
   "minimum_chrome_version": "10.0",
   "devtools_page": "pages/devtools.html",
   "chrome_url_overrides": {
-    "history": "pages/history.html"
   },
   "omnibox": {
     "keyword": "hubcare"
@@ -47,7 +46,8 @@
         "styles/contentscript.css"
       ],
       "js": [
-        "scripts/contentscript.js"
+        "scripts/contentscript.js",
+        "scripts/oauth2.js"
       ],
       "run_at": "document_end",
       "all_frames": false
@@ -55,35 +55,22 @@
   ],
   "permissions": [
     "activeTab",
-    "alarms",
     "bookmarks",
     "browsingData",
-    "browserSettings",
     "contextMenus",
-    "contextualIdentities",
-    "cookies",
-    "downloads",
-    "downloads.open",
-    "find",
-    "geolocation",
     "history",
     "identity",
     "idle",
     "management",
-    "menus",
     "nativeMessaging",
     "notifications",
-    "pkcs11",
     "privacy",
     "proxy",
-    "sessions",
     "storage",
     "tabs",
-    "theme",
-    "topSites",
-    "webNavigation",
     "webRequest",
     "webRequestBlocking",
-    "<all_urls>"
+    "https://hubcare.ml/*",
+    "storage"
   ]
 }

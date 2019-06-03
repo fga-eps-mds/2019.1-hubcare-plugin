@@ -7,7 +7,7 @@ cache:
 stages:
   - test
   - release
-  # - publish
+  - publish
 
 # Stage I
 # Testing Phase:
@@ -52,3 +52,20 @@ release_development:
   environment: development
   only: 
     - devel
+
+# Stage III
+# Publish Phase
+# In this phase, we publishing the plugin in chrome extension
+publish:
+  stage: publish
+  before_script:
+    - npm install
+    - apk add curl
+    - "sed -i \"s/CLIENT_ID: ''/CLIENT_ID: '$GITHUB_CLIENT_ID'/g\" app/scripts/constants.js"
+    - "sed -i \"s/CLIENT_SECRET: ''/CLIENT_SECRET: '$GITHUB_CLIENT_SECRET'/g\" app/scripts/constants.js"
+  script:
+    - npm run build chrome
+    - "./node_modules/.bin/webstore upload --source packages/hubcare.v0.0.1.chrome.zip --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
+    - "./node_modules/.bin/webstore publish --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
+  only:
+    - master
