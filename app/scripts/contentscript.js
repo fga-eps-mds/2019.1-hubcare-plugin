@@ -7,6 +7,8 @@ import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
+import check_true from './check_true.js';
+import check_false from './check_false.js';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -81,6 +83,23 @@ function createCommitChart(){
         }]
     }
     myChart.setOption(option)
+}
+
+/**
+ * Create check model for the report element.
+ */
+function createCheckModel(boolCheck){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    node.innerHTML = check_true()
+    if(boolCheck == true){
+        node.innerHTML = check_true()   
+        content[0].insertBefore(node, repoContent[0])
+    } else {
+        node.innerHTML = check_false()   
+        content[0].insertBefore(node, repoContent[0])
+    }
 }
 
 /**
@@ -226,6 +245,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
+    createCheckModel(true)
 }
 
 $(document).on('pjax:complete', () => {
