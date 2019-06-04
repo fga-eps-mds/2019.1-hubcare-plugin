@@ -9,6 +9,7 @@ import button from './button.js';
 import loading from './loading.js';
 import check_true from './check_true.js';
 import check_false from './check_false.js';
+import tool_tip from './tooltip.js';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -105,6 +106,14 @@ function createCheckModel(text, boolCheck){
         content[0].insertBefore(title, repoContent[0])    
         content[0].insertBefore(node, repoContent[0])
     }
+}
+
+function createTooltip(){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    node.innerHTML = tool_tip()
+    content[0].insertBefore(node, repoContent[0])
 }
 
 /**
@@ -251,6 +260,7 @@ const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
     createCheckModel('Have_License', true)
+    createTooltip()
 }
 
 $(document).on('pjax:complete', () => {
