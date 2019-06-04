@@ -88,16 +88,21 @@ function createCommitChart(){
 /**
  * Create check model for the report element.
  */
-function createCheckModel(boolCheck){
+function createCheckModel(text, boolCheck){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
-    node.innerHTML = check_true()
+    var title = document.createElement('H2')
+    title.style = ('padding-left: 400px')
+    var title_text = document.createTextNode(text)
+    title.appendChild(title_text)
     if(boolCheck == true){
-        node.innerHTML = check_true()   
+        node.innerHTML = check_true()
+        content[0].insertBefore(title, repoContent[0])  
         content[0].insertBefore(node, repoContent[0])
     } else {
-        node.innerHTML = check_false()   
+        node.innerHTML = check_false()
+        content[0].insertBefore(title, repoContent[0])    
         content[0].insertBefore(node, repoContent[0])
     }
 }
@@ -245,7 +250,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    createCheckModel(true)
+    createCheckModel('Have_License', true)
 }
 
 $(document).on('pjax:complete', () => {
