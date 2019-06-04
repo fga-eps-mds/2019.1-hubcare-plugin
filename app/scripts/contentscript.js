@@ -93,7 +93,7 @@ function createCheckModel(text, boolCheck){
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     var title = document.createElement('H2')
-    title.style = ('padding-left: 400px')
+    title.style = ('text-align: center')
     var title_text = document.createTextNode(text)
     title.appendChild(title_text)
     if(boolCheck == true){
