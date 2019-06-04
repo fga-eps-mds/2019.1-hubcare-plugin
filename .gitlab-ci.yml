@@ -18,7 +18,7 @@ test:
   script:
    - npm install
    - npm test
-   - ./node_modules/.bin/codecov codecov --token="$CODECOV_TOKEN"
+   - ./node_modules/.bin/codecov --token="$CODECOV_TOKEN"
 
 # Stage II
 # Release Phase
