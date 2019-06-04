@@ -1,6 +1,6 @@
 export default () => [
     '<style>',
-    '#check_false{width: 100px; display: block; margin: 40px auto 0;}',
+    '#check_false{width: 100px; display: block; margin: 10px auto 0;}',
     '</style>',
     '<div id="check_false">',
     '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" ',
