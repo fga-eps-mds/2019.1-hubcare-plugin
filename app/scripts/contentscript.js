@@ -9,7 +9,7 @@ import button from './button.js';
 import loading from './loading.js';
 import check_true from './check_true.js';
 import check_false from './check_false.js';
-import tool_tip from './tooltip.js';
+import tool_tip from './question_tooltip.js';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -94,7 +94,7 @@ function createCheckModel(text, boolCheck){
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     var title = document.createElement('H2')
-    title.style = ('padding-left: 400px')
+    title.style = ('text-align: center')
     var title_text = document.createTextNode(text)
     title.appendChild(title_text)
     if(boolCheck == true){
