@@ -93,7 +93,7 @@ function createCheckModel(text, boolCheck){
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     var title = document.createElement('h2')
-    title.style = ('text-align: center; font-family: Roboto, sans-serif;')
+    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
     var title_text = document.createTextNode(text)
     title.appendChild(title_text)
     if(boolCheck == true){
