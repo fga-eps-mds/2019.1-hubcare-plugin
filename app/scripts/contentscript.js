@@ -7,6 +7,7 @@ import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
+import progressbarissue from './progressbarissue.js';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -122,6 +123,13 @@ const insertBadges = (data) => {
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
 
+const insertProgressBar = () => {
+    let issueprogressbar = document.createElement('div')
+    issueprogressbar.innerHTML = progressbarissue()
+    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
+        .appendChild(issueprogressbar)
+}
+
 /**
  * Create hubcare button in repository nav
  */
@@ -226,6 +234,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
+    insertProgressBar()
 }
 
 $(document).on('pjax:complete', () => {
