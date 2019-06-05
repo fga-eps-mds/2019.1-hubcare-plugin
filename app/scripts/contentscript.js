@@ -92,8 +92,8 @@ function createCheckModel(text, boolCheck){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
-    var title = document.createElement('H2')
-    title.style = ('text-align: center')
+    var title = document.createElement('h2')
+    title.style = ('text-align: center; font-family: Roboto, sans-serif;')
     var title_text = document.createTextNode(text)
     title.appendChild(title_text)
     if(boolCheck == true){
@@ -250,7 +250,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    createCheckModel('Have_License', true)
+    createCheckModel('Title', true)
 }
 
 $(document).on('pjax:complete', () => {
