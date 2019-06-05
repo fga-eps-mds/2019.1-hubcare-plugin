@@ -112,6 +112,7 @@ function createTooltip(){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
+    node.style = ('text-align: center')
     node.innerHTML = tool_tip()
     content[0].insertBefore(node, repoContent[0])
 }
