@@ -89,7 +89,26 @@ function createCommitChart(){
 /**
  * Create check model for the report element.
  */
-function createCheckModel(text, boolCheck){
+function createCheckModel(boolCheck){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    //var title = document.createElement('H2')
+    //title.style = ('text-align: center')
+    //var title_text = document.createTextNode(text)
+    //title.appendChild(title_text)
+    if(boolCheck == true){
+        node.innerHTML = check_true()
+        //content[0].insertBefore(title, repoContent[0])  
+        content[0].insertBefore(node, repoContent[0])
+    } else {
+        node.innerHTML = check_false()
+        //content[0].insertBefore(title, repoContent[0])    
+        content[0].insertBefore(node, repoContent[0])
+    }
+}
+
+function createTooltip(text){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
@@ -97,23 +116,9 @@ function createCheckModel(text, boolCheck){
     title.style = ('text-align: center')
     var title_text = document.createTextNode(text)
     title.appendChild(title_text)
-    if(boolCheck == true){
-        node.innerHTML = check_true()
-        content[0].insertBefore(title, repoContent[0])  
-        content[0].insertBefore(node, repoContent[0])
-    } else {
-        node.innerHTML = check_false()
-        content[0].insertBefore(title, repoContent[0])    
-        content[0].insertBefore(node, repoContent[0])
-    }
-}
-
-function createTooltip(){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
-    var node = document.createElement('div')
     node.style = ('text-align: center')
     node.innerHTML = tool_tip()
+    node.appendChild(title)
     content[0].insertBefore(node, repoContent[0])
 }
 
@@ -260,8 +265,8 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    createCheckModel('Have_License', true)
-    createTooltip()
+    createTooltip('Have_License')
+    createCheckModel(true)
 }
 
 $(document).on('pjax:complete', () => {
