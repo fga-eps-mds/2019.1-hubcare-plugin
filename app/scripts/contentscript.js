@@ -112,16 +112,11 @@ function createTooltip(text){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
-    var text = document.createElement('span')
-    //var title = document.createElement('H2')
-    //title.style = ('text-align: center')
-    //var title_text = document.createTextNode(text)
-    //title.appendChild(title_text)
+    var span_text = document.createTextNode(text)
     node.style = ('text-align: center')
     node.innerHTML = tool_tip()
-    node.appendChild(text)
-    //node.appendChild(title)
     content[0].insertBefore(node, repoContent[0])
+    document.getElementById('span_question_mark').appendChild(span_text)
 }
 
 /**
@@ -267,7 +262,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    createTooltip('textotototototototototototototototototototo')
+    createTooltip('THIS IS THE TOOLTIP OF THE SPAN')
     createCheckModel('Title', true)
 }
 
