@@ -132,6 +132,15 @@ const insertProgressBar = (activity, forgotten) => {
         .appendChild(issueprogressbar)
     document.documentElement.style
         .setProperty('--progress', activityPercent);
+    document.getElementById("test").innerHTML = [
+  '<TABLE BORDER=0>',
+  '<TR>',
+  '<TD WIDTH=100 style="font-size: 18px"> 14</TD>',  
+  '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 24px"> Activity X forgotten</TD>',
+  '<TD ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> 16</TD>',
+  '</TR>',
+ '</TABLE>',  
+].join("\n");
 }
 
 /**
@@ -238,7 +247,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    insertProgressBar(5,3)
+    insertProgressBar(14,16)
 }
 
 $(document).on('pjax:complete', () => {
