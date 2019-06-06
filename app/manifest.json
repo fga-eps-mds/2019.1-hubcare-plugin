@@ -72,5 +72,8 @@
     "webRequestBlocking",
     "https://hubcare.ml/*",
     "storage"
+  ],
+  "web_accessible_resources": [
+    "images/questionMark.svg"
   ]
 }

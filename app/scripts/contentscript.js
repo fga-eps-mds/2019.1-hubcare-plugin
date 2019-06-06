@@ -94,8 +94,8 @@ function createCheckModel(text, boolCheck){
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     var title = document.createElement('h2')
-    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
     var title_text = document.createTextNode(text)
+    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
     title.appendChild(title_text)
     if(boolCheck == true){
         node.innerHTML = check_true()
@@ -108,14 +108,19 @@ function createCheckModel(text, boolCheck){
     }
 }
 
+/**
+ * Create tooltip with questionMark Icon for the report element
+ */
 function createTooltip(text){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     var span_text = document.createTextNode(text)
+    var myImage = chrome.extension.getURL("../images/questionMark.svg")
     node.style = ('text-align: center')
     node.innerHTML = tool_tip()
     content[0].insertBefore(node, repoContent[0])
+    document.getElementById('id_img_questionMark').src = myImage
     document.getElementById('span_question_mark').appendChild(span_text)
 }
 
