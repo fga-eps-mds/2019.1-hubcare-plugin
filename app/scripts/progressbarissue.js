@@ -1,7 +1,6 @@
 export default () => [
     '<style>',
     '.progress-bar{',
-    '--progress: 50;',
     'width: 400px;',
     'height: 30px;',
     'background-color: red;',

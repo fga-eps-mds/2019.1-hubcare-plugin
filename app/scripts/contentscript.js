@@ -123,11 +123,15 @@ const insertBadges = (data) => {
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
 
-const insertProgressBar = () => {
+const insertProgressBar = (activity, forgotten) => {
     let issueprogressbar = document.createElement('div')
     issueprogressbar.innerHTML = progressbarissue()
+    let total = activity + forgotten;
+    let activityPercent = (activity*100)/total;
     document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
         .appendChild(issueprogressbar)
+    document.documentElement.style
+        .setProperty('--progress', activityPercent);
 }
 
 /**
@@ -234,7 +238,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    insertProgressBar()
+    insertProgressBar(5,3)
 }
 
 $(document).on('pjax:complete', () => {
