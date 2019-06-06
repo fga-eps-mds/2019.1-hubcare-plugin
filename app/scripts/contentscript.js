@@ -89,21 +89,21 @@ function createCommitChart(){
 /**
  * Create check model for the report element.
  */
-function createCheckModel(boolCheck){
+function createCheckModel(text, boolCheck){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
-    //var title = document.createElement('H2')
-    //title.style = ('text-align: center')
-    //var title_text = document.createTextNode(text)
-    //title.appendChild(title_text)
+    var title = document.createElement('h2')
+    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
+    var title_text = document.createTextNode(text)
+    title.appendChild(title_text)
     if(boolCheck == true){
         node.innerHTML = check_true()
-        //content[0].insertBefore(title, repoContent[0])  
+        content[0].insertBefore(title, repoContent[0])  
         content[0].insertBefore(node, repoContent[0])
     } else {
         node.innerHTML = check_false()
-        //content[0].insertBefore(title, repoContent[0])    
+        content[0].insertBefore(title, repoContent[0])    
         content[0].insertBefore(node, repoContent[0])
     }
 }
@@ -112,13 +112,15 @@ function createTooltip(text){
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
-    var title = document.createElement('H2')
-    title.style = ('text-align: center')
-    var title_text = document.createTextNode(text)
-    title.appendChild(title_text)
+    var text = document.createElement('span')
+    //var title = document.createElement('H2')
+    //title.style = ('text-align: center')
+    //var title_text = document.createTextNode(text)
+    //title.appendChild(title_text)
     node.style = ('text-align: center')
     node.innerHTML = tool_tip()
-    node.appendChild(title)
+    node.appendChild(text)
+    //node.appendChild(title)
     content[0].insertBefore(node, repoContent[0])
 }
 
@@ -265,8 +267,8 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    createTooltip('Have_License')
-    createCheckModel(true)
+    createTooltip('textotototototototototototototototototototo')
+    createCheckModel('Title', true)
 }
 
 $(document).on('pjax:complete', () => {
