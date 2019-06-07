@@ -7,6 +7,7 @@ import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
+import progressbarissue from './progressbarissue.js';
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 import tool_tip from './question_tooltip.js';
@@ -162,6 +163,39 @@ const insertBadges = (data) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
+/*
+ * Creates the progress bar regarding issues
+ */
+const insertProgressBar = (activity, forgotten) => {
+    let issueprogressbar = document.createElement('div')
+    issueprogressbar.innerHTML = progressbarissue()
+    //Calculate percentage bar
+    let total = activity + forgotten;
+    let activityPercent = (activity*100)/total;
+
+    //Add div to the page main class 
+    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
+        .appendChild(issueprogressbar)
+    document.documentElement.style
+        .setProperty('--progress', activityPercent);
+        
+    //Create table to format the description
+    document.getElementById("bar").innerHTML = [
+    '<TABLE BORDER=0>',
+    '<TR>',
+    '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
+    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
+    '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
+    '</TR>',
+    '</TABLE>',  
+    ].join("\n");
+
+    //Convertion from variable number type to string type
+    activity= activity.toString();
+    forgotten = forgotten.toString();
+    document.getElementById("act").textContent= activity;
+    document.getElementById("forg").textContent= forgotten;
+}
 
 /**
  * Create hubcare button in repository nav
@@ -268,6 +302,7 @@ const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
     createTooltip('THIS IS THE TOOLTIP OF THE SPAN')
+    insertProgressBar(10,30)
     createCheckModel('Title', true)
 }
 
