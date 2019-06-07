@@ -190,7 +190,6 @@ const ProgressBarFunction = (partial, full, text) => {
     progressbar.innerHTML = progressbarfunction()
     //Calculate percentage bar
     let generic_rate = (partial*100)/full;
-    let aux = document.getElementById("progress-bar-function");
 
     //Add div to the page main class 
     document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
@@ -200,16 +199,31 @@ const ProgressBarFunction = (partial, full, text) => {
 
     //Create table to format the description
     document.getElementById("barfunction").innerHTML = [
+    '<div style="float: justify">',
     '<TABLE BORDER=0>',
         '<TR>',
-            '<TD id="text" WIDTH=100 style="font-size: 18px"> </TD>',
-            '<TD id="aux"></TD>',
-        '</TR>',
-        '<TR>',
-            '<TD id="partial" ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"></TD>',
-            '<TH id="full" ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TH>',
+        '<h1 style="text-align: center;">Issue',
         '</TR>',
     '</TABLE>',
+    '</div>',
+
+    '<div style="float: left">',
+    '<TABLE BORDER=0>',
+        '<TR>',
+            '<TD id="partial" ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"></TD>',
+        '</TR>',
+    '</TABLE>',
+    '</div>',
+
+    '<div style="float: left">',
+    '<TABLE>',
+        '<TR>',
+            '<TD>',
+            '<TH id="full" ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TH>',
+            '</TD>',
+        '</TR>',
+    '</TABLE>',
+    '</div>',
     ].join("\n");
 
     //Convertion from variable number type to string type
@@ -219,7 +233,6 @@ const ProgressBarFunction = (partial, full, text) => {
 
     document.getElementById("partial").textContent = partial + "/" + full;
     document.getElementById("text").textContent = text;
-    document.getElementById("full").appendChild(aux)
 }
 
 /**
