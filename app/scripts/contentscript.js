@@ -185,11 +185,12 @@ const insertProgressBar = (activity, forgotten) => {
 /*
  * Creates the progress bar function
  */
-const ProgressBarFunction = (partial, full) => {
+const ProgressBarFunction = (partial, full, text) => {
     let progressbar = document.createElement('div')
     progressbar.innerHTML = progressbarfunction()
     //Calculate percentage bar
     let generic_rate = (partial*100)/full;
+    let aux = document.getElementById("progress-bar-function");
 
     //Add div to the page main class 
     document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
@@ -198,21 +199,27 @@ const ProgressBarFunction = (partial, full) => {
         .setProperty('--progressfunction', generic_rate);
 
     //Create table to format the description
-    // document.getElementById("bar").innerHTML = [
-    // '<TABLE BORDER=0>',
-    // '<TR>',
-    // '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
-    // '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
-    // '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
-    // '</TR>',
-    // '</TABLE>',  
-    // ].join("\n");
+    document.getElementById("barfunction").innerHTML = [
+    '<TABLE BORDER=0>',
+        '<TR>',
+            '<TD id="text" WIDTH=100 style="font-size: 18px"> </TD>',
+            '<TD id="aux"></TD>',
+        '</TR>',
+        '<TR>',
+            '<TD id="partial" ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"></TD>',
+            '<TH id="full" ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TH>',
+        '</TR>',
+    '</TABLE>',
+    ].join("\n");
 
-    // //Convertion from variable number type to string type
-    // activity= activity.toString();
-    // forgotten = forgotten.toString();
-    // document.getElementById("act").textContent= activity;
-    // document.getElementById("forg").textContent= forgotten;
+    //Convertion from variable number type to string type
+    partial= partial.toString();
+    full = full.toString();
+    text = text.toString();
+
+    document.getElementById("partial").textContent = partial + "/" + full;
+    document.getElementById("text").textContent = text;
+    document.getElementById("full").appendChild(aux)
 }
 
 /**
@@ -320,7 +327,7 @@ const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
     //insertProgressBar(10,30)
-    ProgressBarFunction(2, 5)
+    ProgressBarFunction(2, 5, "Hello World!")
     createCheckModel('Title', true)
 }
 
