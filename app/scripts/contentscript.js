@@ -8,6 +8,7 @@ import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
 import progressbarissue from './progressbarissue.js';
+import progressbarfunction from './progressbarfunction.js'
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 
@@ -146,6 +147,7 @@ const insertBadges = (data) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
+
 /*
  * Creates the progress bar regarding issues
  */
@@ -178,6 +180,39 @@ const insertProgressBar = (activity, forgotten) => {
     forgotten = forgotten.toString();
     document.getElementById("act").textContent= activity;
     document.getElementById("forg").textContent= forgotten;
+}
+
+/*
+ * Creates the progress bar function
+ */
+const ProgressBarFunction = (partial, full) => {
+    let progressbar = document.createElement('div')
+    progressbar.innerHTML = progressbarfunction()
+    //Calculate percentage bar
+    let generic_rate = (partial*100)/full;
+
+    //Add div to the page main class 
+    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
+        .appendChild(progressbar)
+    document.documentElement.style
+        .setProperty('--progressfunction', generic_rate);
+
+    //Create table to format the description
+    // document.getElementById("bar").innerHTML = [
+    // '<TABLE BORDER=0>',
+    // '<TR>',
+    // '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
+    // '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
+    // '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
+    // '</TR>',
+    // '</TABLE>',  
+    // ].join("\n");
+
+    // //Convertion from variable number type to string type
+    // activity= activity.toString();
+    // forgotten = forgotten.toString();
+    // document.getElementById("act").textContent= activity;
+    // document.getElementById("forg").textContent= forgotten;
 }
 
 /**
@@ -284,7 +319,8 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    insertProgressBar(10,30)
+    //insertProgressBar(10,30)
+    ProgressBarFunction(2, 5)
     createCheckModel('Title', true)
 }
 
