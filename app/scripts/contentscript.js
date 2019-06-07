@@ -7,12 +7,9 @@ import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
-<<<<<<< HEAD
 import progressbarissue from './progressbarissue.js';
-=======
 import check_true from './check_true.js';
 import check_false from './check_false.js';
->>>>>>> origin/devel
 
 const repoName = window.location.pathname;
 let accessToken = null;
