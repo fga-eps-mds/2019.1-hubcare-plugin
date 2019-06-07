@@ -122,6 +122,10 @@ const insertBadges = (data) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
+/**
+ * Creates the progress bar regarding issues
+ * 
+ */
 
 const insertProgressBar = (activity, forgotten) => {
     let issueprogressbar = document.createElement('div')
@@ -133,14 +137,18 @@ const insertProgressBar = (activity, forgotten) => {
     document.documentElement.style
         .setProperty('--progress', activityPercent);
     document.getElementById("test").innerHTML = [
-  '<TABLE BORDER=0>',
-  '<TR>',
-  '<TD WIDTH=100 style="font-size: 18px"> 14</TD>',  
-  '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 24px"> Activity X forgotten</TD>',
-  '<TD ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> 16</TD>',
+    '<TABLE BORDER=0>',
+    '<TR>',
+    '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
+    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 24px"> Activity X forgotten</TD>',
+  ' <TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
   '</TR>',
  '</TABLE>',  
 ].join("\n");
+    activity= activity.toString();
+    forgotten = forgotten.toString();
+    document.getElementById("act").textContent= activity;
+    document.getElementById("forg").textContent= forgotten;
 }
 
 /**
@@ -247,7 +255,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    insertProgressBar(14,16)
+    insertProgressBar(10,30)
 }
 
 $(document).on('pjax:complete', () => {
