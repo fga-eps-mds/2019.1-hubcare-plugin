@@ -202,7 +202,7 @@ const ProgressBarFunction = (partial, full, text) => {
     '<div style="float: justify">',
     '<TABLE BORDER=0>',
         '<TR>',
-        '<h1 style="text-align: center;">Issue',
+        '<h1 style="text-align:center; font-size: 25px">Issue',
         '</TR>',
     '</TABLE>',
     '</div>',
