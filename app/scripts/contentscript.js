@@ -122,29 +122,34 @@ const insertBadges = (data) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
-/**
+/*
  * Creates the progress bar regarding issues
- * 
  */
-
 const insertProgressBar = (activity, forgotten) => {
     let issueprogressbar = document.createElement('div')
     issueprogressbar.innerHTML = progressbarissue()
+    //Calculate percentage bar
     let total = activity + forgotten;
     let activityPercent = (activity*100)/total;
+
+    //Add div to the page main class 
     document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
         .appendChild(issueprogressbar)
     document.documentElement.style
         .setProperty('--progress', activityPercent);
-    document.getElementById("test").innerHTML = [
+        
+    //Create table to format the description
+    document.getElementById("bar").innerHTML = [
     '<TABLE BORDER=0>',
     '<TR>',
     '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
-    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 24px"> Activity X forgotten</TD>',
-  ' <TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
-  '</TR>',
- '</TABLE>',  
-].join("\n");
+    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
+    '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
+    '</TR>',
+    '</TABLE>',  
+    ].join("\n");
+
+    //Convertion from variable number type to string type
     activity= activity.toString();
     forgotten = forgotten.toString();
     document.getElementById("act").textContent= activity;

@@ -15,7 +15,7 @@ export default () => [
     'background-color: #00a000; }',
     '</style>',
     '<div style="width:400px; height:75px;"><h1 style="text-align: center;">Issue</h1>',
-    '<div id="test"></div>',
+    '<div id="bar"></div>',
     '<div class="progress-bar" ></div>',
     '</div>',
 ].join(''); 
