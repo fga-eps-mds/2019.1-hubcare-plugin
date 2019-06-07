@@ -301,7 +301,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
-    createTooltip('THIS IS THE TOOLTIP OF THE SPAN')
+    createTooltip('This is a tooltip in a span as an example')
     insertProgressBar(10,30)
     createCheckModel('Title', true)
 }
