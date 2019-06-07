@@ -7,7 +7,12 @@ import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
+<<<<<<< HEAD
 import progressbarissue from './progressbarissue.js';
+=======
+import check_true from './check_true.js';
+import check_false from './check_false.js';
+>>>>>>> origin/devel
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -82,6 +87,28 @@ function createCommitChart(){
         }]
     }
     myChart.setOption(option)
+}
+
+/**
+ * Create check model for the report element.
+ */
+function createCheckModel(text, boolCheck){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    var title = document.createElement('h2')
+    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
+    var title_text = document.createTextNode(text)
+    title.appendChild(title_text)
+    if(boolCheck == true){
+        node.innerHTML = check_true()
+        content[0].insertBefore(title, repoContent[0])  
+        content[0].insertBefore(node, repoContent[0])
+    } else {
+        node.innerHTML = check_false()
+        content[0].insertBefore(title, repoContent[0])    
+        content[0].insertBefore(node, repoContent[0])
+    }
 }
 
 /**
@@ -261,6 +288,7 @@ const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
     insertProgressBar(10,30)
+    createCheckModel('Title', true)
 }
 
 $(document).on('pjax:complete', () => {
