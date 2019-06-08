@@ -202,7 +202,7 @@ const ProgressBarFunction = (partial, full, text) => {
     '<div style="float: justify">',
     '<TABLE BORDER=0>',
         '<TR>',
-        '<h1 style="text-align:center; font-size: 25px">test text</h1>',
+        '<h1 id="text" style="text-align:center; font-size: 20px"></h1>',
         '</TR>',
     '</TABLE>',
     '</div>',
@@ -340,7 +340,7 @@ const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
     //insertProgressBar(10,30)
-    ProgressBarFunction(2, 5, "Hello World!")
+    ProgressBarFunction(2, 5, "Test text")
     createCheckModel('Title', true)
 }
 
