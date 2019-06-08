@@ -10,6 +10,7 @@ import loading from './loading.js';
 import progressbarissue from './progressbarissue.js';
 import check_true from './check_true.js';
 import check_false from './check_false.js';
+import tool_tip from './question_tooltip.js';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -94,8 +95,8 @@ function createCheckModel(text, boolCheck){
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     var title = document.createElement('h2')
-    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
     var title_text = document.createTextNode(text)
+    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
     title.appendChild(title_text)
     if(boolCheck == true){
         node.innerHTML = check_true()
@@ -106,6 +107,22 @@ function createCheckModel(text, boolCheck){
         content[0].insertBefore(title, repoContent[0])    
         content[0].insertBefore(node, repoContent[0])
     }
+}
+
+/**
+ * Create tooltip with questionMark Icon for the report element
+ */
+function createTooltip(text){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    var span_text = document.createTextNode(text)
+    var myImage = chrome.extension.getURL("../images/questionMark.svg")
+    node.style = ('text-align: center')
+    node.innerHTML = tool_tip()
+    content[0].insertBefore(node, repoContent[0])
+    document.getElementById('id_img_questionMark').src = myImage
+    document.getElementById('span_question_mark').appendChild(span_text)
 }
 
 /**
@@ -284,6 +301,7 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     createCommitChart()
+    createTooltip('This is a tooltip in a span as an example')
     insertProgressBar(10,30)
     createCheckModel('Title', true)
 }
