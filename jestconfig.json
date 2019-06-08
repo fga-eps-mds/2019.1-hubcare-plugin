@@ -9,6 +9,10 @@
         "!**/node_modules/**",
         "!**/vendor/**",
         "!**/dist/**",
-        "!**/coverage/**"
-    ]
+        "!**/coverage/**",
+        "!babel.config.js"
+    ],
+    "setupFiles": [
+        "jest-webextension-mock"
+      ]
   }
