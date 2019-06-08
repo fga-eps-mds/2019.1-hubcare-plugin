@@ -1,4 +1,5 @@
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
+const $ = require('jquery');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';
@@ -27,13 +28,6 @@ var metrics = [{
     }
 }]
 var popup_key = ""
-
-chrome.storage.sync.get("active", function(res) {
-    popup_key = res.active
-    if(popup_key != false){
-        getAcessToken()
-    }
-});
 
 /**
  * Return url to hubcare api
@@ -314,3 +308,10 @@ $(document).on('pjax:complete', () => {
         init_with_no_request()
     }
 })
+
+chrome.storage.sync.get("active", function(res) {
+    popup_key = res.active
+    if(popup_key != false){
+        getAcessToken()
+    }
+});
