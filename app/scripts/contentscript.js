@@ -191,7 +191,7 @@ const ProgressBarFunction = (partial, full, text) => {
     //Calculate percentage bar
     let generic_rate = (partial*100)/full;
 
-    //Add div to the page main class 
+    //Add div to the page main class
     document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
         .appendChild(progressbar)
     document.documentElement.style
@@ -202,7 +202,7 @@ const ProgressBarFunction = (partial, full, text) => {
     '<div style="float: justify">',
     '<TABLE BORDER=0>',
         '<TR>',
-        '<h1 style="text-align:center; font-size: 25px">Issue',
+        '<h1 style="text-align:center; font-size: 25px">test text</h1>',
         '</TR>',
     '</TABLE>',
     '</div>',
@@ -210,7 +210,7 @@ const ProgressBarFunction = (partial, full, text) => {
     '<div style="float: left">',
     '<TABLE BORDER=0>',
         '<TR>',
-            '<TD id="partial" ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"></TD>',
+            '<TD id="partial" ALIGN=MIDDLE style= "font-size: 23px; padding-right: 15px"></TD>',
         '</TR>',
     '</TABLE>',
     '</div>',
@@ -219,7 +219,7 @@ const ProgressBarFunction = (partial, full, text) => {
     '<TABLE>',
         '<TR>',
             '<TD>',
-            '<TH id="full" ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TH>',
+            '<TH id="full" ALIGN=RIGHT> </TH>',
             '</TD>',
         '</TR>',
     '</TABLE>',
@@ -231,7 +231,7 @@ const ProgressBarFunction = (partial, full, text) => {
     full = full.toString();
     text = text.toString();
 
-    document.getElementById("partial").textContent = partial + "/" + full;
+    document.getElementById("partial").textContent = partial + " / " + full;
     document.getElementById("text").textContent = text;
 }
 
