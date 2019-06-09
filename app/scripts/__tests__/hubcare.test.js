@@ -1,4 +1,7 @@
-export default () => [
+import hubcare from '../hubcare';
+
+test('test button function', async () => {
+    let test_hubcare = [
     '<style>',
     '.tooltip {position: relative; display: inline-block;}',
     '.tooltip .tooltiptext {visibility: hidden; width: 200px; background-color:rgb(41, 0, 102, 0.99);',
@@ -40,5 +43,7 @@ export default () => [
         '<div id="hubcare-content">',
         '</div>',
     '</div>',
-].join(''); 
+    ].join('');
 
+    expect(hubcare()).toBe(test_hubcare);
+});

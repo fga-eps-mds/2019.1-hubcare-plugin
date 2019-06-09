@@ -234,7 +234,7 @@ const insertBadges = (data) => {
     metrics[0].commit_graph.x_axis = data.commit_graph.x_axis
     metrics[0].commit_graph.y_axis = data.commit_graph.y_axis
     
-    // stopActivityIndicator()
+    stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
@@ -242,6 +242,7 @@ const insertBadges = (data) => {
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
 }
+
 /*
  * Creates the progress bar regarding issues
  */
@@ -379,41 +380,74 @@ const init_with_no_request = () => {
 
 const hubcarePage = () => {
     cleanPageContent()
-    // createCommitChart()
-    // createPullRequestChart()
-    // createTooltip('This is a tooltip in a span as an example')
-    // insertProgressBar(10,30)
-    // createCheckModel('Title', true)
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    insertBadges(metrics[0])
+    createBadge("Active", metrics[0].active_indicator, 'my-badge')
+    createBadge("Support", metrics[0].support_indicator, 'my-badge2')
+    createBadge("Welcoming", metrics[0].welcoming_indicator, 'my-badge3')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
+    document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
     document.getElementById('my-badge').addEventListener("click", function() {
         console.log('test')
+        activeBadge.style.backgroundColor = "#fff";
+        activeBadge.style.borderBottom = "0px";
+        activeBadge.style.borderBottomRightRadius = "0px"
+        
+        supportBadge.style.backgroundColor = "#f6f8fa"
+        supportBadge.style.borderBottom = "1px solid #d1d5da"
+        supportBadge.style.borderBottomLeftRadius = "5px"
+        supportBadge.style.borderBottomRightRadius = "0px"
+        
+        welcomingBadge.style.backgroundColor = "#f6f8fa";
+        welcomingBadge.style.borderBottom = "1px solid #d1d5da";
+        welcomingBadge.style.borderBottomLeftRadius = "0px"
+        
+        document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
         console.log('test');
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
         activeBadge.style.borderBottomRightRadius = "5px"
-
+        
         supportBadge.style.backgroundColor = "#fff"
         supportBadge.style.borderBottom = "0px"
         supportBadge.style.borderBottomLeftRadius = "0px"
         supportBadge.style.borderBottomRightRadius = "0px"
-
+        
         welcomingBadge.style.backgroundColor = "#f6f8fa";
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "5px"
+
+        document.getElementById('hubcare-content').innerHTML = "<div>test2</div>"
     }, false);
     document.getElementById('my-badge3').addEventListener("click", function() {
         console.log('test')
+        activeBadge.style.backgroundColor = "#f6f8fa";
+        activeBadge.style.borderBottom = "1px solid #d1d5da";
+        activeBadge.style.borderBottomRightRadius = "5px"
+        
+        supportBadge.style.backgroundColor = "#f6f8fa"
+        supportBadge.style.borderBottom = "1px solid #d1d5da"
+        supportBadge.style.borderBottomLeftRadius = "0px"
+        supportBadge.style.borderBottomRightRadius = "5px"
+        
+        welcomingBadge.style.backgroundColor = "#fff";
+        welcomingBadge.style.borderBottom = "0px";
+        welcomingBadge.style.borderBottomLeftRadius = "0px"
+        
+        document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
     }, false);
+    createCommitChart()
+    createPullRequestChart()
+    createTooltip('This is a tooltip in a span as an example')
+    insertProgressBar(10,30)
+    createCheckModel('Title', true)
 }
 
 $(document).on('pjax:complete', () => {
