@@ -1,6 +1,7 @@
 import * as $ from 'jquery';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
 import badges from './badges.js';
@@ -80,6 +81,80 @@ function createCommitChart(){
             
         }]
     }
+    myChart.setOption(option)
+}
+
+/**
+ * Create pull request graph
+ */
+const createPullRequestChart = () => {
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    node.innerHTML = graph()
+    content[0].insertBefore(node, repoContent[0])
+    var myChart = echarts.init(document.getElementById('my-graph'))
+    let option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({e}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['Old Open','Refused','Open','Refused','Open','Merged','Merjed']
+        },
+        series: [
+            {
+                name:'Pull Request Interaction',
+                type:'pie',
+                radius: ['0%', '55%'],
+                label: {
+                    normal: {
+                        formatter: '{a|{b}}{abg|}\n{hr|}\n  {per|{d}%}  ',
+                        backgroundColor: '#eee',
+                        borderColor: '#aaa',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        rich: {
+                            a: {
+                                // color: '#999',
+                                lineHeight: 22,
+                                align: 'center',
+                                fontSize: 14
+                            },
+                            hr: {
+                                borderColor: '#aaa',
+                                width: '100%',
+                                borderWidth: 0.5,
+                                height: 0
+                            },
+                            b: {
+                                fontSize: 16,
+                                lineHeight: 33
+                            },
+                            per: {
+                                color: '#eee',
+                                backgroundColor: '#334455',
+                                padding: [2, 4],
+                                borderRadius: 2,
+                                lineHeight: 22
+                            }
+                        }
+                    }
+                },
+                data:[
+                    {value:335, name:'Old Open without comment', description:'test'},
+                    {value:310, name:'Refused without comment'},
+                    {value:234, name:'Open with old comment'},
+                    {value:135, name:'Refused with comment'},
+                    {value:1048, name:'Open with recent comment'},
+                    {value:251, name:'Merjed without comment'},
+                    {value:147, name:'Merjed with comment'}
+                ]
+            }
+        ]
+    };
     myChart.setOption(option)
 }
 
@@ -225,7 +300,8 @@ const init_with_no_request = () => {
 
 const hubcarePage = () => {
     cleanPageContent()
-    createCommitChart()
+    // createCommitChart()
+    createPullRequestChart()
 }
 
 $(document).on('pjax:complete', () => {
