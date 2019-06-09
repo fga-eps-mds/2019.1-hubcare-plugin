@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "webextension-toolbox dev",
     "build": "webextension-toolbox build",
-    "test": "jest --config jestconfig.json",
+    "test": "jest --config=jestconfig.json",
     "jest-coverage": "jest --coverage",
     "publish": "CLIENT_ID=${CLIENT_ID} CLIENT_SECRET=${CLIENT_SECRET} EXTENSION_ID=${EXTENSION_ID} REFRESH_TOKEN=${REFRESH_TOKEN} node ./deploy.js"
   },
@@ -13,9 +13,13 @@
     "verbose": true
   },
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-jest": "^24.8.0",
     "chrome-webstore-upload-cli": "^1.2.0",
     "codecov": "^3.3.0",
     "jest": "^24.7.1",
+    "jest-webextension-mock": "^3.5.0",
     "webextension-toolbox": "latest"
   },
   "dependencies": {

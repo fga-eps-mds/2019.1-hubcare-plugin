@@ -1,4 +1,5 @@
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
+const $ = require('jquery');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/chart/pie';
@@ -8,6 +9,10 @@ import badges from './badges.js';
 import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
+import progressbarissue from './progressbarissue.js';
+import check_true from './check_true.js';
+import check_false from './check_false.js';
+import tool_tip from './question_tooltip.js';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -24,13 +29,6 @@ var metrics = [{
     }
 }]
 var popup_key = ""
-
-chrome.storage.sync.get("active", function(res) {
-    popup_key = res.active
-    if(popup_key != false){
-        getAcessToken()
-    }
-});
 
 /**
  * Return url to hubcare api
@@ -162,6 +160,44 @@ const createPullRequestChart = () => {
 }
 
 /**
+ * Create check model for the report element.
+ */
+function createCheckModel(text, boolCheck){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    var title = document.createElement('h2')
+    var title_text = document.createTextNode(text)
+    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
+    title.appendChild(title_text)
+    if(boolCheck == true){
+        node.innerHTML = check_true()
+        content[0].insertBefore(title, repoContent[0])  
+        content[0].insertBefore(node, repoContent[0])
+    } else {
+        node.innerHTML = check_false()
+        content[0].insertBefore(title, repoContent[0])    
+        content[0].insertBefore(node, repoContent[0])
+    }
+}
+
+/**
+ * Create tooltip with questionMark Icon for the report element
+ */
+function createTooltip(text){
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    var span_text = document.createTextNode(text)
+    var myImage = chrome.extension.getURL("../images/questionMark.svg")
+    node.style = ('text-align: center')
+    node.innerHTML = tool_tip()
+    content[0].insertBefore(node, repoContent[0])
+    document.getElementById('id_img_questionMark').src = myImage
+    document.getElementById('span_question_mark').appendChild(span_text)
+}
+
+/**
  * Remove activity indicator element
  */
 const stopActivityIndicator = () => {
@@ -198,6 +234,39 @@ const insertBadges = (data) => {
     createBadge("Active", data.active_indicator, 'my-badge')
     createBadge("Support", data.support_indicator, 'my-badge2')
     createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+}
+/*
+ * Creates the progress bar regarding issues
+ */
+const insertProgressBar = (activity, forgotten) => {
+    let issueprogressbar = document.createElement('div')
+    issueprogressbar.innerHTML = progressbarissue()
+    //Calculate percentage bar
+    let total = activity + forgotten;
+    let activityPercent = (activity*100)/total;
+
+    //Add div to the page main class 
+    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
+        .appendChild(issueprogressbar)
+    document.documentElement.style
+        .setProperty('--progress', activityPercent);
+        
+    //Create table to format the description
+    document.getElementById("bar").innerHTML = [
+    '<TABLE BORDER=0>',
+    '<TR>',
+    '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
+    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
+    '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
+    '</TR>',
+    '</TABLE>',  
+    ].join("\n");
+
+    //Convertion from variable number type to string type
+    activity= activity.toString();
+    forgotten = forgotten.toString();
+    document.getElementById("act").textContent= activity;
+    document.getElementById("forg").textContent= forgotten;
 }
 
 /**
@@ -305,6 +374,9 @@ const hubcarePage = () => {
     cleanPageContent()
     // createCommitChart()
     createPullRequestChart()
+    createTooltip('This is a tooltip in a span as an example')
+    insertProgressBar(10,30)
+    createCheckModel('Title', true)
 }
 
 $(document).on('pjax:complete', () => {
@@ -315,3 +387,10 @@ $(document).on('pjax:complete', () => {
         init_with_no_request()
     }
 })
+
+chrome.storage.sync.get("active", function(res) {
+    popup_key = res.active
+    if(popup_key != false){
+        getAcessToken()
+    }
+});
