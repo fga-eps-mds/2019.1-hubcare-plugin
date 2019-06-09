@@ -5,7 +5,7 @@ export default () => [
         'background-color: #fff;',
         'display: flex;',
         'border: 1px solid black;',
-        'border-radius: 10px;',
+        'border-radius: 11px;',
       '}',
       '.progress-bar-function::before{',
         'content: "";',
