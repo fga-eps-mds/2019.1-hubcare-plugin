@@ -13,6 +13,7 @@ import progressbarissue from './progressbarissue.js';
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 import tool_tip from './question_tooltip.js';
+import hubcare from './hubcare'
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -53,6 +54,12 @@ function saveClass(name_class){
 function cleanPageContent(){
     var element = document.getElementsByClassName('repository-content ')
     element[0].parentNode.removeChild(element[0])
+    let elementBadge = document.getElementById('my-badge');
+    elementBadge.parentNode.removeChild(elementBadge)
+    let elementBadge2 = document.getElementById('my-badge2');
+    elementBadge2.parentNode.removeChild(elementBadge2)
+    let elementBadge3 = document.getElementById('my-badge3');
+    elementBadge3.parentNode.removeChild(elementBadge3)
 }
 
 function createCommitChart(){
@@ -227,7 +234,7 @@ const insertBadges = (data) => {
     metrics[0].commit_graph.x_axis = data.commit_graph.x_axis
     metrics[0].commit_graph.y_axis = data.commit_graph.y_axis
     
-    stopActivityIndicator()
+    // stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
@@ -373,10 +380,40 @@ const init_with_no_request = () => {
 const hubcarePage = () => {
     cleanPageContent()
     // createCommitChart()
-    createPullRequestChart()
-    createTooltip('This is a tooltip in a span as an example')
-    insertProgressBar(10,30)
-    createCheckModel('Title', true)
+    // createPullRequestChart()
+    // createTooltip('This is a tooltip in a span as an example')
+    // insertProgressBar(10,30)
+    // createCheckModel('Title', true)
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    node.innerHTML = hubcare()
+    content[0].appendChild(node)
+    insertBadges(metrics[0])
+    let activeBadge = document.getElementById('my-badge');
+    let supportBadge = document.getElementById('my-badge2');
+    let welcomingBadge = document.getElementById('my-badge3');
+    document.getElementById('my-badge').addEventListener("click", function() {
+        console.log('test')
+    }, false);
+    document.getElementById('my-badge2').addEventListener("click", function() {
+        console.log('test');
+        activeBadge.style.backgroundColor = "#f6f8fa";
+        activeBadge.style.borderBottom = "1px solid #d1d5da";
+        activeBadge.style.borderBottomRightRadius = "5px"
+
+        supportBadge.style.backgroundColor = "#fff"
+        supportBadge.style.borderBottom = "0px"
+        supportBadge.style.borderBottomLeftRadius = "0px"
+        supportBadge.style.borderBottomRightRadius = "0px"
+
+        welcomingBadge.style.backgroundColor = "#f6f8fa";
+        welcomingBadge.style.borderBottom = "1px solid #d1d5da";
+        welcomingBadge.style.borderBottomLeftRadius = "5px"
+    }, false);
+    document.getElementById('my-badge3').addEventListener("click", function() {
+        console.log('test')
+    }, false);
 }
 
 $(document).on('pjax:complete', () => {
