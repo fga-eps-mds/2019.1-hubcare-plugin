@@ -2,6 +2,7 @@
 const $ = require('jquery');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
 import badges from './badges.js';
@@ -78,6 +79,85 @@ function createCommitChart(){
             
         }]
     }
+    myChart.setOption(option)
+}
+
+/**
+ * Create latel to pull request interaction graph
+ */
+const createLabel = (score) => {
+    return {
+        normal: {
+        formatter: '{a|{b}}{abg|}\n{hr|}\n{b|Score:  ' + score + '}  {per|{d}%}  ',
+        backgroundColor: '#eee',
+        borderColor: '#aaa',
+        borderWidth: 1,
+        borderRadius: 4,
+        rich: {
+            a: {
+                color: '#586069',
+                lineHeight: 22,
+                align: 'center',
+                fontSize: 14,
+                padding: 3
+            },
+            hr: {
+                borderColor: '#aaa',
+                width: '100%',
+                borderWidth: 0.5,
+                height: 0
+            },
+            b: {
+                color: '#586069',
+                fontSize: 14,
+                lineHeight: 22,
+                padding: 3
+            },
+            per: {
+                color: '#eee',
+                backgroundColor: '#334455',
+                padding: [2, 4],
+                borderRadius: 2,
+                lineHeight: 22
+            }
+        }
+    }
+}
+}
+
+/**
+ * Create pull request graph
+ */
+const createPullRequestChart = (data) => {
+    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    var repoContent = document.getElementsByClassName("repository-content")
+    var node = document.createElement('div')
+    node.innerHTML = graph()
+    content[0].insertBefore(node, repoContent[0])
+    var myChart = echarts.init(document.getElementById('my-graph'))
+    let option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        series: [
+            {
+                name:'Pull Request Interaction',
+                type:'pie',
+                radius: ['0%', '55%'],
+                color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
+                data:[
+                    {value:data[0], name:'Old Open without comment', label:createLabel('0')},
+                    {value:data[1], name:'Refused without comment', label:createLabel('0.1')},
+                    {value:data[2], name:'Open with old comment', label:createLabel('0.3')},
+                    {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
+                    {value:data[4], name:'Open with recent comment', label:createLabel('0.9')},
+                    {value:data[5], name:'Merjed without comment', label:createLabel('0.9')},
+                    {value:data[6], name:'Merjed with comment', label:createLabel('1')}
+                ]
+            }
+        ]
+    };
     myChart.setOption(option)
 }
 
@@ -294,7 +374,8 @@ const init_with_no_request = () => {
 
 const hubcarePage = () => {
     cleanPageContent()
-    createCommitChart()
+    // createCommitChart()
+    createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
     createTooltip('This is a tooltip in a span as an example')
     insertProgressBar(10,30)
     createCheckModel('Title', true)
