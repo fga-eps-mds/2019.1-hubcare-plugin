@@ -105,7 +105,8 @@ const createLabel = (score) => {
                 color: '#586069',
                 lineHeight: 22,
                 align: 'center',
-                fontSize: 14
+                fontSize: 14,
+                padding: 3
             },
             hr: {
                 borderColor: '#aaa',
@@ -116,7 +117,8 @@ const createLabel = (score) => {
             b: {
                 color: '#586069',
                 fontSize: 14,
-                lineHeight: 22
+                lineHeight: 22,
+                padding: 3
             },
             per: {
                 color: '#eee',
@@ -133,7 +135,7 @@ const createLabel = (score) => {
 /**
  * Create pull request graph
  */
-const createPullRequestChart = () => {
+const createPullRequestChart = (data) => {
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
@@ -152,13 +154,13 @@ const createPullRequestChart = () => {
                 radius: ['0%', '55%'],
                 color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
                 data:[
-                    {value:335, name:'Old Open without comment', label:createLabel('0')},
-                    {value:310, name:'Refused without comment', label:createLabel('0.1')},
-                    {value:234, name:'Open with old comment', label:createLabel('0.3')},
-                    {value:135, name:'Refused with comment', label:createLabel('0.7')},
-                    {value:1048, name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:251, name:'Merjed without comment', label:createLabel('0.9')},
-                    {value:147, name:'Merjed with comment', label:createLabel('1')}
+                    {value:data[0], name:'Old Open without comment', label:createLabel('0')},
+                    {value:data[1], name:'Refused without comment', label:createLabel('0.1')},
+                    {value:data[2], name:'Open with old comment', label:createLabel('0.3')},
+                    {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
+                    {value:data[4], name:'Open with recent comment', label:createLabel('0.9')},
+                    {value:data[5], name:'Merjed without comment', label:createLabel('0.9')},
+                    {value:data[6], name:'Merjed with comment', label:createLabel('1')}
                 ]
             }
         ]
@@ -444,7 +446,7 @@ const hubcarePage = () => {
         document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
     }, false);
     createCommitChart()
-    createPullRequestChart()
+    createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
     createTooltip('This is a tooltip in a span as an example')
     insertProgressBar(10,30)
     createCheckModel('Title', true)
