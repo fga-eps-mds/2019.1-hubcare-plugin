@@ -1,4 +1,7 @@
-export default () => [
+import progressbarissue from '../progressbarissue.js';
+
+test('test the progress bar issue', async () => {
+    let teste_progressbarissue = [
     '<style>',
     '.progress-bar{',
     'width: 400px;',
@@ -18,4 +21,6 @@ export default () => [
     '<div id="bar"></div>',
     '<div class="progress-bar" ></div>',
     '</div>',
-].join(''); 
+    ].join('');
+    expect(progressbarissue()).toBe(teste_progressbarissue);
+});
