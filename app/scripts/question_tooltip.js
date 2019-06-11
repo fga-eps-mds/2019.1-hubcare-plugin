@@ -1,0 +1,15 @@
+export default () => [
+    '<style>',
+    '.question_tooltip {position: relative; display: inline-block;}',
+    '.question_tooltip .question_tooltiptext {visibility: hidden; width: 120px; background-color: #555; color: #fff; text-align: center;',
+    'border-radius: 6px; padding: 5px; padding-left: 3px; padding-right: 3px; position: absolute; z-index: 1; bottom: 200%; left: 50%;',
+    'margin-left: -60px; opacity: 0; transition: opacity 0.3s;}',
+    '.question_tooltip .question_tooltiptext::after {content: ""; position: absolute; top: 100%; left: 85%; margin-left: -5px;', 
+    'border-width: 5px; border-style: solid; border-color: #555 transparent transparent transparent; }',
+    '.question_tooltip:hover .question_tooltiptext {visibility: visible; opacity: 0.8;}',
+    '</style>',
+    '<div style="width: 100px; height: 100px; display: inline; padding-left: 85px;" id="question_mark" class="question_tooltip">',
+    '<img id="id_img_questionMark">',
+    '<span id="span_question_mark" class="question_tooltiptext"></span>',
+    '</div>'
+].join('');
