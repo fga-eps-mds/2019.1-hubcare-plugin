@@ -13,7 +13,7 @@ test('test the progress bar function', async () => {
           '.progress-bar-function::before{',
             'content: "";',
             'width: calc(var(--progressfunction) * 1%);',
-            'background-color: #00a000;',
+            'background-color: #28a745;',
             'border-bottom-left-radius: 10px;',
             'border-top-left-radius: 10px;',
           '}',
