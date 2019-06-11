@@ -267,7 +267,7 @@ const insertProgressBar = (activity, forgotten, element) => {
     '<TABLE BORDER=0>',
     '<TR>',
     '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
-    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
+    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X Forgotten</TD>',
     '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
     '</TR>',
     '</TABLE>',  
@@ -405,61 +405,70 @@ const hubcarePage = () => {
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
     document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+    activeBadge.style.cursor = "default";
+    supportBadge.style.cursor = "pointer";
+    welcomingBadge.style.cursor = "pointer";
     document.getElementById('my-badge').addEventListener("click", function() {
-        console.log('test')
         activeBadge.style.backgroundColor = "#fff";
         activeBadge.style.borderBottom = "0px";
-        activeBadge.style.borderBottomRightRadius = "0px"
+        activeBadge.style.borderBottomRightRadius = "0px";
+        activeBadge.style.cursor = "default";
         
         supportBadge.style.backgroundColor = "#f6f8fa"
         supportBadge.style.borderBottom = "1px solid #d1d5da"
         supportBadge.style.borderBottomLeftRadius = "5px"
         supportBadge.style.borderBottomRightRadius = "0px"
+        supportBadge.style.cursor = "pointer";
         
         welcomingBadge.style.backgroundColor = "#f6f8fa";
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "0px"
+        welcomingBadge.style.cursor = "pointer";
         
         document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
-        console.log('test');
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
-        activeBadge.style.borderBottomRightRadius = "5px"
+        activeBadge.style.borderBottomRightRadius = "5px";
+        activeBadge.style.cursor = "pointer";
         
         supportBadge.style.backgroundColor = "#fff"
         supportBadge.style.borderBottom = "0px"
         supportBadge.style.borderBottomLeftRadius = "0px"
         supportBadge.style.borderBottomRightRadius = "0px"
+        supportBadge.style.cursor = "default";
         
         welcomingBadge.style.backgroundColor = "#f6f8fa";
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
-        welcomingBadge.style.borderBottomLeftRadius = "5px"
+        welcomingBadge.style.borderBottomLeftRadius = "5px";
+        welcomingBadge.style.cursor = "pointer";
         
         createSupportPage();
         
     }, false);
     document.getElementById('my-badge3').addEventListener("click", function() {
-        console.log('test')
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
-        activeBadge.style.borderBottomRightRadius = "5px"
+        activeBadge.style.borderBottomRightRadius = "5px";
+        activeBadge.style.cursor = "pointer";
         
-        supportBadge.style.backgroundColor = "#f6f8fa"
-        supportBadge.style.borderBottom = "1px solid #d1d5da"
-        supportBadge.style.borderBottomLeftRadius = "0px"
-        supportBadge.style.borderBottomRightRadius = "5px"
+        supportBadge.style.backgroundColor = "#f6f8fa";
+        supportBadge.style.borderBottom = "1px solid #d1d5da";
+        supportBadge.style.borderBottomLeftRadius = "0px";
+        supportBadge.style.borderBottomRightRadius = "5px";
+        supportBadge.style.cursor = "pointer"
         
         welcomingBadge.style.backgroundColor = "#fff";
         welcomingBadge.style.borderBottom = "0px";
-        welcomingBadge.style.borderBottomLeftRadius = "0px"
+        welcomingBadge.style.borderBottomLeftRadius = "0px";
+        welcomingBadge.style.cursor = "default";
         
         document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
     }, false);
-    createCommitChart()
-    createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
-    createTooltip('This is a tooltip in a span as an example')
+    // createCommitChart()
+    // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
+    // createTooltip('This is a tooltip in a span as an example')
     //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
     // createCheckModel('Title', true)
 }
