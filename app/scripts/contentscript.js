@@ -13,7 +13,8 @@ import progressbarissue from './progressbarissue.js';
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 import tool_tip from './question_tooltip.js';
-import hubcare from './hubcare'
+import hubcare from './hubcare';
+import supportPage from './supportPage';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -248,7 +249,7 @@ const insertBadges = (data) => {
 /*
  * Creates the progress bar regarding issues
  */
-const insertProgressBar = (activity, forgotten) => {
+const insertProgressBar = (activity, forgotten, element) => {
     let issueprogressbar = document.createElement('div')
     issueprogressbar.innerHTML = progressbarissue()
     //Calculate percentage bar
@@ -256,8 +257,7 @@ const insertProgressBar = (activity, forgotten) => {
     let activityPercent = (activity*100)/total;
 
     //Add div to the page main class 
-    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
-        .appendChild(issueprogressbar)
+    document.getElementById(element).appendChild(issueprogressbar)
     document.documentElement.style
         .setProperty('--progress', activityPercent);
         
@@ -379,6 +379,10 @@ const init_with_no_request = () => {
         }, false);
     }
 }
+const createSupportPage = () =>{
+    document.getElementById('hubcare-content').innerHTML = supportPage();
+    insertProgressBar(14,16,'issue-activity')
+}
 
 const hubcarePage = () => {
     cleanPageContent()
@@ -409,7 +413,7 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "0px"
         
-        document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+        document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
         console.log('test');
@@ -425,8 +429,9 @@ const hubcarePage = () => {
         welcomingBadge.style.backgroundColor = "#f6f8fa";
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "5px"
-
-        document.getElementById('hubcare-content').innerHTML = "<div>test2</div>"
+        
+        createSupportPage();
+        
     }, false);
     document.getElementById('my-badge3').addEventListener("click", function() {
         console.log('test')
@@ -448,9 +453,10 @@ const hubcarePage = () => {
     createCommitChart()
     createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
     createTooltip('This is a tooltip in a span as an example')
-    insertProgressBar(10,30)
+    //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
     createCheckModel('Title', true)
 }
+
 
 $(document).on('pjax:complete', () => {
     if(metrics[0].active_indicator == null){
