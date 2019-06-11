@@ -22,15 +22,7 @@ let accessToken = null;
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-var metrics = [{
-    active_indicator: null,
-    welcoming_indicator: null,
-    support_indicator: null,
-    commit_graph: {
-        x_axis: null,
-        y_axis: null
-    }
-}]
+var metrics = null
 var popup_key = ""
 
 /**
@@ -77,13 +69,13 @@ function createCommitChart(){
         },
         xAxis: {
             type: 'category',
-            data: metrics[0].commit_graph.x_axis
+            data: metrics.commit_graph.x_axis
         },
         yAxis: {
             type: 'value'
         },
         series: [{
-            data: metrics[0].commit_graph.y_axis,
+            data: metrics.commit_graph.y_axis,
             type: 'line'
             
         }]
@@ -233,19 +225,17 @@ const insertActivityIndicator = () => {
  * @param {json} data
  */
 const insertBadges = (data) => {
-    metrics[0].active_indicator = data.active_indicator
-    metrics[0].support_indicator = data.support_indicator
-    metrics[0].welcoming_indicator = data.welcoming_indicator
-    metrics[0].commit_graph.x_axis = data.commit_graph.x_axis
-    metrics[0].commit_graph.y_axis = data.commit_graph.y_axis
+    metrics = data;
+   
+    
     
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
-    createBadge("Active", data.active_indicator, 'my-badge')
-    createBadge("Support", data.support_indicator, 'my-badge2')
-    createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+    createBadge("Active", data.indicators.active_indicator, 'my-badge')
+    createBadge("Support", data.indicators.support_indicator, 'my-badge2')
+    createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3')
 }
 
 /*
@@ -425,7 +415,7 @@ const init_with_no_request = () => {
         }
         insertActivityIndicator()
         insertButton()
-        insertBadges(metrics[0])
+        insertBadges(metrics)
         buttonOnClick()
 
         document.getElementById('hubcare-button').addEventListener("click", function() {
@@ -435,14 +425,14 @@ const init_with_no_request = () => {
 }
 const createSupportPage = () =>{
     document.getElementById('hubcare-content').innerHTML = supportPage();
-    insertProgressBar(14,16,'issue-activity');
-    createCheckModel('Recent Release Note', true, 'release-note')
-    createCheckModel('Have a License', true, 'license')
-    createCheckModel('Have a README', true, 'readme')
-    createCheckModel('Have a Code of Conduct', true, 'code-conduct')
-    createCheckModel('Have a Issue Template', true, 'issue-template')
-    createCheckModel('Have a Description', true, 'description')
-    ProgressBarFunction(2, 5, "Issue Activity Rate to get a High Score", "issue-activity-rate")
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity');
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createCheckModel('Have a License', metrics.community_metric.license, 'license')
+    createCheckModel('Have a README', metrics.community_metric.readme, 'readme')
+    createCheckModel('Have a Code of Conduct', metrics.community_metric.code_of_conduct, 'code-conduct')
+    createCheckModel('Have a Issue Template', metrics.community_metric.issue_template, 'issue-template')
+    createCheckModel('Have a Description', metrics.community_metric.description, 'description')
+    ProgressBarFunction(parseFloat(metrics.issue_metric.activity_max_rate), parseFloat(metrics.issue_metric.activity_rate), "Issue Activity Rate to get a High Score", "issue-activity-rate")
 }
 
 const hubcarePage = () => {
@@ -452,9 +442,9 @@ const hubcarePage = () => {
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    createBadge("Active", metrics[0].active_indicator, 'my-badge')
-    createBadge("Support", metrics[0].support_indicator, 'my-badge2')
-    createBadge("Welcoming", metrics[0].welcoming_indicator, 'my-badge3')
+    createBadge("Active", metrics.indicators.active_indicator, 'my-badge')
+    createBadge("Support", metrics.indicators.support_indicator, 'my-badge2')
+    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
@@ -530,7 +520,7 @@ const hubcarePage = () => {
 
 
 $(document).on('pjax:complete', () => {
-    if(metrics[0].active_indicator == null){
+    if(metrics.indicators.active_indicator == null){
         init()
     }
     else {
