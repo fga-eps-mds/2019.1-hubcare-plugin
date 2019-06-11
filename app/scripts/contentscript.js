@@ -10,6 +10,7 @@ import badge from 'project-badge/dist/badge.js';
 import button from './button.js';
 import loading from './loading.js';
 import progressbarissue from './progressbarissue.js';
+import progressbarfunction from './progressbarfunction.js'
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 import tool_tip from './question_tooltip.js';
@@ -279,6 +280,59 @@ const insertProgressBar = (activity, forgotten) => {
     document.getElementById("forg").textContent= forgotten;
 }
 
+/*
+ * Creates the progress bar function
+ */
+const ProgressBarFunction = (partial, full, text) => {
+    let progressbar = document.createElement('div')
+    progressbar.innerHTML = progressbarfunction()
+    //Calculate percentage bar
+    let generic_rate = (partial*100)/full;
+
+    //Add div to the page main class
+    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
+        .appendChild(progressbar)
+    document.documentElement.style
+        .setProperty('--progressfunction', generic_rate);
+
+    //Create table to format the description
+    document.getElementById("barfunction").innerHTML = [
+    '<div style="float: justify">',
+    '<TABLE BORDER=0>',
+        '<TR>',
+        '<h1 id="text" style="text-align:left; font-size: 20px"></h1>',
+        '</TR>',
+    '</TABLE>',
+    '</div>',
+
+    '<div style="float: left">',
+    '<TABLE BORDER=0>',
+        '<TR>',
+            '<TD id="partial" ALIGN=MIDDLE style= "font-size: 23px; padding-right: 15px"></TD>',
+        '</TR>',
+    '</TABLE>',
+    '</div>',
+
+    '<div style="float: left">',
+    '<TABLE>',
+        '<TR>',
+            '<TD>',
+            '<TH id="full" ALIGN=RIGHT> </TH>',
+            '</TD>',
+        '</TR>',
+    '</TABLE>',
+    '</div>',
+    ].join("\n");
+
+    //Convertion from variable number type to string type
+    partial= partial.toString();
+    full = full.toString();
+    text = text.toString();
+
+    document.getElementById("partial").textContent = partial + " / " + full;
+    document.getElementById("text").textContent = text;
+}
+
 /**
  * Create hubcare button in repository nav
  */
@@ -446,6 +500,8 @@ const hubcarePage = () => {
         document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
     }, false);
     createCommitChart()
+    //insertProgressBar(10,30)
+    ProgressBarFunction(2, 5, "Test text")
     createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
     createTooltip('This is a tooltip in a span as an example')
     insertProgressBar(10,30)
