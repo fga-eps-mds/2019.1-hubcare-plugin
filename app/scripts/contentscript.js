@@ -172,9 +172,10 @@ const createPullRequestChart = (data) => {
 /**
  * Create check model for the report element.
  */
-function createCheckModel(text, boolCheck){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
+function createCheckModel(text, boolCheck, elementId){
+    // var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
+    // var repoContent = document.getElementsByClassName("repository-content")
+    let element = document.getElementById(elementId);
     var node = document.createElement('div')
     var title = document.createElement('h2')
     var title_text = document.createTextNode(text)
@@ -182,12 +183,12 @@ function createCheckModel(text, boolCheck){
     title.appendChild(title_text)
     if(boolCheck == true){
         node.innerHTML = check_true()
-        content[0].insertBefore(title, repoContent[0])  
-        content[0].insertBefore(node, repoContent[0])
+        element.appendChild(title)  
+        element.appendChild(node)
     } else {
         node.innerHTML = check_false()
-        content[0].insertBefore(title, repoContent[0])    
-        content[0].insertBefore(node, repoContent[0])
+        element.appendChild(title)    
+        element.appendChild(node)
     }
 }
 
@@ -381,7 +382,13 @@ const init_with_no_request = () => {
 }
 const createSupportPage = () =>{
     document.getElementById('hubcare-content').innerHTML = supportPage();
-    insertProgressBar(14,16,'issue-activity')
+    insertProgressBar(14,16,'issue-activity');
+    createCheckModel('Recent Release Note', true, 'release-note')
+    createCheckModel('Have a License', true, 'license')
+    createCheckModel('Have a README', true, 'readme')
+    createCheckModel('Have a Code of Conduct', true, 'code-conduct')
+    createCheckModel('Have a Issue Template', true, 'issue-template')
+    createCheckModel('Have a Description', true, 'description')
 }
 
 const hubcarePage = () => {
@@ -454,7 +461,7 @@ const hubcarePage = () => {
     createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
     createTooltip('This is a tooltip in a span as an example')
     //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
-    createCheckModel('Title', true)
+    // createCheckModel('Title', true)
 }
 
 
