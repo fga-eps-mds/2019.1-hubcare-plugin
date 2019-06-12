@@ -25,7 +25,7 @@ export default (value, title, genericRate, element, tooltipText) => [
 
 	'<div style="width:400px;"><h1 style="text-align: center;"></h1>',
 	'	<div id="barfunction">',
-	'		<div style="float: justify; height:40px;">',
+	'		<div style="float: justify;">',
 	'			<TABLE BORDER=0>',
 	'				<TR>',
 	'				<h1 id="text" style="text-align:left; font-size: 20px; display: inline;">',
