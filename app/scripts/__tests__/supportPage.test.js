@@ -1,4 +1,4 @@
-import supportPage from '../supportPage.js';
+import supportPage from '../supportPage';
 
 test('test support page function', async () => {
     let testSupportPage = [

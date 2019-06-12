@@ -1,4 +1,4 @@
-import progressbarfunction from '../progressbarfunction.js';
+import progressbarfunction from '../progressbarfunction';
 
 test('test the progress bar function', async () => {
     let teste_progressbarfunction = [

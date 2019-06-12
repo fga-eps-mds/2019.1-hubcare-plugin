@@ -1,4 +1,4 @@
-import progressbarissue from '../progressbarissue.js';
+import progressbarissue from '../progressbarissue';
 
 test('test the progress bar issue', async () => {
     let teste_progressbarissue = [
