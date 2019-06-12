@@ -1,4 +1,3 @@
-// import * as $ from 'jquery';
 const $ = require('jquery');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
@@ -13,24 +12,26 @@ import progressbarissue from './progressbarissue.js';
 import progressbarfunction from './progressbarfunction.js'
 import check_true from './check_true.js';
 import check_false from './check_false.js';
-import tool_tip from './question_tooltip.js';
-import hubcare from './hubcare'
+import hubcare from './hubcare';
+import supportPage from './supportPage';
+import checkTooltip from './checkTooltip';
 
 const repoName = window.location.pathname;
 let accessToken = null;
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
-var metrics = [{
-    active_indicator: null,
-    welcoming_indicator: null,
-    support_indicator: null,
-    commit_graph: {
-        x_axis: null,
-        y_axis: null
-    }
-}]
+var metrics = null
 var popup_key = ""
+let toolticText = {
+    'release-note': '“Recent” mean a Release in the last 90 days',
+    'license': 'The License must follows standart GitHub License file name',
+    'readme': 'The README must follows standart GitHub Readme file name',
+    'code-conduct': 'The Code of Conduct must follows standart GitHub file name for it',
+    'issue-template': 'Issue Templates must be recognized bt GitHub as templates',
+    'description': 'Description of this repository',
+    'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days'
+}
 
 /**
  * Return url to hubcare api
@@ -76,13 +77,13 @@ function createCommitChart(){
         },
         xAxis: {
             type: 'category',
-            data: metrics[0].commit_graph.x_axis
+            data: metrics.commit_graph.x_axis
         },
         yAxis: {
             type: 'value'
         },
         series: [{
-            data: metrics[0].commit_graph.y_axis,
+            data: metrics.commit_graph.y_axis,
             type: 'line'
             
         }]
@@ -172,39 +173,31 @@ const createPullRequestChart = (data) => {
 /**
  * Create check model for the report element.
  */
-function createCheckModel(text, boolCheck){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
-    var node = document.createElement('div')
-    var title = document.createElement('h2')
-    var title_text = document.createTextNode(text)
-    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
-    title.appendChild(title_text)
+function createCheckModel(text, boolCheck, elementId){
+    let element = document.getElementById(elementId);
+    let node = document.createElement('div')
+    let tooltip = document.createElement('div');
+    tooltip.innerHTML = checkTooltip(text, toolticText[elementId]);
     if(boolCheck == true){
         node.innerHTML = check_true()
-        content[0].insertBefore(title, repoContent[0])  
-        content[0].insertBefore(node, repoContent[0])
+        element.appendChild(tooltip) 
+        element.appendChild(node)
     } else {
         node.innerHTML = check_false()
-        content[0].insertBefore(title, repoContent[0])    
-        content[0].insertBefore(node, repoContent[0])
+        element.appendChild(tooltip) 
+        element.appendChild(node)
     }
 }
 
 /**
  * Create tooltip with questionMark Icon for the report element
  */
-function createTooltip(text){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
-    var node = document.createElement('div')
-    var span_text = document.createTextNode(text)
+function addTooltipImages(){
     var myImage = chrome.extension.getURL("../images/questionMark.svg")
-    node.style = ('text-align: center')
-    node.innerHTML = tool_tip()
-    content[0].insertBefore(node, repoContent[0])
-    document.getElementById('id_img_questionMark').src = myImage
-    document.getElementById('span_question_mark').appendChild(span_text)
+    let node = document.getElementsByClassName('id_img_questionMark');
+    for (let i = 0; i < node.length; i++) {
+        node[i].src = myImage;
+    }
 }
 
 /**
@@ -231,106 +224,49 @@ const insertActivityIndicator = () => {
  * @param {json} data
  */
 const insertBadges = (data) => {
-    metrics[0].active_indicator = data.active_indicator
-    metrics[0].support_indicator = data.support_indicator
-    metrics[0].welcoming_indicator = data.welcoming_indicator
-    metrics[0].commit_graph.x_axis = data.commit_graph.x_axis
-    metrics[0].commit_graph.y_axis = data.commit_graph.y_axis
-    
+    metrics = data;
+ 
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
-    createBadge("Active", data.active_indicator, 'my-badge')
-    createBadge("Support", data.support_indicator, 'my-badge2')
-    createBadge("Welcoming", data.welcoming_indicator, 'my-badge3')
+    createBadge("Active", data.indicators.active_indicator, 'my-badge')
+    createBadge("Support", data.indicators.support_indicator, 'my-badge2')
+    createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3')
 }
 
 /*
  * Creates the progress bar regarding issues
  */
-const insertProgressBar = (activity, forgotten) => {
-    let issueprogressbar = document.createElement('div')
-    issueprogressbar.innerHTML = progressbarissue()
+const insertProgressBar = (activity, forgotten, element) => {
     //Calculate percentage bar
     let total = activity + forgotten;
     let activityPercent = (activity*100)/total;
 
-    //Add div to the page main class 
-    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
-        .appendChild(issueprogressbar)
-    document.documentElement.style
-        .setProperty('--progress', activityPercent);
-        
-    //Create table to format the description
-    document.getElementById("bar").innerHTML = [
-    '<TABLE BORDER=0>',
-    '<TR>',
-    '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
-    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X forgotten</TD>',
-    '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
-    '</TR>',
-    '</TABLE>',  
-    ].join("\n");
+    let issueprogressbar = document.createElement('div');
+    issueprogressbar.innerHTML = progressbarissue(activity, forgotten, activityPercent, element);
 
-    //Convertion from variable number type to string type
-    activity= activity.toString();
-    forgotten = forgotten.toString();
-    document.getElementById("act").textContent= activity;
-    document.getElementById("forg").textContent= forgotten;
+    //Add div to the page main class 
+    document.getElementById(element).appendChild(issueprogressbar)
 }
 
 /*
- * Creates the progress bar function
+ * Create progress bar
  */
-const ProgressBarFunction = (partial, full, text) => {
-    let progressbar = document.createElement('div')
-    progressbar.innerHTML = progressbarfunction()
+const ProgressBarFunction = (partial, full, text, element) => {
     //Calculate percentage bar
-    let generic_rate = (partial*100)/full;
+    let genericRate = (partial*100)/full;
+    if(partial > full){
+        genericRate = (full*100)/full;
+
+    }
+    
+
+    let progressbar = document.createElement('div')
+    progressbar.innerHTML = progressbarfunction(partial + " / " + full, text, genericRate, element, toolticText[element])
 
     //Add div to the page main class
-    document.getElementsByClassName('container new-discussion-timeline experiment-repo-nav')[0]
-        .appendChild(progressbar)
-    document.documentElement.style
-        .setProperty('--progressfunction', generic_rate);
-
-    //Create table to format the description
-    document.getElementById("barfunction").innerHTML = [
-    '<div style="float: justify">',
-    '<TABLE BORDER=0>',
-        '<TR>',
-        '<h1 id="text" style="text-align:left; font-size: 20px"></h1>',
-        '</TR>',
-    '</TABLE>',
-    '</div>',
-
-    '<div style="float: left">',
-    '<TABLE BORDER=0>',
-        '<TR>',
-            '<TD id="partial" ALIGN=MIDDLE style= "font-size: 23px; padding-right: 15px"></TD>',
-        '</TR>',
-    '</TABLE>',
-    '</div>',
-
-    '<div style="float: left">',
-    '<TABLE>',
-        '<TR>',
-            '<TD>',
-            '<TH id="full" ALIGN=RIGHT> </TH>',
-            '</TD>',
-        '</TR>',
-    '</TABLE>',
-    '</div>',
-    ].join("\n");
-
-    //Convertion from variable number type to string type
-    partial= partial.toString();
-    full = full.toString();
-    text = text.toString();
-
-    document.getElementById("partial").textContent = partial + " / " + full;
-    document.getElementById("text").textContent = text;
+    document.getElementById(element).appendChild(progressbar)
 }
 
 /**
@@ -425,13 +361,25 @@ const init_with_no_request = () => {
         }
         insertActivityIndicator()
         insertButton()
-        insertBadges(metrics[0])
+        insertBadges(metrics)
         buttonOnClick()
 
         document.getElementById('hubcare-button').addEventListener("click", function() {
             hubcarePage()
         }, false);
     }
+}
+const createSupportPage = () =>{
+    document.getElementById('hubcare-content').innerHTML = supportPage();
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity');
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createCheckModel('Have a License', metrics.community_metric.license, 'license')
+    createCheckModel('Have a README', metrics.community_metric.readme, 'readme')
+    createCheckModel('Have a Code of Conduct', metrics.community_metric.code_of_conduct, 'code-conduct')
+    createCheckModel('Have a Issue Template', metrics.community_metric.issue_template, 'issue-template')
+    createCheckModel('Have a Description', metrics.community_metric.description, 'description')
+    ProgressBarFunction(parseFloat(metrics.issue_metric.activity_rate), parseFloat(metrics.issue_metric.activity_max_rate),  "Issue Activity Rate to get a High Score", "issue-activity-rate")
+    addTooltipImages();
 }
 
 const hubcarePage = () => {
@@ -441,75 +389,84 @@ const hubcarePage = () => {
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    createBadge("Active", metrics[0].active_indicator, 'my-badge')
-    createBadge("Support", metrics[0].support_indicator, 'my-badge2')
-    createBadge("Welcoming", metrics[0].welcoming_indicator, 'my-badge3')
+    createBadge("Active", metrics.indicators.active_indicator, 'my-badge')
+    createBadge("Support", metrics.indicators.support_indicator, 'my-badge2')
+    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
     document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+    activeBadge.style.cursor = "default";
+    supportBadge.style.cursor = "pointer";
+    welcomingBadge.style.cursor = "pointer";
     document.getElementById('my-badge').addEventListener("click", function() {
-        console.log('test')
         activeBadge.style.backgroundColor = "#fff";
         activeBadge.style.borderBottom = "0px";
-        activeBadge.style.borderBottomRightRadius = "0px"
+        activeBadge.style.borderBottomRightRadius = "0px";
+        activeBadge.style.cursor = "default";
         
         supportBadge.style.backgroundColor = "#f6f8fa"
         supportBadge.style.borderBottom = "1px solid #d1d5da"
         supportBadge.style.borderBottomLeftRadius = "5px"
         supportBadge.style.borderBottomRightRadius = "0px"
+        supportBadge.style.cursor = "pointer";
         
         welcomingBadge.style.backgroundColor = "#f6f8fa";
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "0px"
+        welcomingBadge.style.cursor = "pointer";
         
-        document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+        document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
-        console.log('test');
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
-        activeBadge.style.borderBottomRightRadius = "5px"
+        activeBadge.style.borderBottomRightRadius = "5px";
+        activeBadge.style.cursor = "pointer";
         
         supportBadge.style.backgroundColor = "#fff"
         supportBadge.style.borderBottom = "0px"
         supportBadge.style.borderBottomLeftRadius = "0px"
         supportBadge.style.borderBottomRightRadius = "0px"
+        supportBadge.style.cursor = "default";
         
         welcomingBadge.style.backgroundColor = "#f6f8fa";
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
-        welcomingBadge.style.borderBottomLeftRadius = "5px"
-
-        document.getElementById('hubcare-content').innerHTML = "<div>test2</div>"
+        welcomingBadge.style.borderBottomLeftRadius = "5px";
+        welcomingBadge.style.cursor = "pointer";
+        
+        createSupportPage();
+        
     }, false);
     document.getElementById('my-badge3').addEventListener("click", function() {
-        console.log('test')
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
-        activeBadge.style.borderBottomRightRadius = "5px"
+        activeBadge.style.borderBottomRightRadius = "5px";
+        activeBadge.style.cursor = "pointer";
         
-        supportBadge.style.backgroundColor = "#f6f8fa"
-        supportBadge.style.borderBottom = "1px solid #d1d5da"
-        supportBadge.style.borderBottomLeftRadius = "0px"
-        supportBadge.style.borderBottomRightRadius = "5px"
+        supportBadge.style.backgroundColor = "#f6f8fa";
+        supportBadge.style.borderBottom = "1px solid #d1d5da";
+        supportBadge.style.borderBottomLeftRadius = "0px";
+        supportBadge.style.borderBottomRightRadius = "5px";
+        supportBadge.style.cursor = "pointer"
         
         welcomingBadge.style.backgroundColor = "#fff";
         welcomingBadge.style.borderBottom = "0px";
-        welcomingBadge.style.borderBottomLeftRadius = "0px"
+        welcomingBadge.style.borderBottomLeftRadius = "0px";
+        welcomingBadge.style.cursor = "default";
         
         document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
     }, false);
-    createCommitChart()
-    //insertProgressBar(10,30)
-    ProgressBarFunction(2, 5, "Test text")
-    createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
-    createTooltip('This is a tooltip in a span as an example')
-    insertProgressBar(10,30)
-    createCheckModel('Title', true)
+    // createCommitChart()
+    // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
+    //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
+    // createCheckModel('Title', true)
+    // ProgressBarFunction(2, 5, "Test text")
 }
 
+
 $(document).on('pjax:complete', () => {
-    if(metrics[0].active_indicator == null){
+    if(metrics.indicators.active_indicator == null){
         init()
     }
     else {
