@@ -1,4 +1,3 @@
-// import * as $ from 'jquery';
 const $ = require('jquery');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
@@ -13,9 +12,9 @@ import progressbarissue from './progressbarissue.js';
 import progressbarfunction from './progressbarfunction.js'
 import check_true from './check_true.js';
 import check_false from './check_false.js';
-import tool_tip from './question_tooltip.js';
 import hubcare from './hubcare';
 import supportPage from './supportPage';
+import checkTooltip from './checkTooltip';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -24,6 +23,15 @@ var content = saveClass("new-discussion-timeline experiment-repo-nav")
 var repoContent = saveClass("repository-content")
 var metrics = null
 var popup_key = ""
+let toolticText = {
+    'release-note': '“Recent” mean a Release in the last 90 days',
+    'license': 'The License must follows standart GitHub License file name',
+    'readme': 'The README must follows standart GitHub Readme file name',
+    'code-conduct': 'The Code of Conduct must follows standart GitHub file name for it',
+    'issue-template': 'Issue Templates must be recognized bt GitHub as templates',
+    'description': 'Description of this repository',
+    'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days'
+}
 
 /**
  * Return url to hubcare api
@@ -166,21 +174,17 @@ const createPullRequestChart = (data) => {
  * Create check model for the report element.
  */
 function createCheckModel(text, boolCheck, elementId){
-    // var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    // var repoContent = document.getElementsByClassName("repository-content")
     let element = document.getElementById(elementId);
-    var node = document.createElement('div')
-    var title = document.createElement('h2')
-    var title_text = document.createTextNode(text)
-    title.style = ('text-align: center; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;')
-    title.appendChild(title_text)
+    let node = document.createElement('div')
+    let tooltip = document.createElement('div');
+    tooltip.innerHTML = checkTooltip(text, toolticText[elementId]);
     if(boolCheck == true){
         node.innerHTML = check_true()
-        element.appendChild(title)  
+        element.appendChild(tooltip) 
         element.appendChild(node)
     } else {
         node.innerHTML = check_false()
-        element.appendChild(title)    
+        element.appendChild(tooltip) 
         element.appendChild(node)
     }
 }
@@ -188,17 +192,12 @@ function createCheckModel(text, boolCheck, elementId){
 /**
  * Create tooltip with questionMark Icon for the report element
  */
-function createTooltip(text){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
-    var node = document.createElement('div')
-    var span_text = document.createTextNode(text)
+function addTooltipImages(){
     var myImage = chrome.extension.getURL("../images/questionMark.svg")
-    node.style = ('text-align: center')
-    node.innerHTML = tool_tip()
-    content[0].insertBefore(node, repoContent[0])
-    document.getElementById('id_img_questionMark').src = myImage
-    document.getElementById('span_question_mark').appendChild(span_text)
+    let node = document.getElementsByClassName('id_img_questionMark');
+    for (let i = 0; i < node.length; i++) {
+        node[i].src = myImage;
+    }
 }
 
 /**
@@ -226,9 +225,7 @@ const insertActivityIndicator = () => {
  */
 const insertBadges = (data) => {
     metrics = data;
-   
-    
-    
+ 
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
@@ -242,85 +239,29 @@ const insertBadges = (data) => {
  * Creates the progress bar regarding issues
  */
 const insertProgressBar = (activity, forgotten, element) => {
-    let issueprogressbar = document.createElement('div')
-    issueprogressbar.innerHTML = progressbarissue()
     //Calculate percentage bar
     let total = activity + forgotten;
     let activityPercent = (activity*100)/total;
 
+    let issueprogressbar = document.createElement('div');
+    issueprogressbar.innerHTML = progressbarissue(activity, forgotten, activityPercent, element);
+
     //Add div to the page main class 
     document.getElementById(element).appendChild(issueprogressbar)
-    document.documentElement.style
-        .setProperty('--progress', activityPercent);
-        
-    //Create table to format the description
-    document.getElementById("bar").innerHTML = [
-    '<TABLE BORDER=0>',
-    '<TR>',
-    '<TD id="act" WIDTH=100 style="font-size: 18px"> </TD>',  
-    '<TD ALIGN=MIDDLE WIDTH=200 style= "font-size: 20px"> Activity X Forgotten</TD>',
-    '<TD id="forg"ALIGN=RIGHT WIDTH=100 style="font-size: 18px"> </TD>',
-    '</TR>',
-    '</TABLE>',  
-    ].join("\n");
-
-    //Convertion from variable number type to string type
-    activity= activity.toString();
-    forgotten = forgotten.toString();
-    document.getElementById("act").textContent= activity;
-    document.getElementById("forg").textContent= forgotten;
 }
 
 /*
- * Creates the progress bar function
+ * Create progress bar
  */
 const ProgressBarFunction = (partial, full, text, element) => {
-    let progressbar = document.createElement('div')
-    progressbar.innerHTML = progressbarfunction()
     //Calculate percentage bar
-    let generic_rate = (partial*100)/full;
+    let genericRate = (partial*100)/full;
+
+    let progressbar = document.createElement('div')
+    progressbar.innerHTML = progressbarfunction(partial + " / " + full, text, genericRate, element, toolticText[element])
 
     //Add div to the page main class
     document.getElementById(element).appendChild(progressbar)
-    document.documentElement.style
-        .setProperty('--progressfunction', generic_rate);
-
-    //Create table to format the description
-    document.getElementById("barfunction").innerHTML = [
-    '<div style="float: justify">',
-    '<TABLE BORDER=0>',
-        '<TR>',
-        '<h1 id="text" style="text-align:left; font-size: 20px"></h1>',
-        '</TR>',
-    '</TABLE>',
-    '</div>',
-
-    '<div style="float: left">',
-    '<TABLE BORDER=0>',
-        '<TR>',
-            '<TD id="partial" ALIGN=MIDDLE style= "font-size: 23px; padding-right: 15px"></TD>',
-        '</TR>',
-    '</TABLE>',
-    '</div>',
-
-    '<div style="float: left">',
-    '<TABLE>',
-        '<TR>',
-            '<TD>',
-            '<TH id="full" ALIGN=RIGHT> </TH>',
-            '</TD>',
-        '</TR>',
-    '</TABLE>',
-    '</div>',
-    ].join("\n");
-
-    //Convertion from variable number type to string type
-    partial= partial.toString();
-    full = full.toString();
-    text = text.toString();
-
-    document.getElementById("partial").textContent = partial + " / " + full;
-    document.getElementById("text").textContent = text;
 }
 
 /**
@@ -433,6 +374,7 @@ const createSupportPage = () =>{
     createCheckModel('Have a Issue Template', metrics.community_metric.issue_template, 'issue-template')
     createCheckModel('Have a Description', metrics.community_metric.description, 'description')
     ProgressBarFunction(parseFloat(metrics.issue_metric.activity_max_rate), parseFloat(metrics.issue_metric.activity_rate), "Issue Activity Rate to get a High Score", "issue-activity-rate")
+    addTooltipImages();
 }
 
 const hubcarePage = () => {
@@ -512,7 +454,6 @@ const hubcarePage = () => {
     }, false);
     // createCommitChart()
     // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
-    // createTooltip('This is a tooltip in a span as an example')
     //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
     // createCheckModel('Title', true)
     // ProgressBarFunction(2, 5, "Test text")

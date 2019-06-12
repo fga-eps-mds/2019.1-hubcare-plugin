@@ -1,7 +1,6 @@
 export default () => [
     '<style>',
     '.issue-activity{',
-    '   text-align: center;',
     '   height:120px;',
     '   margin-left:30%;',
     '}',
