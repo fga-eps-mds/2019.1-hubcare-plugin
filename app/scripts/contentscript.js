@@ -470,7 +470,7 @@ const hubcarePage = () => {
     document.getElementById('my-badge3').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
-        activeBadge.style.borderBottomRightRadius = "5px";
+        activeBadge.style.borderBottomRightRadius = "0px";
         activeBadge.style.cursor = "pointer";
         
         supportBadge.style.backgroundColor = "#f6f8fa";
