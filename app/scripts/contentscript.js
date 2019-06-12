@@ -256,6 +256,11 @@ const insertProgressBar = (activity, forgotten, element) => {
 const ProgressBarFunction = (partial, full, text, element) => {
     //Calculate percentage bar
     let genericRate = (partial*100)/full;
+    if(partial > full){
+        genericRate = (full*100)/full;
+
+    }
+    
 
     let progressbar = document.createElement('div')
     progressbar.innerHTML = progressbarfunction(partial + " / " + full, text, genericRate, element, toolticText[element])
@@ -373,7 +378,7 @@ const createSupportPage = () =>{
     createCheckModel('Have a Code of Conduct', metrics.community_metric.code_of_conduct, 'code-conduct')
     createCheckModel('Have a Issue Template', metrics.community_metric.issue_template, 'issue-template')
     createCheckModel('Have a Description', metrics.community_metric.description, 'description')
-    ProgressBarFunction(parseFloat(metrics.issue_metric.activity_max_rate), parseFloat(metrics.issue_metric.activity_rate), "Issue Activity Rate to get a High Score", "issue-activity-rate")
+    ProgressBarFunction(parseFloat(metrics.issue_metric.activity_rate), parseFloat(metrics.issue_metric.activity_max_rate),  "Issue Activity Rate to get a High Score", "issue-activity-rate")
     addTooltipImages();
 }
 
