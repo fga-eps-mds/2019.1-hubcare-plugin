@@ -15,6 +15,7 @@ import check_false from './check_false.js';
 import hubcare from './hubcare';
 import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
+import welcomingPage from './welcomingPage';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -30,7 +31,14 @@ let toolticText = {
     'code-conduct': 'The Code of Conduct must follows standart GitHub file name for it',
     'issue-template': 'Issue Templates must be recognized bt GitHub as templates',
     'description': 'Description of this repository',
-    'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days'
+    'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days',
+    'different-contributors': '',
+    'help-wanted': '',
+    'good-first-issue': '',
+    'contribution-guide': '',
+    'pull-request-template': '',
+    'pull-request-graph': '',
+    'pull-request-quality': '',
 }
 
 /**
@@ -137,12 +145,11 @@ const createLabel = (score) => {
 /**
  * Create pull request graph
  */
-const createPullRequestChart = (data) => {
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
+const createPullRequestChart = (data, element) => {
+    var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
-    content[0].insertBefore(node, repoContent[0])
+    content.appendChild(node)
     var myChart = echarts.init(document.getElementById('my-graph'))
     let option = {
         tooltip: {
@@ -382,6 +389,27 @@ const createSupportPage = () =>{
     addTooltipImages();
 }
 
+const createWelcomingPage = () =>{
+    document.getElementById('hubcare-content').innerHTML = welcomingPage();
+    ProgressBarFunction(metrics.commit_metric.differents_authors, 4,  "Number of Different Contributors to get a High Score", "different-contributors")
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity-rate');
+    ProgressBarFunction(parseFloat(metrics.issue_metric.help_wanted_rate), parseFloat(metrics.issue_metric.help_wanted_max_rate), "Help-Wanted Issues Rate to get a High Score", "help-wanted")
+    ProgressBarFunction(parseFloat(metrics.issue_metric.good_first_issue_rate), parseFloat(metrics.issue_metric.good_first_issue_max_rate), "Good-First-Issues Rate to get a High Score", "good-first-issue")
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createCheckModel('Have a License', metrics.community_metric.license, 'license')
+    createCheckModel('Have a README', metrics.community_metric.readme, 'readme')
+    createCheckModel('Have a Code of Conduct', metrics.community_metric.code_of_conduct, 'code-conduct')
+    createCheckModel('Have a Issue Template', metrics.community_metric.issue_template, 'issue-template')
+    createCheckModel('Have a Description', metrics.community_metric.description, 'description')
+    createCheckModel('Have a Contribution Guide', metrics.community_metric.contribution_guide, 'contribution-guide')
+    createCheckModel('Have a Pull Request Template', metrics.community_metric.pull_request_template, 'pull-request-template')
+    createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
+    ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
+    addTooltipImages();
+
+
+}
+
 const hubcarePage = () => {
     cleanPageContent()
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
@@ -455,7 +483,7 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottomLeftRadius = "0px";
         welcomingBadge.style.cursor = "default";
         
-        document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
+        createWelcomingPage();
     }, false);
     // createCommitChart()
     // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
