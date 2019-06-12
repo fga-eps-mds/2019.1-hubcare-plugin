@@ -32,13 +32,13 @@ let toolticText = {
     'issue-template': 'Issue Templates must be recognized bt GitHub as templates',
     'description': 'Description of this repository',
     'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days',
-    'different-contributors': '',
-    'help-wanted': '',
-    'good-first-issue': '',
-    'contribution-guide': '',
-    'pull-request-template': '',
+    'different-contributors': 'This measures how many contributors are giving a hand to this repo',
+    'help-wanted': 'This measures the rate of issues labeled with “help wanted”',
+    'good-first-issue': 'This measures the rate of issues labeled with “good first issue”',
+    'contribution-guide': 'The Contribution Guide must follows the standart GitHub file name for it',
+    'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
     'pull-request-graph': '',
-    'pull-request-quality': '',
+    'pull-request-quality': 'This show how mainteners receive PRs on the repo',
 }
 
 /**
@@ -163,13 +163,13 @@ const createPullRequestChart = (data, element) => {
                 radius: ['0%', '55%'],
                 color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
                 data:[
-                    {value:data[0], name:'Old Open without comment', label:createLabel('0')},
-                    {value:data[1], name:'Refused without comment', label:createLabel('0.1')},
-                    {value:data[2], name:'Open with old comment', label:createLabel('0.3')},
+                    {value:data[6], name:'Old Open without comment', label:createLabel('0')},
+                    {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
+                    {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
                     {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
-                    {value:data[4], name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:data[5], name:'Merjed without comment', label:createLabel('0.9')},
-                    {value:data[6], name:'Merjed with comment', label:createLabel('1')}
+                    {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
+                    {value:data[1], name:'Merjed without comment', label:createLabel('0.9')},
+                    {value:data[0], name:'Merjed with comment', label:createLabel('1')}
                 ]
             }
         ]
@@ -391,8 +391,9 @@ const createSupportPage = () =>{
 
 const createWelcomingPage = () =>{
     document.getElementById('hubcare-content').innerHTML = welcomingPage();
-    ProgressBarFunction(metrics.commit_metric.differents_authors, 4,  "Number of Different Contributors to get a High Score", "different-contributors")
-    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity-rate');
+    ProgressBarFunction(metrics.commit_metric.differents_authors, 4,  "Number of Different Contributors to get a High Score", "different-contributors");
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity');
+    ProgressBarFunction(metrics.issue_metric.activity_rate, metrics.issue_metric.activity_max_rate,  "Issue Activity Rate to get a Hight Score", "issue-activity-rate");
     ProgressBarFunction(parseFloat(metrics.issue_metric.help_wanted_rate), parseFloat(metrics.issue_metric.help_wanted_max_rate), "Help-Wanted Issues Rate to get a High Score", "help-wanted")
     ProgressBarFunction(parseFloat(metrics.issue_metric.good_first_issue_rate), parseFloat(metrics.issue_metric.good_first_issue_max_rate), "Good-First-Issues Rate to get a High Score", "good-first-issue")
     createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
