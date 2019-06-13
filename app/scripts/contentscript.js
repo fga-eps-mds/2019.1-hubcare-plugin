@@ -49,6 +49,7 @@ const getApiUrl = (repoName) =>
     `https://hubcare.ml/hubcare_indicators${repoName}/`;
 
 function createBadge(text, progress, id){
+    badge.config({'font': '13px Helvetica', 'height': 20 })
     var myBadge = new badge.Progress({
         text: text,
         progress: progress
@@ -237,9 +238,9 @@ const insertBadges = (data) => {
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
-    createBadge("Active", data.indicators.active_indicator, 'my-badge')
-    createBadge("Support", data.indicators.support_indicator, 'my-badge2')
-    createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("active", data.indicators.active_indicator, 'my-badge')
+    createBadge("support", data.indicators.support_indicator, 'my-badge2')
+    createBadge("welcoming", data.indicators.welcoming_indicator, 'my-badge3')
 }
 
 /*
@@ -418,9 +419,9 @@ const hubcarePage = () => {
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    createBadge("Active", metrics.indicators.active_indicator, 'my-badge')
-    createBadge("Support", metrics.indicators.support_indicator, 'my-badge2')
-    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("active", metrics.indicators.active_indicator, 'my-badge')
+    createBadge("support", metrics.indicators.support_indicator, 'my-badge2')
+    createBadge("welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
