@@ -42,7 +42,7 @@ export default () => [
     '}',
     '</style>',
     '<div class="commit-element"></div>',
-    '<div class="contributors-element"></div>',
+    '<div id="different-contributors" class="contributors-element"></div>',
     '<div class="issue-element">',
     '   <div id="issue-activity" class="issue-activity"></div>',
     '   <div id="issue-activity-rate" class="issue-activity"></div>',

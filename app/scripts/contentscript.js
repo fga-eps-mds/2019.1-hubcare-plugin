@@ -372,6 +372,7 @@ const init_with_no_request = () => {
 
 const createActivityPage = () =>{
     document.getElementById('hubcare-content').innerHTML = activityPage();
+    ProgressBarFunction(metrics.commit_metric.differents_authors, 4,  "Number of Different Contributors to get a High Score", "different-contributors");
     insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity')
     ProgressBarFunction(parseFloat(metrics.issue_metric.activity_rate), parseFloat(metrics.issue_metric.activity_max_rate),  "Issue Activity Rate to get a High Score", "issue-activity-rate")
     createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
