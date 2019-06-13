@@ -13,9 +13,9 @@ import progressbarfunction from './progressbarfunction.js'
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 import hubcare from './hubcare';
+import activityPage from './activityPage';
 import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
-import activityPage from './activityPage';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -372,8 +372,9 @@ const init_with_no_request = () => {
 
 const createActivityPage = () =>{
     document.getElementById('hubcare-content').innerHTML = activityPage();
-    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
     createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
+    ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
 }
 
 
@@ -403,7 +404,6 @@ const hubcarePage = () => {
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
-    //document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
     createActivityPage();
     activeBadge.style.cursor = "default";
     supportBadge.style.cursor = "pointer";
@@ -424,9 +424,9 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "0px"
         welcomingBadge.style.cursor = "pointer";
-        
-        //document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
+
         createActivityPage();
+
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
