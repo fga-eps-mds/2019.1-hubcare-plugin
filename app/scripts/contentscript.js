@@ -372,6 +372,8 @@ const init_with_no_request = () => {
 
 const createActivityPage = () =>{
     document.getElementById('hubcare-content').innerHTML = activityPage();
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity')
+    ProgressBarFunction(parseFloat(metrics.issue_metric.activity_rate), parseFloat(metrics.issue_metric.activity_max_rate),  "Issue Activity Rate to get a High Score", "issue-activity-rate")
     createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
     ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
     createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
