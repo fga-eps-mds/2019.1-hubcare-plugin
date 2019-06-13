@@ -15,6 +15,7 @@ import check_false from './check_false.js';
 import hubcare from './hubcare';
 import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
+import activityPage from './activityPage';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -137,12 +138,11 @@ const createLabel = (score) => {
 /**
  * Create pull request graph
  */
-const createPullRequestChart = (data) => {
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
+const createPullRequestChart = (data, element) => {
+    var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
-    content[0].insertBefore(node, repoContent[0])
+    content.appendChild(node)
     var myChart = echarts.init(document.getElementById('my-graph'))
     let option = {
         tooltip: {
@@ -156,13 +156,13 @@ const createPullRequestChart = (data) => {
                 radius: ['0%', '55%'],
                 color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
                 data:[
-                    {value:data[0], name:'Old Open without comment', label:createLabel('0')},
-                    {value:data[1], name:'Refused without comment', label:createLabel('0.1')},
-                    {value:data[2], name:'Open with old comment', label:createLabel('0.3')},
+                    {value:data[6], name:'Old Open without comment', label:createLabel('0')},
+                    {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
+                    {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
                     {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
-                    {value:data[4], name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:data[5], name:'Merjed without comment', label:createLabel('0.9')},
-                    {value:data[6], name:'Merjed with comment', label:createLabel('1')}
+                    {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
+                    {value:data[1], name:'Merjed without comment', label:createLabel('0.9')},
+                    {value:data[0], name:'Merjed with comment', label:createLabel('1')}
                 ]
             }
         ]
@@ -369,6 +369,14 @@ const init_with_no_request = () => {
         }, false);
     }
 }
+
+const createActivityPage = () =>{
+    document.getElementById('hubcare-content').innerHTML = activityPage();
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
+}
+
+
 const createSupportPage = () =>{
     document.getElementById('hubcare-content').innerHTML = supportPage();
     insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity');
@@ -395,7 +403,8 @@ const hubcarePage = () => {
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
-    document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+    //document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+    createActivityPage();
     activeBadge.style.cursor = "default";
     supportBadge.style.cursor = "pointer";
     welcomingBadge.style.cursor = "pointer";
@@ -416,7 +425,8 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottomLeftRadius = "0px"
         welcomingBadge.style.cursor = "pointer";
         
-        document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
+        //document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
+        createActivityPage();
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
