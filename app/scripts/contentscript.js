@@ -13,6 +13,7 @@ import progressbarfunction from './progressbarfunction.js'
 import check_true from './check_true.js';
 import check_false from './check_false.js';
 import hubcare from './hubcare';
+import activityPage from './activityPage';
 import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
 import welcomingPage from './welcomingPage';
@@ -39,6 +40,7 @@ let toolticText = {
     'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
     'pull-request-graph': '',
     'pull-request-quality': 'This show how mainteners receive PRs on the repo',
+    'commit-highs': 'Active repo should have at least some commits, do not you think?',
 }
 
 /**
@@ -73,12 +75,11 @@ function cleanPageContent(){
     elementBadge3.parentNode.removeChild(elementBadge3)
 }
 
-function createCommitChart(){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
+function createCommitChart(element){
+    var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
-    content[0].insertBefore(node, repoContent[0])
+    content.appendChild(node)
     var myChart = echarts.init(document.getElementById('my-graph'))
     var option = {
         tooltip: {
@@ -377,6 +378,21 @@ const init_with_no_request = () => {
         }, false);
     }
 }
+
+const createActivityPage = () =>{
+    document.getElementById('hubcare-content').innerHTML = activityPage();
+    ProgressBarFunction(metrics.commit_metric.commits_high_score, 10, "Commit to get a High Score", "commit-highs");
+    ProgressBarFunction(metrics.commit_metric.differents_authors, 4,  "Number of Different Contributors to get a High Score", "different-contributors");
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity')
+    ProgressBarFunction(parseFloat(metrics.issue_metric.activity_rate), parseFloat(metrics.issue_metric.activity_max_rate),  "Issue Activity Rate to get a High Score", "issue-activity-rate")
+    createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
+    ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createCommitChart("commit-graph")
+    addTooltipImages();
+}
+
+
 const createSupportPage = () =>{
     document.getElementById('hubcare-content').innerHTML = supportPage();
     insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity');
@@ -425,7 +441,7 @@ const hubcarePage = () => {
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
-    document.getElementById('hubcare-content').innerHTML = "<div>test1</div>"
+    createActivityPage();
     activeBadge.style.cursor = "default";
     supportBadge.style.cursor = "pointer";
     welcomingBadge.style.cursor = "pointer";
@@ -445,8 +461,9 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "0px"
         welcomingBadge.style.cursor = "pointer";
-        
-        document.getElementById('hubcare-content').innerHTML = "<div style='text-align: center;'>test1</div>"
+
+        createActivityPage();
+
     }, false);
     document.getElementById('my-badge2').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
