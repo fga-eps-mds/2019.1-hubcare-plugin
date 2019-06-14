@@ -15,6 +15,7 @@ import check_false from './check_false.js';
 import hubcare from './hubcare';
 import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
+import welcomingPage from './welcomingPage';
 
 const repoName = window.location.pathname;
 let accessToken = null;
@@ -30,7 +31,14 @@ let toolticText = {
     'code-conduct': 'The Code of Conduct must follows standart GitHub file name for it',
     'issue-template': 'Issue Templates must be recognized bt GitHub as templates',
     'description': 'Description of this repository',
-    'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days'
+    'issue-activity-rate': 'An Active Issue is a Issue that got some activity in the last 15 days',
+    'different-contributors': 'This measures how many contributors are giving a hand to this repo',
+    'help-wanted': 'This measures the rate of issues labeled with “help wanted”',
+    'good-first-issue': 'This measures the rate of issues labeled with “good first issue”',
+    'contribution-guide': 'The Contribution Guide must follows the standart GitHub file name for it',
+    'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
+    'pull-request-graph': '',
+    'pull-request-quality': 'This show how mainteners receive PRs on the repo',
 }
 
 /**
@@ -41,6 +49,7 @@ const getApiUrl = (repoName) =>
     `https://hubcare.ml/hubcare_indicators${repoName}/`;
 
 function createBadge(text, progress, id){
+    badge.config({'font': '13px Helvetica', 'height': 20 })
     var myBadge = new badge.Progress({
         text: text,
         progress: progress
@@ -137,12 +146,11 @@ const createLabel = (score) => {
 /**
  * Create pull request graph
  */
-const createPullRequestChart = (data) => {
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
+const createPullRequestChart = (data, element) => {
+    var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
-    content[0].insertBefore(node, repoContent[0])
+    content.appendChild(node)
     var myChart = echarts.init(document.getElementById('my-graph'))
     let option = {
         tooltip: {
@@ -156,13 +164,13 @@ const createPullRequestChart = (data) => {
                 radius: ['0%', '55%'],
                 color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
                 data:[
-                    {value:data[0], name:'Old Open without comment', label:createLabel('0')},
-                    {value:data[1], name:'Refused without comment', label:createLabel('0.1')},
-                    {value:data[2], name:'Open with old comment', label:createLabel('0.3')},
+                    {value:data[6], name:'Old Open without comment', label:createLabel('0')},
+                    {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
+                    {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
                     {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
-                    {value:data[4], name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:data[5], name:'Merjed without comment', label:createLabel('0.9')},
-                    {value:data[6], name:'Merjed with comment', label:createLabel('1')}
+                    {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
+                    {value:data[1], name:'Merjed without comment', label:createLabel('0.9')},
+                    {value:data[0], name:'Merjed with comment', label:createLabel('1')}
                 ]
             }
         ]
@@ -230,9 +238,9 @@ const insertBadges = (data) => {
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
-    createBadge("Active", data.indicators.active_indicator, 'my-badge')
-    createBadge("Support", data.indicators.support_indicator, 'my-badge2')
-    createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("active", data.indicators.active_indicator, 'my-badge')
+    createBadge("support", data.indicators.support_indicator, 'my-badge2')
+    createBadge("welcoming", data.indicators.welcoming_indicator, 'my-badge3')
 }
 
 /*
@@ -382,6 +390,28 @@ const createSupportPage = () =>{
     addTooltipImages();
 }
 
+const createWelcomingPage = () =>{
+    document.getElementById('hubcare-content').innerHTML = welcomingPage();
+    ProgressBarFunction(metrics.commit_metric.differents_authors, 4,  "Number of Different Contributors to get a High Score", "different-contributors");
+    insertProgressBar(metrics.issue_metric.active_issues,metrics.issue_metric.dead_issues,'issue-activity');
+    ProgressBarFunction(metrics.issue_metric.activity_rate, metrics.issue_metric.activity_max_rate,  "Issue Activity Rate to get a Hight Score", "issue-activity-rate");
+    ProgressBarFunction(parseFloat(metrics.issue_metric.help_wanted_rate), parseFloat(metrics.issue_metric.help_wanted_max_rate), "Help-Wanted Issues Rate to get a High Score", "help-wanted")
+    ProgressBarFunction(parseFloat(metrics.issue_metric.good_first_issue_rate), parseFloat(metrics.issue_metric.good_first_issue_max_rate), "Good-First-Issues Rate to get a High Score", "good-first-issue")
+    createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createCheckModel('Have a License', metrics.community_metric.license, 'license')
+    createCheckModel('Have a README', metrics.community_metric.readme, 'readme')
+    createCheckModel('Have a Code of Conduct', metrics.community_metric.code_of_conduct, 'code-conduct')
+    createCheckModel('Have a Issue Template', metrics.community_metric.issue_template, 'issue-template')
+    createCheckModel('Have a Description', metrics.community_metric.description, 'description')
+    createCheckModel('Have a Contribution Guide', metrics.community_metric.contribution_guide, 'contribution-guide')
+    createCheckModel('Have a Pull Request Template', metrics.community_metric.pull_request_template, 'pull-request-template')
+    createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
+    ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
+    addTooltipImages();
+
+
+}
+
 const hubcarePage = () => {
     cleanPageContent()
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
@@ -389,9 +419,9 @@ const hubcarePage = () => {
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    createBadge("Active", metrics.indicators.active_indicator, 'my-badge')
-    createBadge("Support", metrics.indicators.support_indicator, 'my-badge2')
-    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("active", metrics.indicators.active_indicator, 'my-badge')
+    createBadge("support", metrics.indicators.support_indicator, 'my-badge2')
+    createBadge("welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
@@ -441,7 +471,7 @@ const hubcarePage = () => {
     document.getElementById('my-badge3').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
         activeBadge.style.borderBottom = "1px solid #d1d5da";
-        activeBadge.style.borderBottomRightRadius = "5px";
+        activeBadge.style.borderBottomRightRadius = "0px";
         activeBadge.style.cursor = "pointer";
         
         supportBadge.style.backgroundColor = "#f6f8fa";
@@ -455,7 +485,7 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottomLeftRadius = "0px";
         welcomingBadge.style.cursor = "default";
         
-        document.getElementById('hubcare-content').innerHTML = "<div>test3</div>"
+        createWelcomingPage();
     }, false);
     // createCommitChart()
     // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
