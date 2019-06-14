@@ -74,12 +74,11 @@ function cleanPageContent(){
     elementBadge3.parentNode.removeChild(elementBadge3)
 }
 
-function createCommitChart(){
-    var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
-    var repoContent = document.getElementsByClassName("repository-content")
+function createCommitChart(element){
+    var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
-    content[0].insertBefore(node, repoContent[0])
+    content.appendChild(node)
     var myChart = echarts.init(document.getElementById('my-graph'))
     var option = {
         tooltip: {
@@ -388,6 +387,7 @@ const createActivityPage = () =>{
     createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
     ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
     createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
+    createCommitChart("commit-graph")
 }
 
 
