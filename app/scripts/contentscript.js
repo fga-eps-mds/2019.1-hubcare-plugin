@@ -40,6 +40,7 @@ let toolticText = {
     'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
     'pull-request-graph': '',
     'pull-request-quality': 'This show how mainteners receive PRs on the repo',
+    'commit-highs': 'Active repo should have at least some commits, do not you think?',
 }
 
 /**
@@ -388,6 +389,7 @@ const createActivityPage = () =>{
     ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
     createCheckModel('Recent Release Note', metrics.community_metric.release_note, 'release-note')
     createCommitChart("commit-graph")
+    addTooltipImages();
 }
 
 
