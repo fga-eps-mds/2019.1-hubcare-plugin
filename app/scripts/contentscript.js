@@ -18,7 +18,8 @@ import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
 import welcomingPage from './welcomingPage';
 
-const repoName = window.location.pathname;
+const allUrl = window.location.pathname.split('/');
+const repoName = allUrl[1] + '/' + allUrl[2];
 let accessToken = null;
 
 var content = saveClass("new-discussion-timeline experiment-repo-nav")
@@ -48,7 +49,7 @@ let toolticText = {
  * @param {string} repoName 
  */
 const getApiUrl = (repoName) =>
-    `https://hubcare.ml/hubcare_indicators${repoName}/`;
+    `https://hubcare.ml/hubcare_indicators/${repoName}/`;
 
 function createBadge(text, progress, id){
     badge.config({'font': '13px Helvetica', 'height': 20 })
