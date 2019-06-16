@@ -45,18 +45,20 @@ release_production:
   extends: .release
   environment: production
   only:
-    - master
+    - tags
+  except:
+    - ^(?!master).+@/
 
 release_development:
   extends: .release
   environment: development
   only: 
-    - devel
+    - master
 
 # Stage III
 # Publish Phase
 # In this phase, we publishing the plugin in chrome extension
-publish:
+.publish:
   stage: publish
   before_script:
     - npm install
@@ -68,4 +70,18 @@ publish:
     - "./node_modules/.bin/webstore upload --source packages/hubcare.*.chrome.zip --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
     - "./node_modules/.bin/webstore publish --extension-id $EXTENSION_ID --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --refresh-token $REFRESH_TOKEN"
   only:
+    - master
+
+publish_production:
+  extends: .publish
+  environment: production
+  only:
+    - tags
+  except:
+    - ^(?!master).+@/
+
+publish_development:
+  extends: .publish
+  environment: development
+  only: 
     - master
