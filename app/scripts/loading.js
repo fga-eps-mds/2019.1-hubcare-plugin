@@ -8,5 +8,10 @@ export default () => [
     'border-radius: 50%; ',
     'animation: spin 1s linear infinite;" ',
     'id="loading"></div>',
-].join(''); 
-
+    '<div style="text-align: center; margin: 2%; color: #24292e; ',
+    'font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol; ',
+    'font-size: 14px; line-height: 1.5;" id="text">',
+    '   <p>You were the first person to review this repository today! ',
+    '       We&apos;re doing the math for you. It will take less than a minute.</p>',
+    '</div>',
+].join('');
