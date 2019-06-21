@@ -1,6 +1,7 @@
 export default () => [
     '<style>',
     '#loading{',
+    '   position: absolute;',
     '   margin: 0 auto 3px;',
     '   text-align: center;',
     '}',
@@ -28,8 +29,7 @@ export default () => [
     '}',
     '.loding-dots .bounce3{',
     '}',
-
-    '#text{ text-align: center; color: #24292e; font-size: 14px; line-height: 2;',
+    '#text{ text-align: left; padding-left: 4%; color: #24292e; font-size: 14px;',
     'font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;}',
     '</style>',
     
@@ -40,7 +40,6 @@ export default () => [
     '       <div class="bounce3"></div>',
     '   </div>',
     '</div>',
-
     '<div id="text">',
     '   <p>You were the first person to review this repository today! ',
     '       We&apos;re doing the math for you. It will take less than a minute.</p>',

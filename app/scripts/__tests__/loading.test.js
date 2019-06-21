@@ -4,6 +4,7 @@ test('test loading function', async () => {
     let test_loading = [
         '<style>',
         '#loading{',
+        '   position: absolute;',
         '   margin: 0 auto 3px;',
         '   text-align: center;',
         '}',
@@ -31,7 +32,7 @@ test('test loading function', async () => {
         '}',
         '.loding-dots .bounce3{',
         '}',
-        '#text{ text-align: center; color: #24292e; font-size: 14px; line-height: 2;',
+        '#text{ text-align: left; padding-left: 4%; color: #24292e; font-size: 14px;',
         'font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;}',
         '</style>',
         '<div id="loading">',
