@@ -1,6 +1,7 @@
 const $ = require('jquery');
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
+import 'echarts/lib/chart/scatter';
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 import graph from './graphs.js';
@@ -233,7 +234,7 @@ const insertActivityIndicator = () => {
  * Remove Tetris element
  */
 function stopTetris(){
-    let tetris_child = document.getElementById('graph');
+    let tetris_child = document.getElementById('my-graph');
     tetris_child.parentNode.removeChild(tetris_child); 
 }
 
@@ -245,8 +246,7 @@ function stopTetris(){
 function createTetris(){
     var node = document.createElement('div')
     node.innerHTML = graph()
-    content.appendChild(node)
-    //content[0].insertBefore(node, repoContent[0])
+    content[0].appendChild(node, repoContent[0])
     var myChart = echarts.init(document.getElementById('my-graph'))
     
     var refreshT,fallBlockT;
