@@ -48,7 +48,7 @@ let toolticText = {
  * @param {string} repoName 
  */
 const getApiUrl = (repoName) =>
-    `https://hubcare.ml/hubcare_indicators${repoName}/`;
+    `https://hubcare.ml/hubcare_indicators${repoName}/${accessToken}/`;
 
 function createBadge(text, progress, id){
     badge.config({'font': '13px Helvetica', 'height': 20 })
@@ -64,15 +64,24 @@ function saveClass(name_class){
     return element
 }
 
-function cleanPageContent(){
-    var element = document.getElementsByClassName('repository-content ')
-    element[0].parentNode.removeChild(element[0])
+const removeBadges = () => {
     let elementBadge = document.getElementById('my-badge');
-    elementBadge.parentNode.removeChild(elementBadge)
+    elementBadge.removeChild(elementBadge.children[0]);
     let elementBadge2 = document.getElementById('my-badge2');
-    elementBadge2.parentNode.removeChild(elementBadge2)
+    elementBadge2.removeChild(elementBadge2.children[0]);
     let elementBadge3 = document.getElementById('my-badge3');
-    elementBadge3.parentNode.removeChild(elementBadge3)
+    elementBadge3.removeChild(elementBadge3.children[0]);
+}
+
+function cleanPageContent(){
+    var element = document.getElementsByClassName('repository-content ');
+    element[0].parentNode.removeChild(element[0]);
+    let elementBadge = document.getElementById('my-badge');
+    elementBadge.parentNode.removeChild(elementBadge);
+    let elementBadge2 = document.getElementById('my-badge2');
+    elementBadge2.parentNode.removeChild(elementBadge2);
+    let elementBadge3 = document.getElementById('my-badge3');
+    elementBadge3.parentNode.removeChild(elementBadge3);
 }
 
 function createCommitChart(element){
@@ -234,7 +243,7 @@ const insertActivityIndicator = () => {
  */
 const insertBadges = (data) => {
     metrics = data;
- 
+    
     stopActivityIndicator()
     const node = document.createElement('div')
     node.innerHTML = badges()
@@ -242,6 +251,10 @@ const insertBadges = (data) => {
     createBadge("active", data.indicators.active_indicator, 'my-badge')
     createBadge("support", data.indicators.support_indicator, 'my-badge2')
     createBadge("welcoming", data.indicators.welcoming_indicator, 'my-badge3')
+    if(window.location.hash == "#hubcare"){
+        cleanPageContent()
+        hubcarePage()
+    }
 }
 
 /*
@@ -267,10 +280,7 @@ const ProgressBarFunction = (partial, full, text, element) => {
     let genericRate = (partial*100)/full;
     if(partial > full){
         genericRate = (full*100)/full;
-
     }
-    
-
     let progressbar = document.createElement('div')
     progressbar.innerHTML = progressbarfunction(partial + " / " + full, text, genericRate, element, toolticText[element])
 
@@ -299,18 +309,22 @@ const requestMetrics = () => {
         .catch(error=>console.error(error))
 }
 
+const styleButton = () => {
+    $('#hubcare-button').css("background", "#ffff");
+    $('#hubcare-button').css("color", "#000000");
+    $('#hubcare-button').css("border-left", "1px solid #e1e4e8");
+    $('#hubcare-button').css("border-right", "1px solid #e1e4e8");
+    $('#hubcare-button').css("border-top", "3px solid #4965d9");
+    styleIcon();
+    removeSelected();
+}
+
 /**
  * Stylize the HubCare button by clicking it leaving the same GitHub pattern
  */
 const buttonOnClick = () => {
     $("#hubcare-button").on("click", function() {
-        $(this).css("background", "#ffff");
-        $(this).css("color", "#000000");
-        $(this).css("border-left", "1px solid #e1e4e8");
-        $(this).css("border-right", "1px solid #e1e4e8");
-        $(this).css("border-top", "3px solid #4965d9");
-        styleIcon();
-        removeSelected();
+        styleButton();
     })
 }
 
@@ -347,34 +361,31 @@ const getAcessToken = () => {
  */
 const init = () => {
     if(popup_key != false && accessToken != null){
+        insertButton()
         if(window.location.hash ==  '#hubcare'){
-            hubcarePage()
+            // cleanPageContent()
+            if(metrics == null){
+                requestMetrics();
+            } else {
+                hubcarePage();
+            }
+            styleButton();
         }
         insertActivityIndicator()
-        insertButton()
-        requestMetrics()
-        buttonOnClick()
-        document.getElementById('hubcare-button').addEventListener("click", function() {
-            hubcarePage()
-        }, false);
-    }
-}
-
-/**
- * Init all plugin elements, but with no request
- */
-const init_with_no_request = () => {
-    if(popup_key != false && accessToken != null){
-        if(window.location.hash ==  '#hubcare'){
-            hubcarePage()
+        if(metrics == null){
+            requestMetrics()
         }
-        insertActivityIndicator()
-        insertButton()
-        insertBadges(metrics)
+        else {
+            insertBadges(metrics)
+        }
         buttonOnClick()
-
         document.getElementById('hubcare-button').addEventListener("click", function() {
-            hubcarePage()
+            if(metrics == null){
+                console.log('ta carregando mano, espera um pouco ahhhhhh')
+            } else {
+                cleanPageContent();
+                hubcarePage();
+            }
         }, false);
     }
 }
@@ -391,7 +402,6 @@ const createActivityPage = () =>{
     createCommitChart("commit-graph")
     addTooltipImages();
 }
-
 
 const createSupportPage = () =>{
     document.getElementById('hubcare-content').innerHTML = supportPage();
@@ -424,12 +434,9 @@ const createWelcomingPage = () =>{
     createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
     ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
     addTooltipImages();
-
-
 }
 
 const hubcarePage = () => {
-    cleanPageContent()
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
@@ -481,9 +488,8 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "5px";
         welcomingBadge.style.cursor = "pointer";
-        
+
         createSupportPage();
-        
     }, false);
     document.getElementById('my-badge3').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
@@ -504,21 +510,11 @@ const hubcarePage = () => {
         
         createWelcomingPage();
     }, false);
-    // createCommitChart()
-    // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
-    //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
-    // createCheckModel('Title', true)
-    // ProgressBarFunction(2, 5, "Test text")
 }
 
 
 $(document).on('pjax:complete', () => {
-    if(metrics.indicators.active_indicator == null){
-        init()
-    }
-    else {
-        init_with_no_request()
-    }
+    init()
 })
 
 chrome.storage.sync.get("active", function(res) {
