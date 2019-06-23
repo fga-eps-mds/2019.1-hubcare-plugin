@@ -48,11 +48,12 @@ let toolticText = {
  * @param {string} repoName 
  */
 const getApiUrl = (repoName) =>
-    `https://hubcare.ml/hubcare_indicators${repoName}/`;
+    `https://hubcare.ml/hubcare_indicators${repoName}/${accessToken}/`;
 
 function createBadge(text, progress, id){
     document.getElementById(id).getElementsByClassName('text1')[0].innerHTML = text;
     document.getElementById(id).getElementsByClassName('text2')[0].innerHTML = progress + '%';
+    changeColorPercent(progress,text);
     // badge.config({'font': '13px Helvetica', 'height': 20 })
     // var myBadge = new badge.Progress({
     //     text: text,
@@ -60,6 +61,74 @@ function createBadge(text, progress, id){
     // });
     // document.getElementById(id).appendChild(myBadge.asDOMNode())
 }
+function changeColorPercent(progress, id){
+    if(id === 'Activity' && progress > 90){
+        document.getElementById("percent-activity").style.backgroundColor = "#28a745";
+    } else if(id === 'Activity' && progress < 90 && progress > 80){
+        document.getElementById("percent-activity").style.backgroundColor = "#4c9d3b";
+    } else if(id === 'Activity' && progress > 70 && progress <= 80){
+        document.getElementById("percent-activity").style.backgroundColor = "#629534";
+    } else if(id === 'Activity' && progress > 60 && progress <= 70){
+        document.getElementById("percent-activity").style.backgroundColor = "#7a902e";
+    } else if(id === 'Activity' && progress > 50 && progress <= 60){
+        document.getElementById("percent-activity").style.backgroundColor = "#8f8727";
+    } else if(id === 'Activity' && progress > 40 && progress <= 50){
+        document.getElementById("percent-activity").style.backgroundColor = "#be7c2a";
+    } else if(id === 'Activity' && progress > 30 && progress <= 40){
+        document.getElementById("percent-activity").style.backgroundColor = "#d57631";
+    } else if(id === 'Activity' && progress > 20 && progress <= 30){
+        document.getElementById("percent-activity").style.backgroundColor = "#f66a0a";
+    } else if(id === 'Activity' && progress > 10 && progress <= 20){
+        document.getElementById("percent-activity").style.backgroundColor = "#e55136";
+    }  else if(id === 'Activity' && progress <= 10){
+        document.getElementById("percent-activity").style.backgroundColor = "#cb2431";
+    }
+    if(id === 'Welcoming' && progress > 90){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#28a745";
+    } else if(id === 'Welcoming' && progress < 90 && progress > 80){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#4c9d3b";
+    } else if(id === 'Welcoming' && progress > 70 && progress <= 80){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
+    } else if(id === 'Welcoming' && progress > 60 && progress <= 70){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
+    } else if(id === 'Welcoming' && progress > 50 && progress <= 60){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#8f8727";
+    } else if(id === 'Welcoming' && progress > 40 && progress <= 50){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#be7c2a";
+    } else if(id === 'Welcoming' && progress > 30 && progress <= 40){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#d57631";
+    } else if(id === 'Welcoming' && progress > 20 && progress <= 30){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#ee6e38";
+    } else if(id === 'Welcoming' && progress > 10 && progress <= 20){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#e55136";
+    }  else if(id === 'Welcoming' && progress <= 10){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#cb2431";
+    }  
+
+    if(id === 'Support' && progress > 90){
+        document.getElementById("percent-support").style.backgroundColor = "#28a745";
+    } else if(id === 'Support' && progress < 90 && progress > 80){
+        document.getElementById("percent-support").style.backgroundColor = "#4c9d3b";
+    } else if(id === 'Support' && progress > 70 && progress <= 80){
+        document.getElementById("percent-support").style.backgroundColor = "#629534";
+    } else if(id === 'Support' && progress > 60 && progress <= 70){
+        document.getElementById("percent-support").style.backgroundColor = "#7a902e";
+    } else if(id === 'Support' && progress > 50 && progress <= 60){
+        document.getElementById("percent-support").style.backgroundColor = "#8f8727";
+    } else if(id === 'Support' && progress > 40 && progress <= 50){
+        document.getElementById("percent-support").style.backgroundColor = "#be7c2a";
+    } else if(id === 'Support' && progress > 30 && progress <= 40){
+        document.getElementById("percent-support").style.backgroundColor = "#d57631";
+    } else if(id === 'Support' && progress > 20 && progress <= 30){
+        document.getElementById("percent-support").style.backgroundColor = "#ee6e38";
+    } else if(id === 'Support' && progress > 10 && progress <= 20){
+        document.getElementById("percent-support").style.backgroundColor = "#e55136";
+    }  else if(id === 'Support' && progress <= 10){
+        document.getElementById("percent-support").style.backgroundColor = "#cb2431";
+    }   
+    
+}
+
 
 function saveClass(name_class){
     var element = document.getElementsByClassName(name_class)
