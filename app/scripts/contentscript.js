@@ -51,6 +51,7 @@ const getApiUrl = (repoName) =>
     `https://hubcare.ml/hubcare_indicators${repoName}/${accessToken}/`;
 
 function createBadge(text, progress, id){
+    
     document.getElementById(id).getElementsByClassName('text1')[0].innerHTML = text;
     document.getElementById(id).getElementsByClassName('text2')[0].innerHTML = progress + '%';
     changeColorPercent(progress,text);
@@ -506,9 +507,9 @@ const hubcarePage = () => {
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    createBadge("Activity", metrics.indicators.active_indicator, 'my-badge')
-    createBadge("Support", metrics.indicators.support_indicator, 'my-badge2')
-    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("Activity", metrics.indicators.active_indicator, 'activity-badge')
+    createBadge("Support", metrics.indicators.support_indicator, 'support-badge')
+    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'welcoming-badge')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');

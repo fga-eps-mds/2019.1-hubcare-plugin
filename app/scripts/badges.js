@@ -1,12 +1,6 @@
 // export default () => [
 // '<style>',
-// '.tooltip {position: relative; display: inline-block;}',
-// '.tooltip .tooltiptext {visibility: hidden; width: 220px; background-color: #555; color: #fff; text-align: center;',
-// '		border-radius: 6px; padding: 5px; padding-left: 3px; padding-right: 3px; position: absolute; z-index: 1; bottom: 200%; left: -30%;',
-// '		margin-left: -100px; opacity: 0; transition: opacity 0.3s;}',
-// '.tooltip .tooltiptext::after {content: ""; position: absolute; top: 100%; left: 85%; margin-left: -5px;', 
-// '		border-width: 5px; border-style: solid; border-color: #555 transparent transparent transparent; }',
-// '.tooltip:hover .tooltiptext {visibility: visible; opacity: 0.8;}',
+// 
 // '</style>',
 
 
@@ -39,7 +33,6 @@ export default (colorPercent) => [
 	'	#percent-activity{',
 	'		width: 45px;',
 	'		height: 20px;',
-	// '		background-color: #28a745;',
 	'		float: right;',
 	'		border-radius: 0 3px 3px 0;',
 	'		text-align: center;',
@@ -49,7 +42,6 @@ export default (colorPercent) => [
 	'	#percent-support{',
 	'		width: 45px;',
 	'		height: 20px;',
-	// '		background-color: #28a745;',
 	'		float: right;',
 	'		border-radius: 0 3px 3px 0;',
 	'		text-align: center;',
@@ -59,7 +51,6 @@ export default (colorPercent) => [
 	'#percent-welcoming{',
 	'		width: 45px;',
 	'		height: 20px;',
-	// '		background-color: #28a745;',
 	'		float: right;',
 	'		border-radius: 0 3px 3px 0;',
 	'		text-align: center;',
