@@ -18,13 +18,13 @@ import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
 import welcomingPage from './welcomingPage';
 
-const repoName = window.location.pathname;
+const allUrl = window.location.pathname.split('/');
+const repoName = allUrl[1] + '/' + allUrl[2];
 let accessToken = null;
-
-var content = saveClass("new-discussion-timeline experiment-repo-nav")
-var repoContent = saveClass("repository-content")
-var metrics = null
-var popup_key = ""
+let content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav");
+let repoContent = document.getElementsByClassName("repository-content");
+let metrics = null;
+let popup_key = null;
 let toolticText = {
     'release-note': '“Recent” mean a Release in the last 90 days',
     'license': 'The License must follows standart GitHub License file name',
@@ -40,108 +40,109 @@ let toolticText = {
     'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
     'pull-request-quality': 'This show how mainteners receive PRs on the repo',
     'commit-highs': 'Active repo should have at least some commits, do not you think?',
-}
+};
 
 /**
  * Return url to hubcare api
  * @param {string} repoName 
  */
 const getApiUrl = (repoName) =>
-    `https://hubcare.ml/hubcare_indicators${repoName}/${accessToken}/`;
+    `https://hubcare.ml/hubcare_indicators/${repoName}/${accessToken}/`;
 
-function createBadge(text, progress, id){
-    
+/**
+ * Create badge element
+ * @param {string} text 
+ * @param {value} progress 
+ * @param {string} id 
+ */
+const createBadge = (text, progress, id) => {
     document.getElementById(id).getElementsByClassName('text1')[0].innerHTML = text;
     document.getElementById(id).getElementsByClassName('text2')[0].innerHTML = progress + '%';
     changeColorPercent(progress,text); 
 }
 
-function changeColorPercent(progress, id){
-    if(id === 'Activity' && progress > 90){
-        document.getElementById("percent-activity").style.backgroundColor = "#28a745";
-    } else if(id === 'Activity' && progress < 90 && progress > 80){
-        document.getElementById("percent-activity").style.backgroundColor = "#4c9d3b";
-    } else if(id === 'Activity' && progress > 70 && progress <= 80){
-        document.getElementById("percent-activity").style.backgroundColor = "#629534";
-    } else if(id === 'Activity' && progress > 60 && progress <= 70){
-        document.getElementById("percent-activity").style.backgroundColor = "#7a902e";
-    } else if(id === 'Activity' && progress > 50 && progress <= 60){
-        document.getElementById("percent-activity").style.backgroundColor = "#8f8727";
-    } else if(id === 'Activity' && progress > 40 && progress <= 50){
-        document.getElementById("percent-activity").style.backgroundColor = "#be7c2a";
-    } else if(id === 'Activity' && progress > 30 && progress <= 40){
-        document.getElementById("percent-activity").style.backgroundColor = "#d57631";
-    } else if(id === 'Activity' && progress > 20 && progress <= 30){
-        document.getElementById("percent-activity").style.backgroundColor = "#f66a0a";
-    } else if(id === 'Activity' && progress > 10 && progress <= 20){
-        document.getElementById("percent-activity").style.backgroundColor = "#e55136";
-    }  else if(id === 'Activity' && progress <= 10){
-        document.getElementById("percent-activity").style.backgroundColor = "#cb2431";
+/**
+ * Remove repository content
+ */
+const removeContent = () => {
+    let element = document.getElementsByClassName('repository-content ');
+    if(element[0] != null){
+        element[0].parentNode.removeChild(element[0]);
     }
-    if(id === 'Welcoming' && progress > 90){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#28a745";
-    } else if(id === 'Welcoming' && progress < 90 && progress > 80){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#4c9d3b";
-    } else if(id === 'Welcoming' && progress > 70 && progress <= 80){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
-    } else if(id === 'Welcoming' && progress > 60 && progress <= 70){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
-    } else if(id === 'Welcoming' && progress > 50 && progress <= 60){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#8f8727";
-    } else if(id === 'Welcoming' && progress > 40 && progress <= 50){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#be7c2a";
-    } else if(id === 'Welcoming' && progress > 30 && progress <= 40){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#d57631";
-    } else if(id === 'Welcoming' && progress > 20 && progress <= 30){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#ee6e38";
-    } else if(id === 'Welcoming' && progress > 10 && progress <= 20){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#e55136";
-    }  else if(id === 'Welcoming' && progress <= 10){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#cb2431";
-    }  
-
-    if(id === 'Support' && progress > 90){
-        document.getElementById("percent-support").style.backgroundColor = "#28a745";
-    } else if(id === 'Support' && progress < 90 && progress > 80){
-        document.getElementById("percent-support").style.backgroundColor = "#4c9d3b";
-    } else if(id === 'Support' && progress > 70 && progress <= 80){
-        document.getElementById("percent-support").style.backgroundColor = "#629534";
-    } else if(id === 'Support' && progress > 60 && progress <= 70){
-        document.getElementById("percent-support").style.backgroundColor = "#7a902e";
-    } else if(id === 'Support' && progress > 50 && progress <= 60){
-        document.getElementById("percent-support").style.backgroundColor = "#8f8727";
-    } else if(id === 'Support' && progress > 40 && progress <= 50){
-        document.getElementById("percent-support").style.backgroundColor = "#be7c2a";
-    } else if(id === 'Support' && progress > 30 && progress <= 40){
-        document.getElementById("percent-support").style.backgroundColor = "#d57631";
-    } else if(id === 'Support' && progress > 20 && progress <= 30){
-        document.getElementById("percent-support").style.backgroundColor = "#ee6e38";
-    } else if(id === 'Support' && progress > 10 && progress <= 20){
-        document.getElementById("percent-support").style.backgroundColor = "#e55136";
-    }  else if(id === 'Support' && progress <= 10){
-        document.getElementById("percent-support").style.backgroundColor = "#cb2431";
-    }   
-    
 }
 
-
-function saveClass(name_class){
-    var element = document.getElementsByClassName(name_class)
-    return element
+/**
+ * Remove DOM element by id
+ * @param {string} id 
+ */
+const removeElementById = (id) => {
+    let element = document.getElementById(id);
+    if(element != null){
+        element.parentNode.removeChild(element);
+    }
 }
 
-function cleanPageContent(){
-    var element = document.getElementsByClassName('repository-content ')
-    element[0].parentNode.removeChild(element[0])
-    let elementBadge = document.getElementById('my-badge');
-    elementBadge.parentNode.removeChild(elementBadge)
-    let elementBadge2 = document.getElementById('my-badge2');
-    elementBadge2.parentNode.removeChild(elementBadge2)
-    let elementBadge3 = document.getElementById('my-badge3');
-    elementBadge3.parentNode.removeChild(elementBadge3)
+/**
+ * Return the badge color to progress value
+ * @param {number} progress 
+ */
+const getBadgeColor = (progress) => {
+    let badgeColor = "#cb2431";
+    if(progress > 90){
+        badgeColor = "#28a745";
+    } else if(progress < 90 && progress > 80){
+        badgeColor = "#4c9d3b";
+    } else if(progress > 70 && progress <= 80){
+        badgeColor = "#629534";
+    } else if(progress > 60 && progress <= 70){
+        badgeColor = "#7a902e";
+    } else if(progress > 50 && progress <= 60){
+        badgeColor = "#8f8727";
+    } else if(progress > 40 && progress <= 50){
+        badgeColor = "#be7c2a";
+    } else if(progress > 30 && progress <= 40){
+        badgeColor = "#d57631";
+    } else if(progress > 20 && progress <= 30){
+        badgeColor = "#f66a0a";
+    } else if(progress > 10 && progress <= 20){
+        badgeColor = "#e55136";
+    } else if(progress <= 10){
+        badgeColor = "#cb2431";
+    }
+    return badgeColor;
 }
 
-function createCommitChart(element){
+/**
+ * Change badge color using the progress value
+ * @param {number} progress 
+ * @param {string} id 
+ */
+const changeColorPercent = (progress, id) => {
+    if(id === 'Activity'){
+        document.getElementById("percent-activity").style.backgroundColor = getBadgeColor(progress);
+    } else if(id === 'Welcoming'){
+        document.getElementById("percent-welcoming").style.backgroundColor = getBadgeColor(progress);
+    } else if(id === 'Support'){
+        document.getElementById("percent-support").style.backgroundColor = getBadgeColor(progress);
+    }
+}
+
+/**
+ * Remove all repository content elements in github
+ */
+const cleanPageContent = () => {
+    removeContent();
+    removeElementById('hubcare-page');
+    removeElementById('my-badge');
+    removeElementById('my-badge2');
+    removeElementById('my-badge3');
+}
+
+/**
+ * Create commit chart using metrics value
+ * @param {string} element 
+ */
+const createCommitChart = (element) => {
     var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
@@ -169,56 +170,83 @@ function createCommitChart(element){
 
 /**
  * Create latel to pull request interaction graph
+ * @param {number} score 
  */
 const createLabel = (score) => {
     return {
-        normal: {
-        formatter: '{a|{b}}{abg|}\n{hr|}\n{b|Score:  ' + score + '}  {per|{d}%}  ',
-        backgroundColor: '#eee',
-        borderColor: '#aaa',
-        borderWidth: 1,
-        borderRadius: 4,
-        rich: {
-            a: {
-                color: '#586069',
-                lineHeight: 22,
-                align: 'center',
-                fontSize: 14,
-                padding: 3
-            },
-            hr: {
-                borderColor: '#aaa',
-                width: '100%',
-                borderWidth: 0.5,
-                height: 0
-            },
-            b: {
-                color: '#586069',
-                fontSize: 14,
-                lineHeight: 22,
-                padding: 3
-            },
-            per: {
-                color: '#eee',
-                backgroundColor: '#334455',
-                padding: [2, 4],
-                borderRadius: 2,
-                lineHeight: 22
+            normal: {
+            formatter: '{a|{b}}{abg|}\n{hr|}\n{b|Score:  ' + score + '}  {per|{d}%}  ',
+            backgroundColor: '#eee',
+            borderColor: '#aaa',
+            borderWidth: 1,
+            borderRadius: 4,
+            rich: {
+                a: {
+                    color: '#586069',
+                    lineHeight: 22,
+                    align: 'center',
+                    fontSize: 14,
+                    padding: 3
+                },
+                hr: {
+                    borderColor: '#aaa',
+                    width: '100%',
+                    borderWidth: 0.5,
+                    height: 0
+                },
+                b: {
+                    color: '#586069',
+                    fontSize: 14,
+                    lineHeight: 22,
+                    padding: 3
+                },
+                per: {
+                    color: '#eee',
+                    backgroundColor: '#334455',
+                    padding: [2, 4],
+                    borderRadius: 2,
+                    lineHeight: 22
+                }
             }
         }
     }
 }
+
+/**
+ * Remove all elements with zero value of list
+ * @param {Array} data 
+ */
+const createChartData = (data) => {
+    let arr = [
+        {value:data[0], name:'Merged with comment', label:createLabel('1')},
+        {value:data[1], name:'Merged without comment', label:createLabel('0.9')},
+        {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
+        {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
+        {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
+        {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
+        {value:data[6], name:'Old Open without comment', label:createLabel('0')}
+    ];
+    let newArr = [];
+    for(let i = 0; i < 7 ; i++){
+        if(parseFloat(data[i]) != 0){
+            newArr.push(arr[i]);
+        }
+    }
+    return newArr;
 }
 
 /**
  * Create pull request graph
+ * @param {Array} data 
+ * @param {string} element 
  */
 const createPullRequestChart = (data, element) => {
-    var content = document.getElementById(element)
-    var node = document.createElement('div')
-    node.innerHTML = graph()
-    content.appendChild(node)
-    var myChart = echarts.init(document.getElementById('my-graph'))
+    data = createChartData(data);
+    var content = document.getElementById(element);
+    var node = document.createElement('div');
+    node.innerHTML = graph();
+    content.appendChild(node);
+    var myChart = echarts.init(document.getElementById('my-graph'));
     let option = {
         tooltip: {
             trigger: 'item',
@@ -229,26 +257,21 @@ const createPullRequestChart = (data, element) => {
                 name:'Pull Request Interaction',
                 type:'pie',
                 radius: ['0%', '55%'],
-                color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
-                data:[
-                    {value:data[6], name:'Old Open without comment', label:createLabel('0')},
-                    {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
-                    {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
-                    {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
-                    {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:data[1], name:'Merjed without comment', label:createLabel('0.9')},
-                    {value:data[0], name:'Merjed with comment', label:createLabel('1')}
-                ]
+                color: ['#6f42c1', '#8a61cc', '#a37fd7', '#bb9ee1', '#d2beeb', '#e9d8ff', '#e9def5'],
+                data: data
             }
         ]
     };
-    myChart.setOption(option)
+    myChart.setOption(option);
 }
 
 /**
  * Create check model for the report element.
+ * @param {string} text
+ * @param {boolean} boolCheck 
+ * @param {number} elementId 
  */
-function createCheckModel(text, boolCheck, elementId){
+const createCheckModel = (text, boolCheck, elementId) => {
     let element = document.getElementById(elementId);
     let node = document.createElement('div')
     let tooltip = document.createElement('div');
@@ -267,7 +290,7 @@ function createCheckModel(text, boolCheck, elementId){
 /**
  * Create tooltip with questionMark Icon for the report element
  */
-function addTooltipImages(){
+const addTooltipImages = () => {
     var myImage = chrome.extension.getURL("../images/questionMark.svg")
     let node = document.getElementsByClassName('id_img_questionMark');
     for (let i = 0; i < node.length; i++) {
@@ -279,10 +302,8 @@ function addTooltipImages(){
  * Remove activity indicator element
  */
 const stopActivityIndicator = () => {
-    let loading_child = document.getElementById('loading');
-    loading_child.parentNode.removeChild(loading_child);
-    let text_child = document.getElementById('text');
-    text_child.parentNode.removeChild(text_child);
+    removeElementById('loading');
+    removeElementById('text');
 }
 
 /**
@@ -291,9 +312,9 @@ const stopActivityIndicator = () => {
  * created div is being added
  */
 const insertActivityIndicator = () => {
-    let myprogress = document.createElement('div')
-    myprogress.innerHTML = loading()
-    content[0].insertBefore(myprogress, repoContent[0])
+    let myprogress = document.createElement('div');
+    myprogress.innerHTML = loading();
+    content[0].insertBefore(myprogress, repoContent[0]);
 }
 
 /**
@@ -302,14 +323,19 @@ const insertActivityIndicator = () => {
  */
 const insertBadges = (data) => {
     metrics = data;
- 
-    stopActivityIndicator()
-    const node = document.createElement('div')
-    node.innerHTML = badges()
-    content[0].insertBefore(node, repoContent[0])
-    createBadge("Activity", data.indicators.active_indicator, 'my-badge')
-    createBadge("Support", data.indicators.support_indicator, 'my-badge2')
-    createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3')
+    
+    stopActivityIndicator();
+    if(window.location.hash == "#hubcare"){
+        removeContent();
+        hubcarePage();
+    } else {
+        const node = document.createElement('div');
+        node.innerHTML = badges();
+        content[0].insertBefore(node, repoContent[0]);
+        createBadge("Activity", data.indicators.active_indicator, 'my-badge');
+        createBadge("Support", data.indicators.support_indicator, 'my-badge2');
+        createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3');
+    }
 }
 
 /*
@@ -335,10 +361,7 @@ const ProgressBarFunction = (partial, full, text, element) => {
     let genericRate = (partial*100)/full;
     if(partial > full){
         genericRate = (full*100)/full;
-
     }
-    
-
     let progressbar = document.createElement('div')
     progressbar.innerHTML = progressbarfunction(partial + " / " + full, text, genericRate, element, toolticText[element])
 
@@ -352,8 +375,17 @@ const ProgressBarFunction = (partial, full, text, element) => {
 const insertButton = () => {
     let hubcareButton = document.createElement('div')
     hubcareButton.innerHTML = button()
-    document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax container')[0]
+    document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax')[0]
         .appendChild(hubcareButton)
+    document.getElementById('hubcare-button').addEventListener("click", function() {
+        styleButton();
+        if(metrics == null){
+            removeContent();
+        } else {
+            cleanPageContent();
+            hubcarePage();
+        }
+    }, false);
 }
 
 /**
@@ -370,31 +402,22 @@ const requestMetrics = () => {
 /**
  * Stylize the HubCare button by clicking it leaving the same GitHub pattern
  */
-const buttonOnClick = () => {
-    $("#hubcare-button").on("click", function() {
-        $(this).css("background", "#ffff");
-        $(this).css("color", "#000000");
-        $(this).css("border-left", "1px solid #e1e4e8");
-        $(this).css("border-right", "1px solid #e1e4e8");
-        $(this).css("border-top", "3px solid #4965d9");
-        styleIcon();
-        removeSelected();
-    })
-}
-
-/**
- * Add Style to Hub Care Button Icon When Selected
- */
-const styleIcon = () => {
+const styleButton = () => {
+    let element = document.getElementById('hubcare-button');
+    element.style = 'background: #ffff; color: #000000; border-left: 1px solid #e1e4e8; border-right: 1px solid #e1e4e8; border-top: 3px solid #4965d9'
+    // Add Style to HubCare Button Icon When Selected
     document.getElementById("path-icon").setAttribute("fill", "#000000")
+    removeSelected();
 }
 
 /**
  * Removes the button that is selected along with the HubCare button
  */
 const removeSelected = () =>{
-    let a = document.getElementsByClassName("js-selected-navigation-item selected")[0]
-    a.classList.remove("selected")
+    let element = document.getElementsByClassName("js-selected-navigation-item selected")[0]
+    if(element != null){
+        element.classList.remove("selected")
+    }
 }
 
 /**
@@ -415,35 +438,23 @@ const getAcessToken = () => {
  */
 const init = () => {
     if(popup_key != false && accessToken != null){
-        if(window.location.hash ==  '#hubcare'){
-            hubcarePage()
-        }
-        insertActivityIndicator()
         insertButton()
-        requestMetrics()
-        buttonOnClick()
-        document.getElementById('hubcare-button').addEventListener("click", function() {
-            hubcarePage()
-        }, false);
-    }
-}
-
-/**
- * Init all plugin elements, but with no request
- */
-const init_with_no_request = () => {
-    if(popup_key != false && accessToken != null){
-        if(window.location.hash ==  '#hubcare'){
-            hubcarePage()
-        }
         insertActivityIndicator()
-        insertButton()
-        insertBadges(metrics)
-        buttonOnClick()
-
-        document.getElementById('hubcare-button').addEventListener("click", function() {
-            hubcarePage()
-        }, false);
+        if(window.location.hash ==  '#hubcare'){
+            if(metrics == null){
+                requestMetrics();
+                let element = document.getElementsByClassName('repository-content ');
+                element[0].parentNode.removeChild(element[0]);
+            } else {
+                hubcarePage();
+            }
+            styleButton();
+        } else if(metrics == null){
+            requestMetrics()
+        }
+        else {
+            insertBadges(metrics)
+        }
     }
 }
 
@@ -459,7 +470,6 @@ const createActivityPage = () =>{
     createCommitChart("commit-graph")
     addTooltipImages();
 }
-
 
 const createSupportPage = () =>{
     document.getElementById('hubcare-content').innerHTML = supportPage();
@@ -492,12 +502,9 @@ const createWelcomingPage = () =>{
     createPullRequestChart(metrics.pull_request_graph.y_axis, 'pull-request-graph')
     ProgressBarFunction(parseFloat(metrics.pull_request_metric.acceptance_quality), 1, "PR Quality Score Mean to get a High Score", "pull-request-quality")
     addTooltipImages();
-
-
 }
 
 const hubcarePage = () => {
-    cleanPageContent()
     var content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav")
     var repoContent = document.getElementsByClassName("repository-content")
     var node = document.createElement('div')
@@ -549,9 +556,8 @@ const hubcarePage = () => {
         welcomingBadge.style.borderBottom = "1px solid #d1d5da";
         welcomingBadge.style.borderBottomLeftRadius = "5px";
         welcomingBadge.style.cursor = "pointer";
-        
+
         createSupportPage();
-        
     }, false);
     document.getElementById('my-badge3').addEventListener("click", function() {
         activeBadge.style.backgroundColor = "#f6f8fa";
@@ -574,14 +580,8 @@ const hubcarePage = () => {
     }, false);
 }
 
-
 $(document).on('pjax:complete', () => {
-    if(metrics.indicators.active_indicator == null){
-        init()
-    }
-    else {
-        init_with_no_request()
-    }
+    init()
 })
 
 chrome.storage.sync.get("active", function(res) {

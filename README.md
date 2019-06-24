@@ -21,7 +21,7 @@ This repository, in special, is fully dedicated to the maintain Add-on details. 
 
 ### Installing from Chrome Store
 
-Just go to HubCare's page on [Chrome Store](https://chrome.google.com/webstore/detail/hubcare/oilkenamijbelpchecmfpllponcmlcbm) and be happy :wink:
+Just go to HubCare's page on [Chrome Store](https://chrome.google.com/webstore/detail/hubcare-check-github-repo/jaalemmhbmjojoppdncnekgnjgfbfbda) and be happy :wink:
 
 ### Running things locally
 
