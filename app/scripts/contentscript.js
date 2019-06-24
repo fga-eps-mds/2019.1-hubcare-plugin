@@ -20,11 +20,10 @@ import welcomingPage from './welcomingPage';
 
 const repoName = window.location.pathname;
 let accessToken = null;
-
-var content = saveClass("new-discussion-timeline experiment-repo-nav");
-var repoContent = saveClass("repository-content");
-var metrics = null;
-var popup_key = null;
+let content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav");
+let repoContent = document.getElementsByClassName("repository-content");
+let metrics = null;
+let popup_key = null;
 let toolticText = {
     'release-note': '“Recent” mean a Release in the last 90 days',
     'license': 'The License must follows standart GitHub License file name',
@@ -59,11 +58,6 @@ function createBadge(text, progress, id){
     document.getElementById(id).appendChild(myBadge.asDOMNode())
 }
 
-function saveClass(name_class){
-    var element = document.getElementsByClassName(name_class)
-    return element
-}
-
 const removeContent = () => {
     let element = document.getElementsByClassName('repository-content ');
     if(element[0] != null){
@@ -71,14 +65,19 @@ const removeContent = () => {
     }
 }
 
+const removeElementById = (id) => {
+    let element = document.getElementById(id);
+    if(element != null){
+        element.parentNode.removeChild(element);
+    }
+}
+
 function cleanPageContent(){
     removeContent();
-    let elementBadge = document.getElementById('my-badge');
-    elementBadge.parentNode.removeChild(elementBadge);
-    let elementBadge2 = document.getElementById('my-badge2');
-    elementBadge2.parentNode.removeChild(elementBadge2);
-    let elementBadge3 = document.getElementById('my-badge3');
-    elementBadge3.parentNode.removeChild(elementBadge3);
+    removeElementById('hubcare-page');
+    removeElementById('my-badge');
+    removeElementById('my-badge2');
+    removeElementById('my-badge3');
 }
 
 function createCommitChart(element){
@@ -150,15 +149,35 @@ const createLabel = (score) => {
     }
 }
 
+const createChartData = (data) => {
+    let arr = [
+        {value:data[0], name:'Merged with comment', label:createLabel('1')},
+        {value:data[1], name:'Merged without comment', label:createLabel('0.9')},
+        {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
+        {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
+        {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
+        {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
+        {value:data[6], name:'Old Open without comment', label:createLabel('0')}
+    ];
+    let newArr = [];
+    for(let i = 0; i < 7 ; i++){
+        if(parseFloat(data[i]) != 0){
+            newArr.push(arr[i]);
+        }
+    }
+    return newArr;
+}
+
 /**
  * Create pull request graph
  */
 const createPullRequestChart = (data, element) => {
-    var content = document.getElementById(element)
-    var node = document.createElement('div')
-    node.innerHTML = graph()
-    content.appendChild(node)
-    var myChart = echarts.init(document.getElementById('my-graph'))
+    data = createChartData(data);
+    var content = document.getElementById(element);
+    var node = document.createElement('div');
+    node.innerHTML = graph();
+    content.appendChild(node);
+    var myChart = echarts.init(document.getElementById('my-graph'));
     let option = {
         tooltip: {
             trigger: 'item',
@@ -169,16 +188,8 @@ const createPullRequestChart = (data, element) => {
                 name:'Pull Request Interaction',
                 type:'pie',
                 radius: ['0%', '55%'],
-                color: ['#e9def5', '#e9d8ff', '#d2beeb', '#bb9ee1', '#a37fd7', '#8a61cc', '#6f42c1'],
-                data:[
-                    {value:data[6], name:'Old Open without comment', label:createLabel('0')},
-                    {value:data[5], name:'Refused without comment', label:createLabel('0.1')},
-                    {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
-                    {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
-                    {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:data[1], name:'Merged without comment', label:createLabel('0.9')},
-                    {value:data[0], name:'Merged with comment', label:createLabel('1')}
-                ]
+                color: ['#6f42c1', '#8a61cc', '#a37fd7', '#bb9ee1', '#d2beeb', '#e9d8ff', '#e9def5'],
+                data: data
             }
         ]
     };
@@ -299,9 +310,7 @@ const insertButton = () => {
     document.getElementById('hubcare-button').addEventListener("click", function() {
         styleButton();
         if(metrics == null){
-            console.log('ta carregando mano, espera um pouco ahhhhhh')
-            let element = document.getElementsByClassName('repository-content ');
-            element[0].parentNode.removeChild(element[0]);
+            removeContent();
         } else {
             cleanPageContent();
             hubcarePage();
