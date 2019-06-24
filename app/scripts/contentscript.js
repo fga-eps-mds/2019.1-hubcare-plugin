@@ -281,6 +281,8 @@ function addTooltipImages(){
 const stopActivityIndicator = () => {
     let loading_child = document.getElementById('loading');
     loading_child.parentNode.removeChild(loading_child);
+    let text_child = document.getElementById('text');
+    text_child.parentNode.removeChild(text_child);
 }
 
 /**
