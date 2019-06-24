@@ -38,7 +38,6 @@ let toolticText = {
     'good-first-issue': 'This measures the rate of issues labeled with “good first issue”',
     'contribution-guide': 'The Contribution Guide must follows the standart GitHub file name for it',
     'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
-    'pull-request-graph': '',
     'pull-request-quality': 'This show how mainteners receive PRs on the repo',
     'commit-highs': 'Active repo should have at least some commits, do not you think?',
 }
@@ -54,14 +53,9 @@ function createBadge(text, progress, id){
     
     document.getElementById(id).getElementsByClassName('text1')[0].innerHTML = text;
     document.getElementById(id).getElementsByClassName('text2')[0].innerHTML = progress + '%';
-    changeColorPercent(progress,text);
-    // badge.config({'font': '13px Helvetica', 'height': 20 })
-    // var myBadge = new badge.Progress({
-    //     text: text,
-    //     progress: progress
-    // });
-    // document.getElementById(id).appendChild(myBadge.asDOMNode())
+    changeColorPercent(progress,text); 
 }
+
 function changeColorPercent(progress, id){
     if(id === 'Activity' && progress > 90){
         document.getElementById("percent-activity").style.backgroundColor = "#28a745";
@@ -576,11 +570,6 @@ const hubcarePage = () => {
         
         createWelcomingPage();
     }, false);
-    // createCommitChart()
-    // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
-    //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
-    // createCheckModel('Title', true)
-    // ProgressBarFunction(2, 5, "Test text")
 }
 
 
