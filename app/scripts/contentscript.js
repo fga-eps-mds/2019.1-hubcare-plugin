@@ -21,10 +21,10 @@ import welcomingPage from './welcomingPage';
 const repoName = window.location.pathname;
 let accessToken = null;
 
-var content = saveClass("new-discussion-timeline experiment-repo-nav")
-var repoContent = saveClass("repository-content")
-var metrics = null
-var popup_key = ""
+var content = saveClass("new-discussion-timeline experiment-repo-nav");
+var repoContent = saveClass("repository-content");
+var metrics = null;
+var popup_key = null;
 let toolticText = {
     'release-note': '“Recent” mean a Release in the last 90 days',
     'license': 'The License must follows standart GitHub License file name',
@@ -41,7 +41,7 @@ let toolticText = {
     'pull-request-graph': '',
     'pull-request-quality': 'This show how mainteners receive PRs on the repo',
     'commit-highs': 'Active repo should have at least some commits, do not you think?',
-}
+};
 
 /**
  * Return url to hubcare api
@@ -64,18 +64,15 @@ function saveClass(name_class){
     return element
 }
 
-const removeBadges = () => {
-    let elementBadge = document.getElementById('my-badge');
-    elementBadge.removeChild(elementBadge.children[0]);
-    let elementBadge2 = document.getElementById('my-badge2');
-    elementBadge2.removeChild(elementBadge2.children[0]);
-    let elementBadge3 = document.getElementById('my-badge3');
-    elementBadge3.removeChild(elementBadge3.children[0]);
+const removeContent = () => {
+    let element = document.getElementsByClassName('repository-content ');
+    if(element[0] != null){
+        element[0].parentNode.removeChild(element[0]);
+    }
 }
 
 function cleanPageContent(){
-    var element = document.getElementsByClassName('repository-content ');
-    element[0].parentNode.removeChild(element[0]);
+    removeContent();
     let elementBadge = document.getElementById('my-badge');
     elementBadge.parentNode.removeChild(elementBadge);
     let elementBadge2 = document.getElementById('my-badge2');
@@ -115,42 +112,42 @@ function createCommitChart(element){
  */
 const createLabel = (score) => {
     return {
-        normal: {
-        formatter: '{a|{b}}{abg|}\n{hr|}\n{b|Score:  ' + score + '}  {per|{d}%}  ',
-        backgroundColor: '#eee',
-        borderColor: '#aaa',
-        borderWidth: 1,
-        borderRadius: 4,
-        rich: {
-            a: {
-                color: '#586069',
-                lineHeight: 22,
-                align: 'center',
-                fontSize: 14,
-                padding: 3
-            },
-            hr: {
-                borderColor: '#aaa',
-                width: '100%',
-                borderWidth: 0.5,
-                height: 0
-            },
-            b: {
-                color: '#586069',
-                fontSize: 14,
-                lineHeight: 22,
-                padding: 3
-            },
-            per: {
-                color: '#eee',
-                backgroundColor: '#334455',
-                padding: [2, 4],
-                borderRadius: 2,
-                lineHeight: 22
+            normal: {
+            formatter: '{a|{b}}{abg|}\n{hr|}\n{b|Score:  ' + score + '}  {per|{d}%}  ',
+            backgroundColor: '#eee',
+            borderColor: '#aaa',
+            borderWidth: 1,
+            borderRadius: 4,
+            rich: {
+                a: {
+                    color: '#586069',
+                    lineHeight: 22,
+                    align: 'center',
+                    fontSize: 14,
+                    padding: 3
+                },
+                hr: {
+                    borderColor: '#aaa',
+                    width: '100%',
+                    borderWidth: 0.5,
+                    height: 0
+                },
+                b: {
+                    color: '#586069',
+                    fontSize: 14,
+                    lineHeight: 22,
+                    padding: 3
+                },
+                per: {
+                    color: '#eee',
+                    backgroundColor: '#334455',
+                    padding: [2, 4],
+                    borderRadius: 2,
+                    lineHeight: 22
+                }
             }
         }
     }
-}
 }
 
 /**
@@ -179,13 +176,13 @@ const createPullRequestChart = (data, element) => {
                     {value:data[4], name:'Open with old comment', label:createLabel('0.3')},
                     {value:data[3], name:'Refused with comment', label:createLabel('0.7')},
                     {value:data[2], name:'Open with recent comment', label:createLabel('0.9')},
-                    {value:data[1], name:'Merjed without comment', label:createLabel('0.9')},
-                    {value:data[0], name:'Merjed with comment', label:createLabel('1')}
+                    {value:data[1], name:'Merged without comment', label:createLabel('0.9')},
+                    {value:data[0], name:'Merged with comment', label:createLabel('1')}
                 ]
             }
         ]
     };
-    myChart.setOption(option)
+    myChart.setOption(option);
 }
 
 /**
@@ -223,7 +220,9 @@ function addTooltipImages(){
  */
 const stopActivityIndicator = () => {
     let loading_child = document.getElementById('loading');
-    loading_child.parentNode.removeChild(loading_child);
+    if(loading_child != null){
+        loading_child.parentNode.removeChild(loading_child);
+    }
 }
 
 /**
@@ -232,9 +231,9 @@ const stopActivityIndicator = () => {
  * created div is being added
  */
 const insertActivityIndicator = () => {
-    let myprogress = document.createElement('div')
-    myprogress.innerHTML = loading()
-    content[0].insertBefore(myprogress, repoContent[0])
+    let myprogress = document.createElement('div');
+    myprogress.innerHTML = loading();
+    content[0].insertBefore(myprogress, repoContent[0]);
 }
 
 /**
@@ -244,16 +243,17 @@ const insertActivityIndicator = () => {
 const insertBadges = (data) => {
     metrics = data;
     
-    stopActivityIndicator()
-    const node = document.createElement('div')
-    node.innerHTML = badges()
-    content[0].insertBefore(node, repoContent[0])
-    createBadge("active", data.indicators.active_indicator, 'my-badge')
-    createBadge("support", data.indicators.support_indicator, 'my-badge2')
-    createBadge("welcoming", data.indicators.welcoming_indicator, 'my-badge3')
+    stopActivityIndicator();
     if(window.location.hash == "#hubcare"){
-        cleanPageContent()
-        hubcarePage()
+        removeContent();
+        hubcarePage();
+    } else {
+        const node = document.createElement('div');
+        node.innerHTML = badges();
+        content[0].insertBefore(node, repoContent[0]);
+        createBadge("active", data.indicators.active_indicator, 'my-badge');
+        createBadge("support", data.indicators.support_indicator, 'my-badge2');
+        createBadge("welcoming", data.indicators.welcoming_indicator, 'my-badge3');
     }
 }
 
@@ -296,6 +296,17 @@ const insertButton = () => {
     hubcareButton.innerHTML = button()
     document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax container')[0]
         .appendChild(hubcareButton)
+    document.getElementById('hubcare-button').addEventListener("click", function() {
+        styleButton();
+        if(metrics == null){
+            console.log('ta carregando mano, espera um pouco ahhhhhh')
+            let element = document.getElementsByClassName('repository-content ');
+            element[0].parentNode.removeChild(element[0]);
+        } else {
+            cleanPageContent();
+            hubcarePage();
+        }
+    }, false);
 }
 
 /**
@@ -309,38 +320,25 @@ const requestMetrics = () => {
         .catch(error=>console.error(error))
 }
 
-const styleButton = () => {
-    $('#hubcare-button').css("background", "#ffff");
-    $('#hubcare-button').css("color", "#000000");
-    $('#hubcare-button').css("border-left", "1px solid #e1e4e8");
-    $('#hubcare-button').css("border-right", "1px solid #e1e4e8");
-    $('#hubcare-button').css("border-top", "3px solid #4965d9");
-    styleIcon();
-    removeSelected();
-}
-
 /**
  * Stylize the HubCare button by clicking it leaving the same GitHub pattern
  */
-const buttonOnClick = () => {
-    $("#hubcare-button").on("click", function() {
-        styleButton();
-    })
-}
-
-/**
- * Add Style to Hub Care Button Icon When Selected
- */
-const styleIcon = () => {
+const styleButton = () => {
+    let element = document.getElementById('hubcare-button');
+    element.style = 'background: #ffff; color: #000000; border-left: 1px solid #e1e4e8; border-right: 1px solid #e1e4e8; border-top: 3px solid #4965d9'
+    // Add Style to HubCare Button Icon When Selected
     document.getElementById("path-icon").setAttribute("fill", "#000000")
+    removeSelected();
 }
 
 /**
  * Removes the button that is selected along with the HubCare button
  */
 const removeSelected = () =>{
-    let a = document.getElementsByClassName("js-selected-navigation-item selected")[0]
-    a.classList.remove("selected")
+    let element = document.getElementsByClassName("js-selected-navigation-item selected")[0]
+    if(element != null){
+        element.classList.remove("selected")
+    }
 }
 
 /**
@@ -362,31 +360,22 @@ const getAcessToken = () => {
 const init = () => {
     if(popup_key != false && accessToken != null){
         insertButton()
+        insertActivityIndicator()
         if(window.location.hash ==  '#hubcare'){
-            // cleanPageContent()
             if(metrics == null){
                 requestMetrics();
+                let element = document.getElementsByClassName('repository-content ');
+                element[0].parentNode.removeChild(element[0]);
             } else {
                 hubcarePage();
             }
             styleButton();
-        }
-        insertActivityIndicator()
-        if(metrics == null){
+        } else if(metrics == null){
             requestMetrics()
         }
         else {
             insertBadges(metrics)
         }
-        buttonOnClick()
-        document.getElementById('hubcare-button').addEventListener("click", function() {
-            if(metrics == null){
-                console.log('ta carregando mano, espera um pouco ahhhhhh')
-            } else {
-                cleanPageContent();
-                hubcarePage();
-            }
-        }, false);
     }
 }
 
@@ -511,7 +500,6 @@ const hubcarePage = () => {
         createWelcomingPage();
     }, false);
 }
-
 
 $(document).on('pjax:complete', () => {
     init()
