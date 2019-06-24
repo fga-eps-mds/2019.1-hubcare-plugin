@@ -302,10 +302,8 @@ const addTooltipImages = () => {
  * Remove activity indicator element
  */
 const stopActivityIndicator = () => {
-    let loading_child = document.getElementById('loading');
-    if(loading_child != null){
-        loading_child.parentNode.removeChild(loading_child);
-    }
+    removeElementById('loading');
+    removeElementById('text');
 }
 
 /**
