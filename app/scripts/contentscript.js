@@ -38,7 +38,6 @@ let toolticText = {
     'good-first-issue': 'This measures the rate of issues labeled with “good first issue”',
     'contribution-guide': 'The Contribution Guide must follows the standart GitHub file name for it',
     'pull-request-template': 'The Pull Request Template must follows the standart GitHub file name for it',
-    'pull-request-graph': '',
     'pull-request-quality': 'This show how mainteners receive PRs on the repo',
     'commit-highs': 'Active repo should have at least some commits, do not you think?',
 }
@@ -48,16 +47,83 @@ let toolticText = {
  * @param {string} repoName 
  */
 const getApiUrl = (repoName) =>
-    `https://hubcare.ml/hubcare_indicators${repoName}/`;
+    `https://hubcare.ml/hubcare_indicators${repoName}/${accessToken}/`;
 
 function createBadge(text, progress, id){
-    badge.config({'font': '13px Helvetica', 'height': 20 })
-    var myBadge = new badge.Progress({
-        text: text,
-        progress: progress
-    });
-    document.getElementById(id).appendChild(myBadge.asDOMNode())
+    
+    document.getElementById(id).getElementsByClassName('text1')[0].innerHTML = text;
+    document.getElementById(id).getElementsByClassName('text2')[0].innerHTML = progress + '%';
+    changeColorPercent(progress,text); 
 }
+
+function changeColorPercent(progress, id){
+    if(id === 'Activity' && progress > 90){
+        document.getElementById("percent-activity").style.backgroundColor = "#28a745";
+    } else if(id === 'Activity' && progress < 90 && progress > 80){
+        document.getElementById("percent-activity").style.backgroundColor = "#4c9d3b";
+    } else if(id === 'Activity' && progress > 70 && progress <= 80){
+        document.getElementById("percent-activity").style.backgroundColor = "#629534";
+    } else if(id === 'Activity' && progress > 60 && progress <= 70){
+        document.getElementById("percent-activity").style.backgroundColor = "#7a902e";
+    } else if(id === 'Activity' && progress > 50 && progress <= 60){
+        document.getElementById("percent-activity").style.backgroundColor = "#8f8727";
+    } else if(id === 'Activity' && progress > 40 && progress <= 50){
+        document.getElementById("percent-activity").style.backgroundColor = "#be7c2a";
+    } else if(id === 'Activity' && progress > 30 && progress <= 40){
+        document.getElementById("percent-activity").style.backgroundColor = "#d57631";
+    } else if(id === 'Activity' && progress > 20 && progress <= 30){
+        document.getElementById("percent-activity").style.backgroundColor = "#f66a0a";
+    } else if(id === 'Activity' && progress > 10 && progress <= 20){
+        document.getElementById("percent-activity").style.backgroundColor = "#e55136";
+    }  else if(id === 'Activity' && progress <= 10){
+        document.getElementById("percent-activity").style.backgroundColor = "#cb2431";
+    }
+    if(id === 'Welcoming' && progress > 90){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#28a745";
+    } else if(id === 'Welcoming' && progress < 90 && progress > 80){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#4c9d3b";
+    } else if(id === 'Welcoming' && progress > 70 && progress <= 80){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
+    } else if(id === 'Welcoming' && progress > 60 && progress <= 70){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
+    } else if(id === 'Welcoming' && progress > 50 && progress <= 60){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#8f8727";
+    } else if(id === 'Welcoming' && progress > 40 && progress <= 50){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#be7c2a";
+    } else if(id === 'Welcoming' && progress > 30 && progress <= 40){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#d57631";
+    } else if(id === 'Welcoming' && progress > 20 && progress <= 30){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#ee6e38";
+    } else if(id === 'Welcoming' && progress > 10 && progress <= 20){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#e55136";
+    }  else if(id === 'Welcoming' && progress <= 10){
+        document.getElementById("percent-welcoming").style.backgroundColor = "#cb2431";
+    }  
+
+    if(id === 'Support' && progress > 90){
+        document.getElementById("percent-support").style.backgroundColor = "#28a745";
+    } else if(id === 'Support' && progress < 90 && progress > 80){
+        document.getElementById("percent-support").style.backgroundColor = "#4c9d3b";
+    } else if(id === 'Support' && progress > 70 && progress <= 80){
+        document.getElementById("percent-support").style.backgroundColor = "#629534";
+    } else if(id === 'Support' && progress > 60 && progress <= 70){
+        document.getElementById("percent-support").style.backgroundColor = "#7a902e";
+    } else if(id === 'Support' && progress > 50 && progress <= 60){
+        document.getElementById("percent-support").style.backgroundColor = "#8f8727";
+    } else if(id === 'Support' && progress > 40 && progress <= 50){
+        document.getElementById("percent-support").style.backgroundColor = "#be7c2a";
+    } else if(id === 'Support' && progress > 30 && progress <= 40){
+        document.getElementById("percent-support").style.backgroundColor = "#d57631";
+    } else if(id === 'Support' && progress > 20 && progress <= 30){
+        document.getElementById("percent-support").style.backgroundColor = "#ee6e38";
+    } else if(id === 'Support' && progress > 10 && progress <= 20){
+        document.getElementById("percent-support").style.backgroundColor = "#e55136";
+    }  else if(id === 'Support' && progress <= 10){
+        document.getElementById("percent-support").style.backgroundColor = "#cb2431";
+    }   
+    
+}
+
 
 function saveClass(name_class){
     var element = document.getElementsByClassName(name_class)
@@ -239,9 +305,9 @@ const insertBadges = (data) => {
     const node = document.createElement('div')
     node.innerHTML = badges()
     content[0].insertBefore(node, repoContent[0])
-    createBadge("active", data.indicators.active_indicator, 'my-badge')
-    createBadge("support", data.indicators.support_indicator, 'my-badge2')
-    createBadge("welcoming", data.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("Activity", data.indicators.active_indicator, 'my-badge')
+    createBadge("Support", data.indicators.support_indicator, 'my-badge2')
+    createBadge("Welcoming", data.indicators.welcoming_indicator, 'my-badge3')
 }
 
 /*
@@ -435,9 +501,9 @@ const hubcarePage = () => {
     var node = document.createElement('div')
     node.innerHTML = hubcare()
     content[0].appendChild(node)
-    createBadge("active", metrics.indicators.active_indicator, 'my-badge')
-    createBadge("support", metrics.indicators.support_indicator, 'my-badge2')
-    createBadge("welcoming", metrics.indicators.welcoming_indicator, 'my-badge3')
+    createBadge("Activity", metrics.indicators.active_indicator, 'activity-badge')
+    createBadge("Support", metrics.indicators.support_indicator, 'support-badge')
+    createBadge("Welcoming", metrics.indicators.welcoming_indicator, 'welcoming-badge')
     let activeBadge = document.getElementById('my-badge');
     let supportBadge = document.getElementById('my-badge2');
     let welcomingBadge = document.getElementById('my-badge3');
@@ -504,11 +570,6 @@ const hubcarePage = () => {
         
         createWelcomingPage();
     }, false);
-    // createCommitChart()
-    // createPullRequestChart([423, 423, 543, 123, 234, 432, 324])
-    //insertProgressBar(10,30,'container new-discussion-timeline experiment-repo-nav')
-    // createCheckModel('Title', true)
-    // ProgressBarFunction(2, 5, "Test text")
 }
 
 
