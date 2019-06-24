@@ -49,12 +49,21 @@ let toolticText = {
 const getApiUrl = (repoName) =>
     `https://hubcare.ml/hubcare_indicators/${repoName}/${accessToken}/`;
 
-function createBadge(text, progress, id){
+/**
+ * Create badge element
+ * @param {string} text 
+ * @param {value} progress 
+ * @param {string} id 
+ */
+const createBadge = (text, progress, id) => {
     document.getElementById(id).getElementsByClassName('text1')[0].innerHTML = text;
     document.getElementById(id).getElementsByClassName('text2')[0].innerHTML = progress + '%';
     changeColorPercent(progress,text); 
 }
 
+/**
+ * Remove repository content
+ */
 const removeContent = () => {
     let element = document.getElementsByClassName('repository-content ');
     if(element[0] != null){
@@ -62,6 +71,10 @@ const removeContent = () => {
     }
 }
 
+/**
+ * Remove DOM element by id
+ * @param {string} id 
+ */
 const removeElementById = (id) => {
     let element = document.getElementById(id);
     if(element != null){
@@ -69,74 +82,55 @@ const removeElementById = (id) => {
     }
 }
 
-function changeColorPercent(progress, id){
-    if(id === 'Activity' && progress > 90){
-        document.getElementById("percent-activity").style.backgroundColor = "#28a745";
-    } else if(id === 'Activity' && progress < 90 && progress > 80){
-        document.getElementById("percent-activity").style.backgroundColor = "#4c9d3b";
-    } else if(id === 'Activity' && progress > 70 && progress <= 80){
-        document.getElementById("percent-activity").style.backgroundColor = "#629534";
-    } else if(id === 'Activity' && progress > 60 && progress <= 70){
-        document.getElementById("percent-activity").style.backgroundColor = "#7a902e";
-    } else if(id === 'Activity' && progress > 50 && progress <= 60){
-        document.getElementById("percent-activity").style.backgroundColor = "#8f8727";
-    } else if(id === 'Activity' && progress > 40 && progress <= 50){
-        document.getElementById("percent-activity").style.backgroundColor = "#be7c2a";
-    } else if(id === 'Activity' && progress > 30 && progress <= 40){
-        document.getElementById("percent-activity").style.backgroundColor = "#d57631";
-    } else if(id === 'Activity' && progress > 20 && progress <= 30){
-        document.getElementById("percent-activity").style.backgroundColor = "#f66a0a";
-    } else if(id === 'Activity' && progress > 10 && progress <= 20){
-        document.getElementById("percent-activity").style.backgroundColor = "#e55136";
-    }  else if(id === 'Activity' && progress <= 10){
-        document.getElementById("percent-activity").style.backgroundColor = "#cb2431";
+/**
+ * Return the badge color to progress value
+ * @param {number} progress 
+ */
+const getBadgeColor = (progress) => {
+    let badgeColor = "#cb2431";
+    if(progress > 90){
+        badgeColor = "#28a745";
+    } else if(progress < 90 && progress > 80){
+        badgeColor = "#4c9d3b";
+    } else if(progress > 70 && progress <= 80){
+        badgeColor = "#629534";
+    } else if(progress > 60 && progress <= 70){
+        badgeColor = "#7a902e";
+    } else if(progress > 50 && progress <= 60){
+        badgeColor = "#8f8727";
+    } else if(progress > 40 && progress <= 50){
+        badgeColor = "#be7c2a";
+    } else if(progress > 30 && progress <= 40){
+        badgeColor = "#d57631";
+    } else if(progress > 20 && progress <= 30){
+        badgeColor = "#f66a0a";
+    } else if(progress > 10 && progress <= 20){
+        badgeColor = "#e55136";
+    } else if(progress <= 10){
+        badgeColor = "#cb2431";
     }
-    if(id === 'Welcoming' && progress > 90){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#28a745";
-    } else if(id === 'Welcoming' && progress < 90 && progress > 80){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#4c9d3b";
-    } else if(id === 'Welcoming' && progress > 70 && progress <= 80){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
-    } else if(id === 'Welcoming' && progress > 60 && progress <= 70){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#7a902e";
-    } else if(id === 'Welcoming' && progress > 50 && progress <= 60){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#8f8727";
-    } else if(id === 'Welcoming' && progress > 40 && progress <= 50){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#be7c2a";
-    } else if(id === 'Welcoming' && progress > 30 && progress <= 40){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#d57631";
-    } else if(id === 'Welcoming' && progress > 20 && progress <= 30){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#ee6e38";
-    } else if(id === 'Welcoming' && progress > 10 && progress <= 20){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#e55136";
-    }  else if(id === 'Welcoming' && progress <= 10){
-        document.getElementById("percent-welcoming").style.backgroundColor = "#cb2431";
-    }  
+    return badgeColor;
+}
 
-    if(id === 'Support' && progress > 90){
-        document.getElementById("percent-support").style.backgroundColor = "#28a745";
-    } else if(id === 'Support' && progress < 90 && progress > 80){
-        document.getElementById("percent-support").style.backgroundColor = "#4c9d3b";
-    } else if(id === 'Support' && progress > 70 && progress <= 80){
-        document.getElementById("percent-support").style.backgroundColor = "#629534";
-    } else if(id === 'Support' && progress > 60 && progress <= 70){
-        document.getElementById("percent-support").style.backgroundColor = "#7a902e";
-    } else if(id === 'Support' && progress > 50 && progress <= 60){
-        document.getElementById("percent-support").style.backgroundColor = "#8f8727";
-    } else if(id === 'Support' && progress > 40 && progress <= 50){
-        document.getElementById("percent-support").style.backgroundColor = "#be7c2a";
-    } else if(id === 'Support' && progress > 30 && progress <= 40){
-        document.getElementById("percent-support").style.backgroundColor = "#d57631";
-    } else if(id === 'Support' && progress > 20 && progress <= 30){
-        document.getElementById("percent-support").style.backgroundColor = "#ee6e38";
-    } else if(id === 'Support' && progress > 10 && progress <= 20){
-        document.getElementById("percent-support").style.backgroundColor = "#e55136";
-    }  else if(id === 'Support' && progress <= 10){
-        document.getElementById("percent-support").style.backgroundColor = "#cb2431";
+/**
+ * Change badge color using the progress value
+ * @param {number} progress 
+ * @param {string} id 
+ */
+const changeColorPercent = (progress, id) => {
+    if(id === 'Activity'){
+        document.getElementById("percent-activity").style.backgroundColor = getBadgeColor(progress);
+    } else if(id === 'Welcoming'){
+        document.getElementById("percent-welcoming").style.backgroundColor = getBadgeColor(progress);
+    } else if(id === 'Support'){
+        document.getElementById("percent-support").style.backgroundColor = getBadgeColor(progress);
     }
 }
 
-function cleanPageContent(){
+/**
+ * Remove all repository content elements in github
+ */
+const cleanPageContent = () => {
     removeContent();
     removeElementById('hubcare-page');
     removeElementById('my-badge');
@@ -144,7 +138,11 @@ function cleanPageContent(){
     removeElementById('my-badge3');
 }
 
-function createCommitChart(element){
+/**
+ * Create commit chart using metrics value
+ * @param {string} element 
+ */
+const createCommitChart = (element) => {
     var content = document.getElementById(element)
     var node = document.createElement('div')
     node.innerHTML = graph()
@@ -172,6 +170,7 @@ function createCommitChart(element){
 
 /**
  * Create latel to pull request interaction graph
+ * @param {number} score 
  */
 const createLabel = (score) => {
     return {
@@ -213,6 +212,10 @@ const createLabel = (score) => {
     }
 }
 
+/**
+ * Remove all elements with zero value of list
+ * @param {Array} data 
+ */
 const createChartData = (data) => {
     let arr = [
         {value:data[0], name:'Merged with comment', label:createLabel('1')},
@@ -234,6 +237,8 @@ const createChartData = (data) => {
 
 /**
  * Create pull request graph
+ * @param {Array} data 
+ * @param {string} element 
  */
 const createPullRequestChart = (data, element) => {
     data = createChartData(data);
@@ -262,8 +267,11 @@ const createPullRequestChart = (data, element) => {
 
 /**
  * Create check model for the report element.
+ * @param {string} text
+ * @param {boolean} boolCheck 
+ * @param {number} elementId 
  */
-function createCheckModel(text, boolCheck, elementId){
+const createCheckModel = (text, boolCheck, elementId) => {
     let element = document.getElementById(elementId);
     let node = document.createElement('div')
     let tooltip = document.createElement('div');
@@ -282,7 +290,7 @@ function createCheckModel(text, boolCheck, elementId){
 /**
  * Create tooltip with questionMark Icon for the report element
  */
-function addTooltipImages(){
+const addTooltipImages = () => {
     var myImage = chrome.extension.getURL("../images/questionMark.svg")
     let node = document.getElementsByClassName('id_img_questionMark');
     for (let i = 0; i < node.length; i++) {
