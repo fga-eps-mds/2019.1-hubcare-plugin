@@ -18,7 +18,8 @@ import supportPage from './supportPage';
 import checkTooltip from './checkTooltip';
 import welcomingPage from './welcomingPage';
 
-const repoName = window.location.pathname;
+const allUrl = window.location.pathname.split('/');
+const repoName = allUrl[1] + '/' + allUrl[2];
 let accessToken = null;
 let content = document.getElementsByClassName("new-discussion-timeline experiment-repo-nav");
 let repoContent = document.getElementsByClassName("repository-content");
@@ -47,7 +48,7 @@ let toolticText = {
  * @param {string} repoName 
  */
 const getApiUrl = (repoName) =>
-    `https://hubcare.ml/hubcare_indicators${repoName}/${accessToken}/`;
+    `https://hubcare.ml/hubcare_indicators/${repoName}/${accessToken}/`;
 
 function createBadge(text, progress, id){
     badge.config({'font': '13px Helvetica', 'height': 20 })
@@ -305,7 +306,7 @@ const ProgressBarFunction = (partial, full, text, element) => {
 const insertButton = () => {
     let hubcareButton = document.createElement('div')
     hubcareButton.innerHTML = button()
-    document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax container')[0]
+    document.getElementsByClassName('reponav js-repo-nav js-sidenav-container-pjax')[0]
         .appendChild(hubcareButton)
     document.getElementById('hubcare-button').addEventListener("click", function() {
         styleButton();
