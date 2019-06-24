@@ -142,6 +142,18 @@ $ npm test
 
 The build tool also defines a variable named `process.env.NODE_ENV` in your scripts.
 
+To use the Github oauth2 login, it is necessary to create an [oauth app](https://github.com/settings/developers), as in the example below:
+
+![image](https://user-images.githubusercontent.com/26393787/58750438-db2aef00-8468-11e9-83ae-609cbd1e48ef.png)
+
+With the created oauth app just grab the **CLIENT_ID** and the **CLIENT_SECRET** and insert into the file ```app/scripts/constants.js```, like this:
+```
+module.exports = {
+    CLIENT_ID: 'XXXXXXXXXXXX',
+    CLIENT_SECRET: 'XXXXXXXXXXXXXXXXXXXXX'
+}
+```
+
 ## Contributing
 
 Please make sure to read the [Contribution Guide](./.github/CONTRIBUTING.md) before making a pull request. After you've read, don't forget to take an issue!
