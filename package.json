@@ -17,7 +17,7 @@
     "@babel/preset-env": "^7.4.5",
     "babel-jest": "^24.8.0",
     "chrome-webstore-upload-cli": "^1.2.0",
-    "codecov": "^3.3.0",
+    "codecov": "^3.6.5",
     "jest": "^24.7.1",
     "jest-webextension-mock": "^3.5.0",
     "webextension-toolbox": "latest"
